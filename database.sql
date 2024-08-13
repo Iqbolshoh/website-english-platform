@@ -6,7 +6,6 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fullname VARCHAR(255) NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    number VARCHAR(255) NOT NULL UNIQUE,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -36,19 +35,17 @@ CREATE TABLE liked_words (
 );
 
 INSERT INTO
-    users (fullname, email, number, username, password)
+    users (fullname, email, username, password)
 VALUES
     (
         'Iqbolshoh Ilhomjonov',
         'iilhomjonov777@gmail.com',
-        '+998997799333',
         'iqbolshoh',
         '1'
     ),
     (
         'user',
         'user@gmail.com',
-        '+998953369933',
         'user',
         '1'
     );

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -24,7 +24,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 30px;
             width: calc(100% - 60px);
-            max-width: 400px;
+            max-width: 450px;
             box-sizing: border-box;
         }
 
@@ -102,30 +102,37 @@
 
 <body>
     <div class="container">
-        <h1>Login</h1>
-
+        <h1>Sign Up</h1>
         <div id="responseMessage" class="message"></div>
-
-        <form id="loginForm" method="post" action="to-login.php">
+        <form id="signupForm" method="post" action="to-signup.php">
             <div class="form-group">
-                <label for="username">Username or Email</label>
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <div id="emailFeedback" class="message"></div>
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
+                <div id="usernameFeedback" class="message"></div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <button type="submit">Login</button>
+                <button type="submit">Sign Up</button>
             </div>
         </form>
-
         <div class="text-center">
-            <p>Don't have an account? <a href="/signup/">Sign Up</a></p>
+            <p>Already have an account? <a href="/login/">Login</a></p>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 
 </html>

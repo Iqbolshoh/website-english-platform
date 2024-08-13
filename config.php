@@ -1,6 +1,6 @@
 <?php
-
-// session_start();
+// config.php
+session_start();
 
 class Query
 {

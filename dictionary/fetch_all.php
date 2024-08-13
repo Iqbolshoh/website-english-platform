@@ -94,8 +94,12 @@ if ($results) {
         color: red;
     }
 
+    .vocabulary:hover {
+        background-color: #eee;
+    }
+
     .fa-heart {
-        color: #ccc;
+        color: #ddd;
         cursor: pointer;
         transition: color 0.3s;
     }
