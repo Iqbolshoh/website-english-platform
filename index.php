@@ -105,6 +105,28 @@
                 padding: 15px 30px;
             }
 
+            .link {
+                display: flex;
+                align-items: center;
+                background-color: #2f4f4f;
+                color: #fff;
+                padding: 15px 27px;
+                margin: 5px 0;
+                border-radius: 12px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 16px;
+                width: 100%;
+                transition: background-color 0.3s, transform 0.3s;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                box-sizing: border-box;
+            }
+
+            .logo {
+                width: 45px;
+                height: 45px;
+            }
+
             h1 {
                 font-size: 26px;
             }
@@ -123,28 +145,28 @@
 
 <body>
     <header>
-        <a href="../index.php">
-            <img src="../images/logo.png" alt="logo" class="logo">
+        <a href="../">
+            <img src="./images/logo.png" alt="logo" class="logo">
         </a>
     </header>
 
     <div class="container">
         <h1>Welcome to the English Learning Portal</h1>
         <div class="links">
-            <a href="dictionary/index.php" class="link">
+            <a href="dictionary/" class="link">
                 <i class="fas fa-language"></i>
                 <span>Dictionary</span>
             </a>
 
-            <a href="sentences/index.php" class="link">
+            <a href="sentences/" class="link">
                 <i class="fas s fa-comment-dots"></i>
                 <span>Sentences</span>
             </a>
-            <a href="exercise/index.php" class="link">
+            <a href="exercise/" class="link">
                 <i class="fas fa-brain"></i>
                 <span>Exercise</span>
             </a>
-            <a href="settings/index.php" class="link">
+            <a href="settings/" class="link">
                 <i class="fa-solid fa-gear"></i>
                 <span>Settings</span>
             </a>

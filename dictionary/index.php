@@ -14,6 +14,8 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            height: 100vh;
+            box-sizing: border-box;
         }
 
         .container {
@@ -123,7 +125,7 @@
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 4px;
-            height: calc(100vh - 460px);
+            height: calc(100vh - 300px);
             overflow-y: auto;
             padding: 10px;
         }
@@ -247,8 +249,6 @@
         <div id="suggestions"></div>
         <div id="result"></div>
     </div>
-
-    <?php include '../includes/footer.php'; ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

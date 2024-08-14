@@ -17,7 +17,7 @@
         width: 100%;
         background-color: #2f4f4f;
         color: #fff;
-        padding: 25px 22px;
+        padding: 20px 0px 15px 0px;
         box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
         text-align: center;
     }
@@ -26,12 +26,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-width: 1200px;
         margin: 0 auto;
     }
 
     footer p {
-        margin: 10px 0;
+        margin: 7px 0;
         font-size: 16px;
     }
 
@@ -50,18 +49,23 @@
 
     footer a i {
         vertical-align: middle;
+        font-size: 19px;
     }
 
     @media (max-width: 768px) {
         footer {
-            padding: 19px 0;
             margin: 0 auto;
+            padding: 11px 0px 7px 0px;
         }
 
         footer p {
-            max-width: 320px;
-            line-height: 1.7;
-            margin: 0px;
+            line-height: 1.5;
+            margin: 3px 0px;
+            font-size: 13px;
+        }
+
+        footer a i {
+            font-size: 15px;
         }
     }
 </style>

@@ -123,12 +123,12 @@
         }
 
         header {
-            padding: 7px 30px;
+            padding: 5px 30px;
         }
 
         .logo {
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
         }
 
         .links.active {
@@ -137,7 +137,7 @@
 
         .links a {
             color: white;
-            padding: 13px 15px;
+            padding: 9px 15px;
             text-decoration: none;
         }
 
