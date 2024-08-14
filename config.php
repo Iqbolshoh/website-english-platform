@@ -1,6 +1,6 @@
 <?php
 // config.php
-session_start();
+// session_start();
 
 class Query
 {
@@ -9,9 +9,13 @@ class Query
     public function __construct()
     {
         $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "english";
+        // $username = "root";
+        // $password = "";
+        // $dbname = "english";
+
+        $username = "milliyto_shop";
+        $password = "X?t&e#iF3Fc*";
+        $dbname = "milliyto_english";
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
         if ($this->conn->connect_error) {
