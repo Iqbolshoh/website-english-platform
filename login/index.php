@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 include '../config.php';
@@ -9,8 +10,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("Location: ../");
     exit;
 }
-
-$error = '';
 
 if (isset($_POST['submit'])) {
     $input_username = $query->validate($_POST['username']);
@@ -29,10 +28,32 @@ if (isset($_POST['submit'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
 
-        header("Location: ../");
-        exit;
+        echo "<script>
+                window.onload = function() { 
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Login successful',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = '../';
+                    });
+                };
+              </script>";
     } else {
-        $error = "The login or password is incorrect";
+
+        echo "<script>
+                window.onload = function() { 
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Invalid credentials',
+                        text: 'The login or password is incorrect',
+                        showConfirmButton: true
+                    });
+                };
+              </script>";
     }
 }
 ?>
@@ -46,6 +67,7 @@ if (isset($_POST['submit'])) {
     <title>Login</title>
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -129,7 +151,6 @@ if (isset($_POST['submit'])) {
 <body>
     <div class="container">
         <h1>Login</h1>
-
         <form method="post" action="">
             <div class="form-group">
                 <label for="username">Username or Email</label>
@@ -143,11 +164,11 @@ if (isset($_POST['submit'])) {
                 <button type="submit" name="submit">Login</button>
             </div>
         </form>
-
         <div class="text-center">
             <p>Don't have an account? <a href="../signup/">Sign Up</a></p>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 </body>
 
 </html>

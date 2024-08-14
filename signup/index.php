@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 include '../config.php';
@@ -10,6 +9,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("Location: ../");
     exit;
 }
+
+$error_message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $query->validate($_POST['fullname']);
@@ -30,8 +31,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $query->getUserIdByUsername($username);
             $_SESSION['username'] = $username;
 
-            header("Location: ../");
-            exit;
+            echo "<script>
+                    window.onload = function() { 
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Registration successful',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = '../';
+                        });
+                    };
+                  </script>";
         } else {
             $error_message = "An error occurred. Please try again.";
         }
@@ -49,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Sign Up</title>
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -126,13 +139,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .text-center a:hover {
             text-decoration: underline;
         }
+
+        #email-message,
+        #username-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Sign Up</h1>
-
         <form id="signupForm" method="post" action="">
             <div class="form-group">
                 <label for="fullname">Full Name</label>
@@ -141,10 +160,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
+                <p id="email-message"></p>
             </div>
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
+                <p id="username-message"></p>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -154,13 +175,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit">Sign Up</button>
             </div>
         </form>
-
         <div class="text-center">
             <p>Already have an account? <a href="../login/">Login</a></p>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.getElementById('email').addEventListener('input', function() {
+            let email = this.value;
+            if (email.length > 0) {
+                fetch('check_availability.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `email=${encodeURIComponent(email)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const messageElement = document.getElementById('email-message');
+                        if (data.exists) {
+                            messageElement.textContent = 'Email is already in use.';
+                        } else {
+                            messageElement.textContent = '';
+                        }
+                    });
+            }
+        });
+
+        document.getElementById('username').addEventListener('input', function() {
+            let username = this.value;
+            if (username.length > 0) {
+                fetch('check_availability.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `username=${encodeURIComponent(username)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const messageElement = document.getElementById('username-message');
+                        if (data.exists) {
+                            messageElement.textContent = 'Username is already in use.';
+                        } else {
+                            messageElement.textContent = '';
+                        }
+                    });
+            }
+        });
+    </script>
+
 </body>
 
 </html>
