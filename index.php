@@ -1,3 +1,9 @@
+<?php
+include './config.php';
+$query = new Query();
+$query->checkAuthentication();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -162,13 +168,20 @@
                 <i class="fas s fa-comment-dots"></i>
                 <span>Sentences</span>
             </a>
+
             <a href="exercise/" class="link">
                 <i class="fas fa-brain"></i>
                 <span>Exercise</span>
             </a>
+
             <a href="settings/" class="link">
                 <i class="fa-solid fa-gear"></i>
                 <span>Settings</span>
+            </a>
+
+            <a href="../logout/" class="link">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
             </a>
         </div>
     </div>

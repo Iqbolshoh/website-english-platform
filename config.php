@@ -1,7 +1,5 @@
 <?php
 // config.php
-// session_start();
-
 class Query
 {
     private $conn;
@@ -16,6 +14,7 @@ class Query
         // $username = "milliyto_shop";
         // $password = "X?t&e#iF3Fc*";
         // $dbname = "milliyto_english";
+
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
         if ($this->conn->connect_error) {
@@ -25,12 +24,13 @@ class Query
 
     public function __destruct()
     {
+        // Close the database connection if it is open
         if ($this->conn) {
             $this->conn->close();
         }
     }
 
-    // validate(): HTML kod va SQL injectiondan himoya qiladi
+    // validate(): Sanitizes input to prevent HTML and SQL injection
     function validate($value)
     {
         $value = trim($value);
@@ -39,7 +39,7 @@ class Query
         return $value;
     }
 
-    // executeQuery(): SQL so'rovini bajaradi
+    // executeQuery(): Executes an SQL query with optional parameters
     public function executeQuery($sql, $params = [], $types = "")
     {
         $stmt = $this->conn->prepare($sql);
@@ -49,13 +49,13 @@ class Query
         }
 
         if (!$stmt->execute()) {
-            die("Xatolik: " . $stmt->error);
+            die("Error: " . $stmt->error);
         }
 
         return $stmt;
     }
 
-    // select(): Ma'lumotlarni tanlash
+    // select(): Retrieves data from a specified table
     public function select($table, $columns = "*", $condition = "", $params = [], $types = "")
     {
         $sql = "SELECT $columns FROM $table $condition";
@@ -63,39 +63,38 @@ class Query
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // insert(): Ma'lumot qo'shish
+    // insert(): Adds a new record to a specified table
     public function insert($table, $data)
     {
         $keys = implode(', ', array_keys($data));
         $placeholders = implode(', ', array_fill(0, count($data), '?'));
         $sql = "INSERT INTO $table ($keys) VALUES ($placeholders)";
-        $types = str_repeat('s', count($data)); // Assume all values are strings
+        $types = str_repeat('s', count($data));
         $this->executeQuery($sql, array_values($data), $types);
         return $this->conn->insert_id;
     }
 
-    // update(): Ma'lumotni yangilash
+    // update(): Updates existing records in a specified table
     public function update($table, $data, $condition = "", $params = [], $types = "")
     {
         $set = '';
         foreach ($data as $key => $value) {
             $set .= "$key = ?, ";
         }
-        $set = rtrim($set, ', '); // Remove trailing comma and space
+        $set = rtrim($set, ', ');
 
         if ($condition) {
             $condition = "WHERE " . $condition;
         } else {
-            $condition = ""; // Ensure condition is empty if not provided
+            $condition = "";
         }
 
         $sql = "UPDATE $table SET $set $condition";
-        $types = str_repeat('s', count($data)) . $types; // Append types for condition
+        $types = str_repeat('s', count($data)) . $types;
         $this->executeQuery($sql, array_merge(array_values($data), $params), $types);
     }
 
-    // delete(): Ma'lumotni o'chirish
-
+    // delete(): Removes records from a specified table
     public function delete($table, $condition = "", $params = [], $types = "")
     {
         if ($condition) {
@@ -108,24 +107,82 @@ class Query
         $this->executeQuery($sql, $params, $types);
     }
 
-    // hashPassword(): Parolni sha256 yordamida xesh qilish
+    // hashPassword(): Hashes a password using sha256 with a key
     function hashPassword($password)
     {
         $key = "AccountPassword";
         return hash_hmac('sha256', $password, $key);
     }
 
-    // authenticate(): Foydalanuvchini autentifikatsiya qilish
-    public function authenticate($username, $password)
+    // checkAuthentication(): Redirects users based on their authentication status
+    function checkAuthentication()
     {
-        $username = $this->validate($username);
-        $hashedPassword = $this->hashPassword($password);
-        $condition = "WHERE username = ? AND password = ?";
-        $params = [$username, $hashedPassword];
-        return $this->select('users', "*", $condition, $params, 'ss');
+        session_start();
+        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+            header("Location: /login/");
+            exit;
+        }
     }
 
-    // find(): Biror yozuvni topish
+    // Check if email exists
+    public function emailExists($email)
+    {
+        $sql = "SELECT id FROM users WHERE email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $stmt->close();
+            return true;
+        }
+
+        $stmt->close();
+        return false;
+    }
+
+    // Check if username exists
+    public function usernameExists($username)
+    {
+        $sql = "SELECT id FROM users WHERE username = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $stmt->close();
+            return true;
+        }
+
+        $stmt->close();
+        return false;
+    }
+
+    // Register a new user
+    public function registerUser($fullname, $email, $username, $password)
+    {
+        $sql = "INSERT INTO users (fullname, email, username, password) VALUES (?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ssss", $fullname, $email, $username, $password);
+
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true;
+        }
+
+        $stmt->close();
+        return false;
+    }
+
+    public function getUserIdByUsername($username)
+    {
+        $result = $this->select('users', 'id', 'WHERE username = ?', [$username], 's');
+        return !empty($result) ? $result[0]['id'] : null;
+    }
+
+    // find(): Finds a record by its ID in a specified table
     public function find($table, $id)
     {
         $id = $this->validate($id);
@@ -134,13 +191,13 @@ class Query
         return $this->select($table, "*", $condition, $params, 'i');
     }
 
-    // search(): Ma'lum bir shart asosida qidirish
+    // search(): Searches for records based on a condition in a specified table
     public function search($table, $columns = "*", $condition = "", $params = [], $types = "")
     {
         return $this->select($table, $columns, $condition, $params, $types);
     }
 
-    // fetchAll(): Barcha yozuvlarni olish
+    // fetchAll(): Retrieves all records from a specified table
     public function fetchAll($table, $columns = "*")
     {
         $sql = "SELECT $columns FROM $table";
@@ -148,30 +205,34 @@ class Query
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // getLastInsertId(): Oxirgi qo'shilgan yozuv ID sini olish
+    // getLastInsertId(): Gets the ID of the last inserted record
     public function getLastInsertId()
     {
         return $this->conn->insert_id;
     }
 
+    // removeLike(): Removes a like from a user's liked words
     public function removeLike($userId, $wordId)
     {
         $stmt = $this->conn->prepare("DELETE FROM liked_words WHERE user_id = ? AND word_id = ?");
         $stmt->execute([$userId, $wordId]);
     }
+
+    // addLike(): Adds a like for a word by a user
     public function addLike($userId, $wordId)
     {
         $stmt = $this->conn->prepare("INSERT INTO liked_words (user_id, word_id) VALUES (?, ?)");
         $stmt->execute([$userId, $wordId]);
     }
 
+    // checkLiked(): Checks if a user has liked a specific word
     public function checkLiked($userId, $wordId)
     {
         $stmt = $this->conn->prepare("SELECT COUNT(*) AS count FROM liked_words WHERE user_id = ? AND word_id = ?");
-        $stmt->bind_param("ii", $userId, $wordId); // Bind parameters as integers
+        $stmt->bind_param("ii", $userId, $wordId);
         $stmt->execute();
         $result = $stmt->get_result();
-        $row = $result->fetch_assoc(); // Fetch the result as an associative array
-        return $row['count'] > 0; // Check the count
+        $row = $result->fetch_assoc();
+        return $row['count'] > 0;
     }
 }

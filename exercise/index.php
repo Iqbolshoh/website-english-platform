@@ -1,3 +1,9 @@
+<?php
+include '../config.php';
+$query = new Query();
+$query->checkAuthentication();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

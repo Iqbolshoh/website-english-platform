@@ -160,28 +160,15 @@ if ($results) {
 
     .modal-content {
         background-color: #ffffff;
-        margin: 170px auto;
+        margin: 100px auto;
         padding: 20px;
         border-radius: 12px;
-        width: 80%;
+        width: 90%;
         max-width: 600px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         position: relative;
         box-sizing: border-box;
-    }
-
-    .close {
-        color: #000;
-        float: right;
-        font-size: 24px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: color 0.3s ease;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: #e74c3c;
+        animation: slideIn 0.3s ease;
     }
 
     #modalWord {
@@ -203,22 +190,54 @@ if ($results) {
         font-size: 16px;
         line-height: 1.5;
         color: #34495e;
+        word-wrap: break-word;
     }
 
     .modal-section {
         margin-bottom: 10px;
     }
 
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
     .modal-buttons {
         display: flex;
+        justify-content: flex-end;
         gap: 15px;
-        margin-top: 15px;
     }
 
     .modal-buttons i {
-        font-size: 21px;
         cursor: pointer;
-        transition: color 0.3s, transform 0.3s;
+        font-size: 24px;
+        transition: color 0.3s ease;
+    }
+
+    .modal-buttons i:hover {
+        color: #007bff;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(-200px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 </style>
 
@@ -234,6 +253,49 @@ if ($results) {
         </div>
     </div>
 </div>
+<style>
+    .swal2-popup {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .swal2-title {
+        color: #2c3e50;
+        font-size: 1.5rem;
+    }
+
+    .swal2-html-container {
+        color: #34495e;
+        font-size: 1rem;
+        display: flex;
+    }
+
+    .swal2-confirm {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5em 1em;
+        margin-left: 10px;
+    }
+
+    .swal2-cancel {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5em 1em;
+        margin-right: 10px;
+    }
+
+    .swal2-confirm:hover {
+        background-color: #218838;
+    }
+
+    .swal2-cancel:hover {
+        background-color: #c82333;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     function speakText(id) {
@@ -278,26 +340,61 @@ if ($results) {
         document.getElementById('infoModal').classList.remove('fade-in');
     }
 
+
     function deleteDefinition() {
         const wordId = document.getElementById('infoModal').dataset.wordId;
         const word = document.getElementById('modalWord').textContent.replace('Word: ', '');
 
-        if (confirm(`Are you sure you want to delete the word "${word}"?`)) {
-            $.ajax({
-                url: 'delete_definition.php',
-                type: 'POST',
-                data: {
-                    id: wordId
-                },
-                success: function (response) {
-                    closeModal();
-                    location.reload();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error deleting definition:', status, error);
-                    alert('Failed to delete the definition. Please try again.');
-                }
-            });
-        }
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: `You won't be able to revert this action!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'delete_definition.php',
+                    type: 'POST',
+                    data: {
+                        id: wordId
+                    },
+                    success: function(response) {
+                        swalWithBootstrapButtons.fire({
+                            title: 'Deleted!',
+                            text: `The dictionary entry "${word}" has been deleted.`,
+                            icon: 'success'
+                        }).then(() => {
+                            closeModal();
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error deleting definition:', status, error);
+                        swalWithBootstrapButtons.fire({
+                            title: 'Failed!',
+                            text: 'Failed to delete the dictionary entry. Please try again.',
+                            icon: 'error'
+                        });
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: 'Cancelled',
+                    text: 'The dictionary entry is safe :)',
+                    icon: 'info'
+                });
+            }
+        });
     }
 </script>

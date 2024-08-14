@@ -1,3 +1,42 @@
+<?php
+session_start();
+
+include '../config.php';
+
+$query = new Query();
+
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header("Location: ../");
+    exit;
+}
+
+$error = '';
+
+if (isset($_POST['submit'])) {
+    $input_username = $query->validate($_POST['username']);
+    $input_password = $query->validate($_POST['password']);
+
+    $hashed_password = $query->hashPassword($input_password);
+
+    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    $stmt = $query->executeQuery($sql, [$input_username, $hashed_password], 'ss');
+
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+
+        $_SESSION['loggedin'] = true;
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+
+        header("Location: ../");
+        exit;
+    } else {
+        $error = "The login or password is incorrect";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +44,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -70,20 +110,6 @@
             background-color: #0056b3;
         }
 
-        .message {
-            margin-top: 20px;
-            font-size: 16px;
-            text-align: center;
-        }
-
-        .message.error {
-            color: #dc3545;
-        }
-
-        .message.success {
-            color: #28a745;
-        }
-
         .text-center {
             text-align: center;
             margin-top: 15px;
@@ -104,9 +130,7 @@
     <div class="container">
         <h1>Login</h1>
 
-        <div id="responseMessage" class="message"></div>
-
-        <form id="loginForm" method="post" action="to-login.php">
+        <form method="post" action="">
             <div class="form-group">
                 <label for="username">Username or Email</label>
                 <input type="text" id="username" name="username" required>
@@ -116,7 +140,7 @@
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <button type="submit">Login</button>
+                <button type="submit" name="submit">Login</button>
             </div>
         </form>
 
@@ -124,8 +148,6 @@
             <p>Don't have an account? <a href="../signup/">Sign Up</a></p>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>

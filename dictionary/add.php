@@ -1,3 +1,8 @@
+<?php
+include '../config.php';
+$query = new Query();
+$query->checkAuthentication();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +12,7 @@
     <title>Add Word</title>
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.6.15/sweetalert2.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -130,7 +136,7 @@
                 </div>
                 <div class="form-group">
                     <label for="definition">Definition</label>
-                    <textarea id="definition" name="definition"></textarea>
+                    <textarea id="definition" name="definition" maxlength="500"></textarea>
                 </div>
                 <div class="form-group">
                     <button type="submit">Add Word</button>
@@ -141,28 +147,51 @@
     <?php include '../includes/footer.php'; ?>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.6.15/sweetalert2.all.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#wordForm').on('submit', function (e) {
-                e.preventDefault(); // Prevent default form submission
+        $(document).ready(function() {
+            $('#wordForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Validate the Definition length
+                var definition = $('#definition').val();
+                if (definition.length > 500) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'The definition cannot exceed 500 characters.',
+                    });
+                    return;
+                }
 
                 $.ajax({
-                    url: './to-add.php', // The URL where the form will be submitted
-                    type: 'POST', // Method of sending data
-                    data: $(this).serialize(), // Serialize form data
-                    success: function (response) {
-                        $('#responseMessage').html(response.message); // Display the response message
-                        $('#responseMessage').removeClass('error success');
+                    url: './to-add.php',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
                         if (response.success) {
-                            $('#responseMessage').addClass('success');
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'The dictionary entry has been added!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            $('#wordForm')[0].reset();
                         } else {
-                            $('#responseMessage').addClass('error');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message || 'Something went wrong!',
+                            });
                         }
-                        $('#wordForm')[0].reset(); // Optional: Reset the form after submission
                     },
-                    error: function () {
-                        $('#responseMessage').html('An error occurred while submitting the form.');
-                        $('#responseMessage').removeClass('success').addClass('error');
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred while submitting the form.',
+                        });
                     }
                 });
             });
