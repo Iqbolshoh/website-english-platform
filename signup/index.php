@@ -128,7 +128,7 @@
             </div>
         </form>
         <div class="text-center">
-            <p>Already have an account? <a href="/login/">Login</a></p>
+            <p>Already have an account? <a href="../login/">Login</a></p>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

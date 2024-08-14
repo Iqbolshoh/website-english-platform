@@ -1,4 +1,5 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <style>
@@ -179,7 +180,7 @@
 
 <header>
 
-    <a href="/index.php">
+    <a href="../">
         <img src="../images/logo.png" alt="logo" class="logo">
     </a>
 
@@ -189,26 +190,26 @@
 
     <div class="links">
 
-        <a href="/" class="link">
+        <a href="../" class="link">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </a>
 
-        <a href="/dictionary/index.php" class="link">
+        <a href="../dictionary/" class="link">
             <i class="fas fa-language"></i>
             <span>Dictionary</span>
         </a>
 
-        <a href="/sentences/index.php" class="link">
+        <a href="../sentences/" class="link">
             <i class="fas s fa-comment-dots"></i>
             <span>Sentences</span>
         </a>
 
-        <a href="/exercise/index.php" class="link">
+        <a href="../exercise/" class="link">
             <i class="fas fa-brain"></i>
             <span>Exercise</span>
         </a>
-        <a href="settings/index.php" class="link">
+        <a href="../settings/" class="link">
             <i class="fa-solid fa-gear"></i>
             <span>Settings</span>
         </a>
@@ -216,23 +217,23 @@
 
     <nav>
         <ul>
-            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="/dictionary/index.php"><i class="fas fa-language"></i> Dictionary</a></li>
-            <li><a href="/sentences/index.php"><i class="fas fa-comment-dots"></i> Sentences</a></li>
-            <li><a href="/exercise/index.php"><i class="fas fa-brain"></i> Exercise</a></li>
-            <li><a href="/settings/index.php"><i class="fa-solid fa-gear"></i> Settings</a></li>
+            <li><a href="../"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="../dictionary/"><i class="fas fa-language"></i> Dictionary</a></li>
+            <li><a href="../sentences/"><i class="fas fa-comment-dots"></i> Sentences</a></li>
+            <li><a href="../exercise/"><i class="fas fa-brain"></i> Exercise</a></li>
+            <li><a href="../settings/"><i class="fa-solid fa-gear"></i> Settings</a></li>
         </ul>
     </nav>
 
 </header>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const menuToggle = document.querySelector('.menu-toggle');
         const links = document.querySelector('.links');
         const icon = menuToggle.querySelector('i');
 
-        menuToggle.addEventListener('click', function() {
+        menuToggle.addEventListener('click', function () {
             links.classList.toggle('active');
             if (icon.classList.contains('fa-bars')) {
                 icon.classList.remove('fa-bars');

@@ -121,7 +121,7 @@
         </form>
 
         <div class="text-center">
-            <p>Don't have an account? <a href="/signup/">Sign Up</a></p>
+            <p>Don't have an account? <a href="../signup/">Sign Up</a></p>
         </div>
     </div>
 

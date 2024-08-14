@@ -123,7 +123,7 @@
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 4px;
-            height: calc(100vh - 445px);
+            height: calc(100vh - 460px);
             overflow-y: auto;
             padding: 10px;
         }
@@ -267,7 +267,7 @@
         });
 
         $(document).ready(function () {
-            let showLiked = 0; // Default value
+            let showLiked = 0;
 
             function debounce(func, wait) {
                 let timeout;
