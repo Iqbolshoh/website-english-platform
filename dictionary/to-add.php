@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 include '../config.php';
 
 $query = new Query();
@@ -8,12 +11,14 @@ header('Content-Type: application/json');
 $response = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $user_id = $_SESSION['user_id'];
     $word = strtolower(trim($_POST['word']));
     $translation = strtolower(trim($_POST['translation']));
     $definition = $query->validate($_POST['definition']);
 
-    if (!empty($word) && !empty($translation)) {
+    if (!empty($word) && !empty($translation) && !empty($user_id)) {
         $data = [
+            'user_id' => $user_id,
             'word' => $word,
             'translation' => $translation,
             'definition' => $definition

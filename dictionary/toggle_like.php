@@ -1,9 +1,13 @@
 <?php
+
+session_start();
+
 include '../config.php';
 
 $query = new Query();
 
-$userId = 1;
+$userId = $_SESSION['user_id'];
+
 $word_id = isset($_POST['word_id']) ? (int) $_POST['word_id'] : 0;
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 

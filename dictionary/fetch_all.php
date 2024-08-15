@@ -1,26 +1,52 @@
 <?php
 include '../config.php';
 
+session_start();
+
 $query = new Query();
-$userId = 1;
+$userId = $_SESSION['user_id'];
 
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
-$liked = $_GET['liked'];
+$liked = isset($_GET['liked']) ? $_GET['liked'] : false;
 $WordSearch = isset($_GET['query']) ? $_GET['query'] : '';
 
 if ($lang == 'uz') {
     if (!empty($WordSearch)) {
         $queryParam = $query->validate($WordSearch);
-        $results = $query->search('words', '*', "WHERE translation LIKE ?", ["%$queryParam%"], "s");
+        $results = $query->search(
+            'words',
+            '*',
+            "WHERE user_id = ? AND translation LIKE ?",
+            [$userId, "%$queryParam%"],
+            "is"
+        );
     } else {
-        $results = $query->select('words', '*', 'ORDER BY translation ASC');
+        $results = $query->select(
+            'words',
+            '*',
+            'WHERE user_id = ? ORDER BY translation ASC',
+            [$userId],
+            'i'
+        );
     }
 } else {
     if (!empty($WordSearch)) {
         $queryParam = $query->validate($WordSearch);
-        $results = $query->search('words', '*', "WHERE word LIKE ?", ["%$queryParam%"], "s");
+        $results = $query->search(
+            'words',
+            '*',
+            "WHERE user_id = ? AND word LIKE ?",
+            [$userId, "%$queryParam%"],
+            "is"
+        );
     } else {
-        $results = $query->select('words', '*', 'ORDER BY word ASC');
+        $results = $query->select(
+            'words',
+            '*',
+            'WHERE user_id = ? ORDER BY word ASC',
+            [$userId],
+            'i'
+        );
     }
 }
 
@@ -31,7 +57,7 @@ if ($liked) {
     $results = [];
     foreach ($likedWords as $row) {
         $wordId = $row['word_id'];
-        $queryResult = $query->select('words', '*', "WHERE id = ?", [$wordId], 'i');
+        $queryResult = $query->select('words', '*', "WHERE id = ? AND user_id = ?", [$wordId, $userId], 'ii');
         if ($queryResult) {
             $results = array_merge($results, $queryResult);
         }
