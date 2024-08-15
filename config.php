@@ -6,9 +6,13 @@ class Query
     public function __construct()
     {
         $servername = "localhost";
-        $username = "milliyto_shop";
-        $password = "X?t&e#iF3Fc*";
-        $dbname = "milliyto_english";
+        // $username = "milliyto_shop";
+        // $password = "X?t&e#iF3Fc*";
+        // $dbname = "milliyto_english";
+
+        $username = "root";
+        $password = "";
+        $dbname = "english";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
