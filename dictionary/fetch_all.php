@@ -156,7 +156,7 @@ if ($results) {
     .fa-info-circle:active,
     .fa-volume-up:active,
     .fa-trash:active {
-        color: #0056b3;
+        color: #ff4000;
         transform: scale(1.1);
     }
 
