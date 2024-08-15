@@ -13,9 +13,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
 if (isset($_POST['submit'])) {
     $input_username = $query->validate($_POST['username']);
-    $input_password = $query->validate($_POST['password']);
-
-    $hashed_password = $query->hashPassword($input_password);
+    $hashed_password = $query->hashPassword($_POST['password']);
 
     $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
     $stmt = $query->executeQuery($sql, [$input_username, $hashed_password], 'ss');

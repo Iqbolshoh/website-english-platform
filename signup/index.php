@@ -16,14 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $query->validate($_POST['fullname']);
     $email = $query->validate($_POST['email']);
     $username = $query->validate($_POST['username']);
-    $password = $query->validate($_POST['password']);
+    $hashed_password = $query->hashPassword($_POST['password']);
 
     if ($query->emailExists($email)) {
         $error_message = "Email already exists.";
     } elseif ($query->usernameExists($username)) {
         $error_message = "Username already exists.";
     } else {
-        $hashed_password = $query->hashPassword($password);
         $result = $query->registerUser($fullname, $email, $username, $hashed_password);
 
         if ($result) {

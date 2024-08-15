@@ -45,7 +45,7 @@ VALUES
         'iqbolshoh ilhomjonov',
         'iilhomjonov777@gmail.com',
         'iqbolshoh',
-        'e12d19e0829a61c08b0fe8810caf4ae036a8e3db5bedb18e662f82ba72c59800'
+        '29cbffe112a766305c4a49a61e27d7e117c2efc0b2bd31451b3a200c24fd565b'
     ),
     (
         'admin',
