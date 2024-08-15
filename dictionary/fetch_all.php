@@ -122,7 +122,7 @@ if ($results) {
     }
 
     .vocabulary span.highlight {
-        background-color: yellow;
+        color: red;
     }
 
     .vocabulary:hover {
