@@ -134,15 +134,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <form id="wordForm" method="post">
                 <div class="form-group">
                     <label for="word">Word<span>*</span></label>
-                    <input type="text" id="word" name="word" required maxlength="70">
+                    <input type="text" id="word" name="word" required maxlength="50">
                 </div>
                 <div class="form-group">
                     <label for="translation">Translation<span>*</span></label>
-                    <input type="text" id="translation" name="translation" required maxlength="70">
+                    <input type="text" id="translation" name="translation" required maxlength="50">
                 </div>
                 <div class="form-group">
                     <label for="definition">Definition</label>
-                    <textarea id="definition" name="definition" maxlength="300"></textarea>
+                    <textarea id="definition" name="definition" maxlength="120"></textarea>
                 </div>
                 <div class="form-group">
                     <button type="submit">Add Word</button>
@@ -155,35 +155,35 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.6.15/sweetalert2.all.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#wordForm').on('submit', function (e) {
+        $(document).ready(function() {
+            $('#wordForm').on('submit', function(e) {
                 e.preventDefault();
 
                 var word = $('#word').val();
                 var translation = $('#translation').val();
                 var definition = $('#definition').val();
 
-                if (word.length > 70) {
+                if (word.length > 50) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'The word cannot exceed 70 characters.',
+                        text: 'The word cannot exceed 50 characters.',
                     });
                     return;
                 }
-                if (translation.length > 70) {
+                if (translation.length > 50) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'The translation cannot exceed 70 characters.',
+                        text: 'The translation cannot exceed 50 characters.',
                     });
                     return;
                 }
-                if (definition.length > 300) {
+                if (definition.length > 120) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'The definition cannot exceed 300 characters.',
+                        text: 'The definition cannot exceed 120 characters.',
                     });
                     return;
                 }
@@ -191,14 +191,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     url: './to-add.php',
                     type: 'POST',
                     data: $(this).serialize(),
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success) {
                             Swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
                                 title: 'The dictionary entry has been added!',
                                 showConfirmButton: false,
-                                timer: 1500
+                                timer: 1000
                             });
                             $('#wordForm')[0].reset();
                         } else {
@@ -209,7 +209,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             });
                         }
                     },
-                    error: function () {
+                    error: function() {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',

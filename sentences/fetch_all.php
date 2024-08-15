@@ -8,57 +8,45 @@ $userId = $_SESSION['user_id'];
 
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
 $liked = isset($_GET['liked']) ? $_GET['liked'] : false;
-$WordSearch = isset($_GET['query']) ? $_GET['query'] : '';
-$WordSearch = strtolower($WordSearch);
+$sentenceSearch = isset($_GET['query']) ? $_GET['query'] : '';
+
+$results = [];
+$queryParam = $query->validate($sentenceSearch);
 
 if ($lang == 'uz') {
-    if (!empty($WordSearch)) {
-        $queryParam = $query->validate($WordSearch);
-        $results = $query->search(
-            'words',
-            '*',
-            "WHERE user_id = ? AND translation LIKE ?",
-            [$userId, "%$queryParam%"],
-            "is"
-        );
-    } else {
-        $results = $query->select(
-            'words',
-            '*',
-            'WHERE user_id = ? ORDER BY translation ASC',
-            [$userId],
-            'i'
-        );
-    }
+    $searchCondition = !empty($sentenceSearch) ? "translation LIKE ?" : '';
+    $orderBy = 'translation ASC';
 } else {
-    if (!empty($WordSearch)) {
-        $queryParam = $query->validate($WordSearch);
-        $results = $query->search(
-            'words',
-            '*',
-            "WHERE user_id = ? AND word LIKE ?",
-            [$userId, "%$queryParam%"],
-            "is"
-        );
-    } else {
-        $results = $query->select(
-            'words',
-            '*',
-            'WHERE user_id = ? ORDER BY word ASC',
-            [$userId],
-            'i'
-        );
-    }
+    $searchCondition = !empty($sentenceSearch) ? "sentence LIKE ?" : '';
+    $orderBy = 'sentence ASC';
 }
 
-$likedWords = $query->search('liked_words', 'word_id', 'WHERE user_id = ?', [$userId], 'i');
-$likedWordIds = array_column($likedWords, 'word_id');
+if ($searchCondition) {
+    $results = $query->search(
+        'sentences',
+        '*',
+        "WHERE user_id = ? AND $searchCondition ORDER BY $orderBy",
+        [$userId, "%$queryParam%"],
+        "is"
+    );
+} else {
+    $results = $query->select(
+        'sentences',
+        '*',
+        "WHERE user_id = ? ORDER BY $orderBy",
+        [$userId],
+        'i'
+    );
+}
+
+$likedSentences = $query->search('liked_sentences', 'sentence_id', 'WHERE user_id = ?', [$userId], 'i');
+$likedSentenceIds = array_column($likedSentences, 'sentence_id');
 
 if ($liked) {
     $results = [];
-    foreach ($likedWords as $row) {
-        $wordId = $row['word_id'];
-        $queryResult = $query->select('words', '*', "WHERE id = ? AND user_id = ?", [$wordId, $userId], 'ii');
+    foreach ($likedSentences as $row) {
+        $sentenceId = $row['sentence_id'];
+        $queryResult = $query->select('sentences', '*', "WHERE id = ? AND user_id = ?", [$sentenceId, $userId], 'ii');
         if ($queryResult) {
             $results = array_merge($results, $queryResult);
         }
@@ -66,31 +54,32 @@ if ($liked) {
 }
 
 if ($results) {
-    usort($results, function ($a, $b) use ($WordSearch) {
-        $wordSearchLower = strtolower($WordSearch);
-        $aStartsWith = strtolower(substr($a['word'], 0, strlen($wordSearchLower))) === $wordSearchLower;
-        $bStartsWith = strtolower(substr($b['word'], 0, strlen($wordSearchLower))) === $wordSearchLower;
+    usort($results, function ($a, $b) use ($sentenceSearch) {
+        $sentenceSearchLower = strtolower($sentenceSearch);
+        $aStartsWith = strtolower(substr($a['sentence'], 0, strlen($sentenceSearchLower))) === $sentenceSearchLower;
+        $bStartsWith = strtolower(substr($b['sentence'], 0, strlen($sentenceSearchLower))) === $sentenceSearchLower;
 
-        if ($aStartsWith && !$bStartsWith)
-            return -1;
-        if (!$aStartsWith && $bStartsWith)
-            return 1;
+        if ($aStartsWith && !$bStartsWith) return -1;
+        if (!$aStartsWith && $bStartsWith) return 1;
 
-        return strcmp(strtolower($a['word']), strtolower($b['word']));
+        return strcmp($a['sentence'], $b['sentence']);
     });
 
     $html = "<ul>";
     foreach ($results as $index => $row) {
-        $wordId = "word_" . $index;
+        $sentenceId = "sentence_" . $index;
         $likeId = "heart_" . $index;
-        $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['word']);
-        $isLiked = in_array($row['id'], $likedWordIds);
+        $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['sentence']);
+        $isLiked = in_array($row['id'], $likedSentenceIds);
+
+        $text = preg_replace("/(" . preg_quote($sentenceSearch, '/') . ")/i", "<span class='highlight'>$1</span>", $text);
+
         $html .= "<div class='vocabulary'>
-            <li id='{$wordId}'>" . str_ireplace($WordSearch, "<span class='highlight'>{$WordSearch}</span>", $text) . "</li>
+            <li id='{$sentenceId}'>{$text}</li>
             <div class='buttons'>
-                <i class='fas fa-volume-up' onclick=\"speakText('{$wordId}')\"></i>
+                <i class='fas fa-volume-up' onclick=\"speakText('{$sentenceId}')\"></i>
                 <i class='fas fa-heart " . ($isLiked ? 'liked' : '') . "' id='{$likeId}' onclick=\"Liked('{$likeId}', '{$row['id']}')\"></i>
-                <i class='fas fa-info-circle' onclick='showInfo(" . json_encode(["word" => $row["word"], "translation" => $row["translation"], "definition" => $row["definition"], "id" => $row["id"]], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
+                <i class='fas fa-info-circle' onclick='showInfo(" . json_encode(["sentence" => $row["sentence"], "translation" => $row["translation"], "id" => $row["id"]], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
             </div>
         </div>";
     }
@@ -194,7 +183,7 @@ if ($results) {
         animation: slideIn 0.3s ease;
     }
 
-    #modalWord {
+    #modalSentence {
         margin-bottom: 10px;
         font-size: 20px;
         line-height: 1.5;
@@ -207,13 +196,6 @@ if ($results) {
         font-size: 18px;
         line-height: 1.5;
         color: #16a085;
-    }
-
-    #modalDefinition {
-        font-size: 16px;
-        line-height: 1.5;
-        color: #34495e;
-        word-wrap: break-word;
     }
 
     .modal-section {
@@ -264,19 +246,18 @@ if ($results) {
     }
 </style>
 
-<div id="infoModal" class="modal" data-word-id="">
+<div id="infoModal" class="modal" data-sentences-id="">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <div id="modalWord" class="modal-section"></div>
+        <div id="modalSentence" class="modal-section"></div>
         <div id="modalTranslation" class="modal-section"></div>
-        <div id="modalDefinition" class="modal-section"></div>
         <div class="modal-buttons">
-            <i class='fas fa-volume-up' onclick="speakTextFromModal()"></i>
-            <i class="fa-solid fa-trash" onclick="deleteDefinition()"></i>
+            <i class="fas fa-volume-up" onclick="speakTextFromModal()"></i>
+            <i class="fa-solid fa-trash" onclick="deleteSentences()"></i>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 <script>
     let isSpeaking = false;
@@ -303,7 +284,7 @@ if ($results) {
     }
 
     function speakTextFromModal() {
-        const text = document.getElementById('modalWord').innerText;
+        const text = document.getElementById('modalSentence').innerText;
 
         if (isSpeaking) {
             speechSynthesis.cancel();
@@ -322,38 +303,44 @@ if ($results) {
         }
     }
 
-    function Liked(likeId, wordId) {
-        const icon = document.getElementById(likeId);
-        const isLiked = icon.classList.contains('liked');
-        const action = isLiked ? 'remove' : 'add';
-        icon.classList.toggle('liked');
-
-        fetch('liked.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `word_id=${wordId}&action=${action}`
-        });
-    }
-
-    function showInfo(wordInfo) {
-        const info = wordInfo;
-        document.getElementById('modalWord').textContent = `${info.word}`;
-        document.getElementById('modalTranslation').textContent = `${info.translation}`;
-        document.getElementById('modalDefinition').textContent = `Definition: ${info.definition}`;
-        document.getElementById('infoModal').dataset.wordId = info.id;
-        document.getElementById('infoModal').classList.add('fade-in');
-    }
-
     function closeModal() {
         document.getElementById('infoModal').classList.remove('fade-in');
     }
 
+    function Liked(likeId, sentence_id) {
+        const element = document.getElementById(likeId);
+        const isLiked = element.classList.contains("liked");
+        const action = isLiked ? 'remove' : 'add';
 
-    function deleteDefinition() {
-        const wordId = document.getElementById('infoModal').dataset.wordId;
-        const word = document.getElementById('modalWord').textContent.replace('Word: ', '');
+        fetch('liked.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `sentence_id=${sentence_id}&action=${action}`
+            })
+            .then(response => response.text())
+            .then(result => {
+                if (result === 'Success') {
+                    if (action === 'add') {
+                        element.classList.add('liked');
+                        element.style.color = 'red';
+                    } else {
+                        element.classList.remove('liked');
+                        element.style.color = '#ddd';
+                    }
+                } else {
+                    console.error('Failed to update like status.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function deleteSentences() {
+        const modal = document.getElementById('infoModal');
+        const sentenceId = modal.getAttribute('data-sentences-id');
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -377,12 +364,12 @@ if ($results) {
                     url: 'delete.php',
                     type: 'POST',
                     data: {
-                        id: wordId
+                        id: sentenceId
                     },
                     success: function(response) {
                         swalWithBootstrapButtons.fire({
                             title: 'Deleted!',
-                            text: `The dictionary entry "${word}" has been deleted.`,
+                            text: `The dictionary entry has been deleted.`,
                             icon: 'success'
                         }).then(() => {
                             closeModal();
@@ -406,5 +393,14 @@ if ($results) {
                 });
             }
         });
+    }
+
+    function showInfo(data) {
+        document.getElementById("modalSentence").innerText = data.sentence;
+        document.getElementById("modalTranslation").innerText = data.translation;
+        const modal = document.getElementById("infoModal");
+        modal.setAttribute('data-sentences-id', data.id);
+        modal.classList.add("fade-in");
+        modal.style.display = "block";
     }
 </script>

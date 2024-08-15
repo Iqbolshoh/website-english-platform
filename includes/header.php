@@ -1,6 +1,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     body {
@@ -176,6 +177,47 @@
             transform: translateY(-2.5px);
         }
     }
+
+    .swal2-popup {
+        font-family: 'Arial', sans-serif;
+    }
+
+    .swal2-title {
+        color: #2c3e50;
+        font-size: 1.5rem;
+    }
+
+    .swal2-html-container {
+        color: #34495e;
+        font-size: 1rem;
+        display: flex;
+    }
+
+    .swal2-confirm {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5em 1em;
+        margin-left: 10px;
+    }
+
+    .swal2-cancel {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5em 1em;
+        margin-right: 10px;
+    }
+
+    .swal2-confirm:hover {
+        background-color: #218838;
+    }
+
+    .swal2-cancel:hover {
+        background-color: #c82333;
+    }
 </style>
 
 <header>
@@ -215,7 +257,7 @@
             <span>Settings</span>
         </a>
 
-        <a href="../logout/" class="link">
+        <a href="#" class="link" onclick="confirmLogout(); return false;">
             <i class="fa-solid fa-right-from-bracket"></i>
             <span>Logout</span>
         </a>
@@ -228,7 +270,7 @@
             <li><a href="../sentences/"><i class="fas fa-comment-dots"></i> Sentences</a></li>
             <li><a href="../exercise/"><i class="fas fa-brain"></i> Exercise</a></li>
             <li><a href="../settings/"><i class="fa-solid fa-gear"></i> Settings</a></li>
-            <li><a href="../logout/"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            <li><a href="#" onclick="confirmLogout(); return false;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
         </ul>
     </nav>
 
@@ -251,4 +293,20 @@
             }
         });
     });
+
+    function confirmLogout() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this action!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, log out!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '..logout/';
+            }
+        });
+    }
 </script>
