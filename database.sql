@@ -245,7 +245,7 @@ INSERT INTO `sentences` (`word_id`, `user_id`, `sentence`, `translation`) VALUES
 (49, 2, 'They had a picnic by the lake.', 'Ular kolda piknik qildilar.'),
 (50, 2, 'The concert was held in the city center.', 'Kontsert shahar markazida otkazildi.'),
 (51, 2, 'He enjoys gardening in his free time.', 'U bosh vaqtida bogdorchilik bilan shugullanadi.'),
-(52, 2, 'The museum’s collection includes ancient artifacts.', 'Muzey kolleksiyasida qadimiy artefaktlar mavjud.'),
+(52, 2, 'The museums collection includes ancient artifacts.', 'Muzey kolleksiyasida qadimiy artefaktlar mavjud.'),
 (53, 2, 'She takes long walks in the evening.', 'U kechqurun uzoq yurishlarni amalga oshiradi.'),
 (54, 2, 'The bookstore is having a clearance sale.', 'Kitob dokoni tozalash savdosini otkazmoqda.'),
 (55, 2, 'He repaired the broken chair.', 'U singan stulni tuzatdi.'),
