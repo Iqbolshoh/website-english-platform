@@ -108,16 +108,6 @@ class Query
         return hash_hmac('sha256', $password, $key);
     }
 
-    // checkAuthentication(): Redirects users based on their authentication status
-    function checkAuthentication()
-    {
-        session_start();
-        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            header("Location: /login/");
-            exit;
-        }
-    }
-
     // Check if email exists
     public function emailExists($email)
     {

@@ -1,7 +1,13 @@
 <?php
+session_start();
+
 include '../config.php';
 $query = new Query();
-$query->checkAuthentication();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../login/");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
