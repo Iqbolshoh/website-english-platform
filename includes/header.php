@@ -305,7 +305,7 @@
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = '..logout/';
+                window.location.href = '../logout/';
             }
         });
     }
