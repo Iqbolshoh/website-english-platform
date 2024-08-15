@@ -182,16 +182,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script>
-        document.getElementById('email').addEventListener('input', function() {
+        document.getElementById('email').addEventListener('input', function () {
             let email = this.value;
             if (email.length > 0) {
                 fetch('check_availability.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `email=${encodeURIComponent(email)}`
-                    })
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}`
+                })
                     .then(response => response.json())
                     .then(data => {
                         const messageElement = document.getElementById('email-message');
@@ -204,16 +204,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
 
-        document.getElementById('username').addEventListener('input', function() {
+        document.getElementById('username').addEventListener('input', function () {
             let username = this.value;
             if (username.length > 0) {
                 fetch('check_availability.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `username=${encodeURIComponent(username)}`
-                    })
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `username=${encodeURIComponent(username)}`
+                })
                     .then(response => response.json())
                     .then(data => {
                         const messageElement = document.getElementById('username-message');

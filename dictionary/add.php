@@ -149,8 +149,8 @@ $query->checkAuthentication();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.6.15/sweetalert2.all.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#wordForm').on('submit', function(e) {
+        $(document).ready(function () {
+            $('#wordForm').on('submit', function (e) {
                 e.preventDefault();
 
                 // Validate the Definition length
@@ -168,7 +168,7 @@ $query->checkAuthentication();
                     url: './to-add.php',
                     type: 'POST',
                     data: $(this).serialize(),
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             Swal.fire({
                                 position: 'top-end',
@@ -186,7 +186,7 @@ $query->checkAuthentication();
                             });
                         }
                     },
-                    error: function() {
+                    error: function () {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',

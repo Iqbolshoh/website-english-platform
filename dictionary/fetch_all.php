@@ -395,7 +395,7 @@ if ($results) {
                     data: {
                         id: wordId
                     },
-                    success: function(response) {
+                    success: function (response) {
                         swalWithBootstrapButtons.fire({
                             title: 'Deleted!',
                             text: `The dictionary entry "${word}" has been deleted.`,
@@ -405,7 +405,7 @@ if ($results) {
                             location.reload();
                         });
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error('Error deleting definition:', status, error);
                         swalWithBootstrapButtons.fire({
                             title: 'Failed!',

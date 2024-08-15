@@ -1,5 +1,4 @@
 <?php
-// config.php
 class Query
 {
     private $conn;
@@ -7,13 +6,9 @@ class Query
     public function __construct()
     {
         $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "english";
-
-        // $username = "milliyto_shop";
-        // $password = "X?t&e#iF3Fc*";
-        // $dbname = "milliyto_english";
+        $username = "milliyto_shop";
+        $password = "X?t&e#iF3Fc*";
+        $dbname = "milliyto_english";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -24,7 +19,6 @@ class Query
 
     public function __destruct()
     {
-        // Close the database connection if it is open
         if ($this->conn) {
             $this->conn->close();
         }
@@ -110,7 +104,7 @@ class Query
     // hashPassword(): Hashes a password using sha256 with a key
     function hashPassword($password)
     {
-        $key = "AccountPassword";
+        $key = "iqbolshoh-ilhomjonov";
         return hash_hmac('sha256', $password, $key);
     }
 

@@ -12,8 +12,8 @@ $response = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION['user_id'];
-    $word = strtolower(trim($_POST['word']));
-    $translation = strtolower(trim($_POST['translation']));
+    $word = $query->validate(strtolower(trim($_POST['word'])));
+    $translation = $query->validate(strtolower(trim($_POST['translation'])));
     $definition = $query->validate($_POST['definition']);
 
     if (!empty($word) && !empty($translation) && !empty($user_id)) {

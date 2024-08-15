@@ -256,11 +256,11 @@ $query->checkAuthentication();
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const hearts = document.querySelectorAll('.heart-box');
 
             hearts.forEach(heart => {
-                heart.addEventListener('click', function() {
+                heart.addEventListener('click', function () {
                     if (this.classList.contains('liked')) {
                         this.classList.remove('liked');
                     } else {
@@ -271,12 +271,12 @@ $query->checkAuthentication();
             });
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             let showLiked = 0;
 
             function debounce(func, wait) {
                 let timeout;
-                return function() {
+                return function () {
                     clearTimeout(timeout);
                     const context = this,
                         args = arguments;
@@ -293,10 +293,10 @@ $query->checkAuthentication();
                         lang: lang,
                         liked: liked
                     },
-                    success: function(response) {
+                    success: function (response) {
                         $("#suggestions").html(response);
                     },
-                    error: function() {
+                    error: function () {
                         $("#suggestions").html("An error occurred.");
                     }
                 });
@@ -316,19 +316,19 @@ $query->checkAuthentication();
 
             const fetchSuggestionsDebounced = debounce(handleInput, 300);
 
-            $("#word").on("keyup", function() {
+            $("#word").on("keyup", function () {
                 fetchSuggestionsDebounced();
             });
 
-            $("#languageSelect").on("change", function() {
+            $("#languageSelect").on("change", function () {
                 handleInput();
             });
 
-            $("#liked-btn-1").on("click", function() {
+            $("#liked-btn-1").on("click", function () {
                 toggleLiked();
             });
 
-            $("#liked-btn-2").on("click", function() {
+            $("#liked-btn-2").on("click", function () {
                 toggleLiked();
             });
 
