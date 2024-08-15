@@ -14,9 +14,9 @@ CREATE TABLE users (
 CREATE TABLE words (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    word VARCHAR(255) NOT NULL,
-    translation VARCHAR(255),
-    definition TEXT(500),
+    word VARCHAR(70) NOT NULL,
+    translation VARCHAR(70),
+    definition TEXT(300),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -24,8 +24,8 @@ CREATE TABLE sentences (
     id INT AUTO_INCREMENT PRIMARY KEY,
     word_id INT,
     user_id INT,
-    sentence TEXT(500) NOT NULL,
-    translation TEXT(500) NOT NULL,
+    sentence TEXT(200) NOT NULL,
+    translation TEXT(200) NOT NULL,
     FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -36,6 +36,14 @@ CREATE TABLE liked_words (
     word_id INT,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE
+);
+
+CREATE TABLE liked_sentences (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    sentence_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (sentence_id) REFERENCES sentences(id) ON DELETE CASCADE
 );
 
 INSERT INTO
@@ -238,3 +246,26 @@ INSERT INTO `words` (`user_id`, `word`, `translation`, `definition`) VALUES
 (2, 'zero', 'nol', 'The numerical value of nothing.'),
 (2, 'zodiac', 'burj', 'A band of the sky divided into twelve signs.'),
 (2, 'zucchini', 'qovoq', 'A type of summer squash.');
+
+INSERT INTO sentences (word_id, user_id, sentence, translation)
+VALUES
+(1, 2, 'The sun rises in the east.', 'Quyosh sharqdan chiqadi.'),
+(2, 2, 'Water boils at 100 degrees Celsius.', 'Suv 100 daraja Selsiyda qaynaydi.'),
+(3, 2, 'A cat is sitting on the roof.', 'Mushuk tomda o‘tiribdi.'),
+(4, 2, 'The sky is blue on a clear day.', 'Ochiq kunda osmon moviy bo‘ladi.'),
+(5, 2, 'Birds fly in the sky.', 'Qushlar osmondan uchadi.'),
+(6, 2, 'Fish swim in the water.', 'Baliqlar suvda suzadi.'),
+(7, 2, 'He reads books every evening.', 'U har oqshom kitob o‘qiydi.'),
+(8, 2, 'The car is parked in the garage.', 'Mashina garajda turibdi.'),
+(9, 2, 'She likes to drink coffee in the morning.', 'U ertalab kofe ichishni yoqtiradi.'),
+(10, 2, 'The tree is tall and strong.', 'Daraxt baland va mustahkam.'),
+(11, 2, 'They are playing football in the park.', 'Ular parkda futbol o‘ynayapti.'),
+(12, 2, 'The computer is on the desk.', 'Kompyuter stol ustida turibdi.'),
+(13, 2, 'He is writing a letter to his friend.', 'U do‘stiga xat yozmoqda.'),
+(14, 2, 'The stars are shining in the sky.', 'Yulduzlar osmondan porlayapti.'),
+(15, 2, 'The flowers are blooming in the garden.', 'Gullar bog‘da ochilmoqda.'),
+(16, 2, 'She is wearing a red dress.', 'U qizil ko‘ylak kiygan.'),
+(17, 2, 'The dog is barking at the stranger.', 'It begona odamga hurayapti.'),
+(18, 2, 'The plane is flying high in the sky.', 'Samolyot osmon balandida uchmoqda.'),
+(19, 2, 'The teacher is explaining the lesson.', 'O‘qituvchi darsni tushuntiryapti.'),
+(20, 2, 'The students are studying in the library.', 'Talabalar kutubxonada o‘qishyapti.');

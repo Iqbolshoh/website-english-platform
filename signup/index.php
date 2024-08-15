@@ -154,21 +154,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form id="signupForm" method="post" action="">
             <div class="form-group">
                 <label for="fullname">Full Name</label>
-                <input type="text" id="fullname" name="fullname" required>
+                <input type="text" id="fullname" name="fullname" required maxlength="255">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" required maxlength="255">
                 <p id="email-message"></p>
             </div>
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required maxlength="255">
                 <p id="username-message"></p>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" required maxlength="255">
             </div>
             <div class="form-group">
                 <button type="submit">Sign Up</button>

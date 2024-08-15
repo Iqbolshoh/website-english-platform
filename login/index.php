@@ -152,11 +152,11 @@ if (isset($_POST['submit'])) {
         <form method="post" action="">
             <div class="form-group">
                 <label for="username">Username or Email</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required maxlength="255">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" required maxlength="255">
             </div>
             <div class="form-group">
                 <button type="submit" name="submit">Login</button>

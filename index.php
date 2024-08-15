@@ -185,7 +185,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <span>Settings</span>
             </a>
 
-            <a href="../logout/" class="link">
+            <a href="./logout/" class="link">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <span>Logout</span>
             </a>
