@@ -166,7 +166,9 @@ if (isset($_POST['submit'])) {
             <p>Don't have an account? <a href="../signup/">Sign Up</a></p>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
 </body>
 
 </html>

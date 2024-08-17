@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 include '../config.php';
@@ -292,12 +293,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
             function fetchSuggestions(query, lang, liked) {
                 $.ajax({
-                    url: "fetch_all.php",
+                    url: "fetch_sentences.php",
                     type: "GET",
                     data: {
                         query: query,
                         lang: lang,
-                        liked: liked
+                        liked: liked,
+                        word_id: word_id
                     },
                     success: function (response) {
                         $("#suggestions").html(response);

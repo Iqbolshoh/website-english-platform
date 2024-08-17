@@ -14,9 +14,9 @@ CREATE TABLE users (
 CREATE TABLE words (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    word VARCHAR(50) NOT NULL,
-    translation VARCHAR(50),
-    definition TEXT(120),
+    word VARCHAR(100) NOT NULL,
+    translation VARCHAR(100),
+    definition TEXT(200),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -24,8 +24,8 @@ CREATE TABLE sentences (
     id INT AUTO_INCREMENT PRIMARY KEY,
     word_id INT,
     user_id INT,
-    sentence TEXT(120) NOT NULL,
-    translation TEXT(120) NOT NULL,
+    sentence TEXT(200) NOT NULL,
+    translation TEXT(255) NOT NULL,
     FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -45,6 +45,16 @@ CREATE TABLE liked_sentences (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (sentence_id) REFERENCES sentences(id) ON DELETE CASCADE
 );
+
+CREATE TABLE voice_settings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    volume DECIMAL(3,1) DEFAULT 1.0,
+    rate DECIMAL(3,1) DEFAULT 1.0,
+    pitch DECIMAL(3,1) DEFAULT 1.0,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 
 INSERT INTO
     users (fullname, email, username, password)

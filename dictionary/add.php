@@ -134,15 +134,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <form id="wordForm" method="post">
                 <div class="form-group">
                     <label for="word">Word<span>*</span></label>
-                    <input type="text" id="word" name="word" required maxlength="50">
+                    <input type="text" id="word" name="word" required maxlength="100">
                 </div>
                 <div class="form-group">
                     <label for="translation">Translation<span>*</span></label>
-                    <input type="text" id="translation" name="translation" required maxlength="50">
+                    <input type="text" id="translation" name="translation" required maxlength="100">
                 </div>
                 <div class="form-group">
                     <label for="definition">Definition</label>
-                    <textarea id="definition" name="definition" maxlength="120"></textarea>
+                    <textarea id="definition" name="definition" maxlength="200"></textarea>
                 </div>
                 <div class="form-group">
                     <button type="submit">Add Word</button>
@@ -155,8 +155,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.6.15/sweetalert2.all.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#wordForm').on('submit', function(e) {
+        $(document).ready(function () {
+            $('#wordForm').on('submit', function (e) {
                 e.preventDefault();
 
                 var word = $('#word').val();
@@ -188,10 +188,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     return;
                 }
                 $.ajax({
-                    url: './to-add.php',
+                    url: './to_add.php',
                     type: 'POST',
                     data: $(this).serialize(),
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             Swal.fire({
                                 position: 'top-end',
@@ -209,7 +209,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                             });
                         }
                     },
-                    error: function() {
+                    error: function () {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',

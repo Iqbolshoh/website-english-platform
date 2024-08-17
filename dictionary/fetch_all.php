@@ -4,6 +4,12 @@ include '../config.php';
 session_start();
 
 $query = new Query();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../login/");
+    exit;
+}
+
 $userId = $_SESSION['user_id'];
 
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
@@ -79,6 +85,8 @@ if ($results) {
         return strcmp(strtolower($a['word']), strtolower($b['word']));
     });
 
+    $isExpanded = isset($expandedSentences[$row['id']]) ? 'expanded' : '';
+
     $html = "<ul>";
     foreach ($results as $index => $row) {
         $wordId = "word_" . $index;
@@ -86,7 +94,7 @@ if ($results) {
         $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['word']);
         $isLiked = in_array($row['id'], $likedWordIds);
         $html .= "<div class='vocabulary'>
-            <li id='{$wordId}'>" . str_ireplace($WordSearch, "<span class='highlight'>{$WordSearch}</span>", $text) . "</li>
+            <li id='{$wordId}' class='{$isExpanded}' onclick='toggleExpand(this)'>" . str_ireplace($WordSearch, "<span class='highlight'>{$WordSearch}</span>", $text) . "</li>
             <div class='buttons'>
                 <i class='fas fa-volume-up' onclick=\"speakText('{$wordId}')\"></i>
                 <i class='fas fa-heart " . ($isLiked ? 'liked' : '') . "' id='{$likeId}' onclick=\"Liked('{$likeId}', '{$row['id']}')\"></i>
@@ -97,7 +105,10 @@ if ($results) {
     $html .= "</ul>";
     echo $html;
 } else {
-    echo "No results found.";
+    echo "<div class='information-not-found'>
+    <i class='fas fa-exclamation-circle'></i>
+    <p>Information not found</p>
+  </div>";
 }
 ?>
 
@@ -110,6 +121,20 @@ if ($results) {
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 5px;
+        gap: 10px;
+    }
+
+    .vocabulary li {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+    }
+
+    .vocabulary li.expanded {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: initial;
     }
 
     .vocabulary i {
@@ -118,7 +143,11 @@ if ($results) {
 
     .vocabulary .buttons {
         display: flex;
-        gap: 10px;
+        gap: 5px;
+    }
+
+    .vocabulary {
+        line-height: 1.7;
     }
 
     .vocabulary span.highlight {
@@ -153,10 +182,18 @@ if ($results) {
         transform: scale(1.2);
     }
 
+    .fa-heart:hover {
+        transform: scale(1.2);
+    }
+
     .fa-info-circle:active,
     .fa-volume-up:active,
     .fa-trash:active {
         color: #ff4000;
+        transform: scale(1.1);
+    }
+
+    .fa-heart:active {
         transform: scale(1.1);
     }
 
@@ -237,7 +274,14 @@ if ($results) {
 
     .modal-buttons {
         display: flex;
-        justify-content: flex-end;
+        flex-direction: row;
+        align-content: stretch;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-buttons .btn {
+        display: flex;
         gap: 15px;
     }
 
@@ -251,6 +295,24 @@ if ($results) {
         color: #ff6347;
     }
 
+    .sentences {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        background-color: #fff;
+        color: #ff6347;
+        border: 2px solid #ff6347;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .sentences:hover {
+        background-color: #ff6347;
+        color: #fff;
+    }
+
     @keyframes slideIn {
         from {
             transform: translateY(-200px);
@@ -262,25 +324,75 @@ if ($results) {
             opacity: 1;
         }
     }
+
+    .information-not-found {
+        width: 100%;
+        height: calc(100vh - 300px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+        background-color: #f8d7da;
+        color: #721c24;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+    }
+
+    .information-not-found i {
+        font-size: 30px;
+        color: #ff6347;
+        margin-bottom: 20px;
+    }
+
+    .information-not-found p {
+        font-size: 18px;
+        margin: 0;
+        color: #721c24;
+    }
 </style>
 
-<div id="infoModal" class="modal" data-word-id="">
+<div id="infoModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <div id="modalWord" class="modal-section"></div>
         <div id="modalTranslation" class="modal-section"></div>
         <div id="modalDefinition" class="modal-section"></div>
         <div class="modal-buttons">
-            <i class='fas fa-volume-up' onclick="speakTextFromModal()"></i>
-            <i class="fa-solid fa-trash" onclick="deleteDefinition()"></i>
+            <a class="sentences" onclick="sentences()">
+                Sentences
+            </a>
+
+            <div class="btn">
+                <i class='fas fa-volume-up' onclick="speakTextFromModal()"></i>
+                <i class="fa-solid fa-trash" onclick="deleteDefinition()"></i>
+            </div>
         </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+
     let isSpeaking = false;
     let currentUtterance = null;
+
+    function fetchVoiceParameters(callback) {
+        fetch('../settings/voice_json.php')
+            .then(response => response.json())
+            .then(data => {
+                callback(data);
+            })
+            .catch(error => console.error('Xatolik:', error));
+    }
+
+    function setUtteranceParameters(utterance, params) {
+        utterance.volume = params.volume;
+        utterance.rate = params.rate;
+        utterance.pitch = params.pitch;
+    }
 
     function speakText(id) {
         const text = document.getElementById(id).innerText;
@@ -291,14 +403,17 @@ if ($results) {
         }
 
         if (!isSpeaking) {
-            currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.lang = 'en-US';
-            currentUtterance.onend = () => {
-                isSpeaking = false;
-            };
+            fetchVoiceParameters(params => {
+                currentUtterance = new SpeechSynthesisUtterance(text);
+                currentUtterance.lang = 'en-US';
+                setUtteranceParameters(currentUtterance, params);
+                currentUtterance.onend = () => {
+                    isSpeaking = false;
+                };
 
-            speechSynthesis.speak(currentUtterance);
-            isSpeaking = true;
+                speechSynthesis.speak(currentUtterance);
+                isSpeaking = true;
+            });
         }
     }
 
@@ -311,16 +426,20 @@ if ($results) {
         }
 
         if (!isSpeaking) {
-            currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.lang = 'en-US';
-            currentUtterance.onend = () => {
-                isSpeaking = false;
-            };
+            fetchVoiceParameters(params => {
+                currentUtterance = new SpeechSynthesisUtterance(text);
+                currentUtterance.lang = 'en-US';
+                setUtteranceParameters(currentUtterance, params);
+                currentUtterance.onend = () => {
+                    isSpeaking = false;
+                };
 
-            speechSynthesis.speak(currentUtterance);
-            isSpeaking = true;
+                speechSynthesis.speak(currentUtterance);
+                isSpeaking = true;
+            });
         }
     }
+
 
     function Liked(likeId, wordId) {
         const icon = document.getElementById(likeId);
@@ -379,7 +498,7 @@ if ($results) {
                     data: {
                         id: wordId
                     },
-                    success: function(response) {
+                    success: function (response) {
                         swalWithBootstrapButtons.fire({
                             title: 'Deleted!',
                             text: `The dictionary entry "${word}" has been deleted.`,
@@ -389,7 +508,7 @@ if ($results) {
                             location.reload();
                         });
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error('Error deleting definition:', status, error);
                         swalWithBootstrapButtons.fire({
                             title: 'Failed!',
@@ -407,4 +526,22 @@ if ($results) {
             }
         });
     }
+
+    function toggleExpand(element) {
+        const isExpanded = element.classList.contains('expanded');
+
+        document.querySelectorAll('.vocabulary li').forEach(el => el.classList.remove('expanded'));
+
+        if (!isExpanded) {
+            element.classList.add('expanded');
+        }
+    }
+    document.addEventListener('DOMContentLoaded', () => { });
+
+    function sentences() {
+        const wordId = document.getElementById('infoModal').dataset.wordId;
+
+        window.location.href = 'sentences.php?wordId=' + wordId;
+    }
+
 </script>
