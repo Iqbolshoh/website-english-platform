@@ -1,9 +1,17 @@
 <?php
 require('./fpdf186/fpdf.php');
 
-include '../config.php';
+session_start();
 
+$user_id = $_SESSION['user_id'];
+
+include '../config.php';
 $query = new Query();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../login/");
+    exit;
+}
 
 $pdf = new FPDF();
 $pdf->AddPage();
@@ -17,8 +25,8 @@ $pdf->Ln(10);
 $pdf->SetFont('Arial', 'B', 12);
 
 $columnWidths = [
-    'sentence' => 90, 
-    'translation' => 90 
+    'sentence' => 90,
+    'translation' => 90
 ];
 
 $headerColors = [
@@ -37,7 +45,7 @@ $pdf->Cell($columnWidths['translation'], 10, 'Translation', 1, 1, 'C', true);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', '', 12);
 
-$rows = $query->select('sentences', 'sentence, translation');
+$rows = $query->select('sentences', 'sentence, translation', "WHERE user_id = $user_id");
 foreach ($rows as $row) {
     $y = $pdf->GetY();
 
@@ -50,5 +58,4 @@ foreach ($rows as $row) {
     $pdf->Ln();
 }
 
-$pdf->Output('sentences_entries.pdf', 'D');
-?>
+$pdf->Output($_SESSION['username'] . '-dictionary-' . date("H.i.s-m.d.Y") . '.pdf', 'D');

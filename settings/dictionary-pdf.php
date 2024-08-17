@@ -1,8 +1,17 @@
 <?php
 require('./fpdf186/fpdf.php');
 
+session_start();
+
+$user_id = $_SESSION['user_id'];
+
 include '../config.php';
 $query = new Query();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../login/");
+    exit;
+}
 
 $pdf = new FPDF();
 $pdf->AddPage();
@@ -30,20 +39,17 @@ $columnWidths = [
 
 $pdf->SetFillColor($headerColors['word']['fill'][0], $headerColors['word']['fill'][1], $headerColors['word']['fill'][2]);
 $pdf->SetTextColor($headerColors['word']['text'][0], $headerColors['word']['text'][1], $headerColors['word']['text'][2]);
-$pdf->Cell($columnWidths['no'], 10, 'No.', 0, 0, 'C', true);
 
 $pdf->SetFillColor($headerColors['translation']['fill'][0], $headerColors['translation']['fill'][1], $headerColors['translation']['fill'][2]);
 $pdf->SetTextColor($headerColors['translation']['text'][0], $headerColors['translation']['text'][1], $headerColors['translation']['text'][2]);
-$pdf->Cell($columnWidths['word'], 10, 'Word', 0, 0, 'C', true);
 
 $pdf->SetFillColor($headerColors['definition']['fill'][0], $headerColors['definition']['fill'][1], $headerColors['definition']['fill'][2]);
 $pdf->SetTextColor($headerColors['definition']['text'][0], $headerColors['definition']['text'][1], $headerColors['definition']['text'][2]);
-$pdf->Cell($columnWidths['translation'], 10, 'Translation', 0, 1, 'C', true);
 
 $pdf->SetTextColor(0, 0, 0);
 
 
-$rows = $query->select('words', 'word, translation, definition');
+$rows = $query->select('words', 'word, translation, definition', "WHERE user_id = $user_id");
 $rowNumber = 1;
 foreach ($rows as $row) {
     $pdf->Cell($columnWidths['no'], 10, $rowNumber++, 0);
@@ -59,5 +65,4 @@ foreach ($rows as $row) {
     $pdf->Cell(0, 5, '', 0, 1);
 }
 
-$pdf->Output('dictionary_entries.pdf', 'D');
-?>
+$pdf->Output($_SESSION['username'] . '-dictionary-' . date("H.i.s-m.d.Y") . '.pdf', 'D');
