@@ -541,7 +541,7 @@ if ($results) {
     function sentences() {
         const wordId = document.getElementById('infoModal').dataset.wordId;
 
-        window.location.href = 'sentences.php?wordId=' + wordId;
+        window.location.href = '../sentences/sentences.php?word_id=' + wordId;
     }
 
 </script>

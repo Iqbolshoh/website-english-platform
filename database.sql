@@ -22,12 +22,12 @@ CREATE TABLE words (
 
 CREATE TABLE sentences (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    word_id INT,
     user_id INT,
+    word_id INT,
     sentence TEXT(200) NOT NULL,
     translation TEXT(255) NOT NULL,
-    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE
 );
 
 CREATE TABLE liked_words (

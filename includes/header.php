@@ -210,14 +210,6 @@
         padding: 0.5em 1em;
         margin-right: 10px;
     }
-
-    .swal2-confirm:hover {
-        background-color: #218838;
-    }
-
-    .swal2-cancel:hover {
-        background-color: #c82333;
-    }
 </style>
 
 <header>
@@ -270,19 +262,20 @@
             <li><a href="../sentences/"><i class="fas fa-comment-dots"></i> Sentences</a></li>
             <li><a href="../exercise/"><i class="fas fa-brain"></i> Exercise</a></li>
             <li><a href="../settings/"><i class="fa-solid fa-gear"></i> Settings</a></li>
-            <li><a href="#" onclick="confirmLogout(); return false;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            <li><a href="#" onclick="confirmLogout(); return false;"><i class="fa-solid fa-right-from-bracket"></i>
+                    Logout</a></li>
         </ul>
     </nav>
 
 </header>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const menuToggle = document.querySelector('.menu-toggle');
         const links = document.querySelector('.links');
         const icon = menuToggle.querySelector('i');
 
-        menuToggle.addEventListener('click', function() {
+        menuToggle.addEventListener('click', function () {
             links.classList.toggle('active');
             if (icon.classList.contains('fa-bars')) {
                 icon.classList.remove('fa-bars');
