@@ -10,7 +10,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-$wordId = $_GET['word_id'];
+$wordId = intval($_GET['word_id']);
 
 $word_name = $query->select(
     'words',
@@ -289,7 +289,7 @@ $word_name = $query->select(
             <p class="title"><?= $word_name ?></p>
         </div>
 
-        <input type="hidden" id="wordId" value="<?php echo htmlspecialchars($_GET['word_id'] ?? ''); ?>">
+        <input type="hidden" id="wordId" value="<?php echo htmlspecialchars($wordId); ?>">
 
         <div id="suggestions"></div>
         <div id="result"></div>

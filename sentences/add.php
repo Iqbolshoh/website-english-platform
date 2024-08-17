@@ -9,7 +9,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-$wordId = $_GET['word_id'];
+$wordId = intval($_GET['word_id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">

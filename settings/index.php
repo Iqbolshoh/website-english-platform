@@ -172,7 +172,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <span>Voice settings</span>
             </a>
 
+            <a href="dictionary-pdf.php" class="link">
+            <i class="fa-solid fa-file-pdf"></i>
+                <span>Save dictionary .pdf</span>
+            </a>
 
+            <a href="sentences-pdf.php" class="link">
+            <i class="fa-solid fa-download"></i>
+                <span>Save sentences .pdf</span>
+            </a>
 
 
         </div>

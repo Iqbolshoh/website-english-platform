@@ -15,7 +15,7 @@ $userId = $_SESSION['user_id'];
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
 $liked = isset($_GET['liked']) ? $_GET['liked'] : false;
 $sentenceSearch = isset($_GET['query']) ? $_GET['query'] : '';
-$wordId = isset($_GET['word_id']) ? $_GET['word_id'] : 4;
+$wordId = intval($_GET['word_id']);
 $results = [];
 
 $queryParam = $query->validate($sentenceSearch);
