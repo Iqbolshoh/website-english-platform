@@ -25,8 +25,8 @@ $pdf->Ln(10);
 $pdf->SetFont('Arial', 'B', 12);
 
 $columnWidths = [
-    'sentence' => 90,
-    'translation' => 90
+    'sentence' => 95,
+    'translation' => 95
 ];
 
 $headerColors = [
@@ -45,17 +45,23 @@ $pdf->Cell($columnWidths['translation'], 10, 'Translation', 1, 1, 'C', true);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', '', 12);
 
-$rows = $query->select('sentences', 'sentence, translation', "WHERE user_id = $user_id");
+$rows = $query->select('sentences', 'sentence, translation', "WHERE user_id = $user_id ORDER BY sentence ASC");
 foreach ($rows as $row) {
     $y = $pdf->GetY();
-
+    $pageHeight = $pdf->GetPageHeight();
+    $rowHeight = 5;
+    if ($y + $rowHeight > $pageHeight - 20) {
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', '', 12);
+        $y = $pdf->GetY();
+    }
     $pdf->SetX($pdf->GetX());
-    $pdf->MultiCell($columnWidths['sentence'], 10, $row['sentence'], 0, 'L');
+    $pdf->MultiCell($columnWidths['sentence'], 5, $row['sentence'], 0, 'L');
     $pdf->SetXY($pdf->GetX() + $columnWidths['sentence'], $y);
-
-    $pdf->MultiCell($columnWidths['translation'], 10, $row['translation'], 0, 'L');
+    $pdf->MultiCell($columnWidths['translation'], 5, $row['translation'], 0, 'L');
 
     $pdf->Ln();
 }
+
 
 $pdf->Output($_SESSION['username'] . '-dictionary-' . date("H.i.s-m.d.Y") . '.pdf', 'D');

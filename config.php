@@ -222,4 +222,33 @@ class Query
         $row = $result->fetch_assoc();
         return $row['count'] > 0;
     }
+
+    public function count($table, $condition = '', $params = [], $types = '')
+    {
+        $sql = "SELECT COUNT(*) AS count FROM $table";
+        if (!empty($condition)) {
+            $sql .= " $condition";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!empty($params)) {
+            $this->bindParams($stmt, $params, $types);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $stmt->close();
+
+        return $row['count'];
+    }
+
+    private function bindParams($stmt, $params, $types)
+    {
+        $typeArray = str_split($types);
+        foreach ($params as $key => $param) {
+            $stmt->bind_param($typeArray[$key], $param);
+        }
+    }
 }

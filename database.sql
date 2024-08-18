@@ -10,13 +10,13 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
- 
+
 CREATE TABLE words (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     word VARCHAR(100) NOT NULL,
     translation VARCHAR(100),
-    definition TEXT(200),
+    definition VARCHAR(200),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -24,8 +24,8 @@ CREATE TABLE sentences (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     word_id INT,
-    sentence TEXT(200) NOT NULL,
-    translation TEXT(255) NOT NULL,
+    sentence VARCHAR(200) NOT NULL,
+    translation VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE
 );
@@ -49,12 +49,11 @@ CREATE TABLE liked_sentences (
 CREATE TABLE voice_settings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    volume DECIMAL(3,1) DEFAULT 1.0,
-    rate DECIMAL(3,1) DEFAULT 1.0,
-    pitch DECIMAL(3,1) DEFAULT 1.0,
+    volume DECIMAL(3,1),
+    rate DECIMAL(3,1),
+    pitch DECIMAL(3,1),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-
 
 INSERT INTO
     users (fullname, email, username, password)
@@ -72,7 +71,7 @@ VALUES
         '0c138cbe7d1f479abb449366f3cb3dddd52bc104596ff91813c6674cd016896a'
     );
 
--- Inserting words into the `words` table
+
 INSERT INTO `words` (`user_id`, `word`, `translation`, `definition`) VALUES
 (2, 'apple', 'olma', 'A fruit that is usually round, red, green, or yellow and has a sweet taste.'),
 (2, 'ant', 'akar', 'A small insect known for living in colonies and being industrious.'),
@@ -200,83 +199,3 @@ INSERT INTO `words` (`user_id`, `word`, `translation`, `definition`) VALUES
 (2, 'yellow', 'sariq', 'The color between green and orange in the spectrum of visible light.'),
 (2, 'zebra', 'zebra', 'An African wild horse with black-and-white stripes.'),
 (2, 'zoo', 'hayvonot bogi', 'A park where animals are kept for public viewing.');
-
-
-
-INSERT INTO `sentences` (`user_id`, `word_id`, `sentence`, `translation`) VALUES
-(2, 1, 'She wrote a letter to her friend.', 'U dostiga xat yozdi.'),
-(2, 2, 'The restaurant has a beautiful view of the city.', 'Restoran shaharni gozal korinishi bilan ajralib turadi.'),
-(2, 3, 'He was excited about the new project.', 'U yangi loyiha haqida hayajonlangan edi.'),
-(2, 4, 'The train departs at 10 AM.', 'Poyezd soat 10 da jonaydi.'),
-(2, 5, 'I need to buy a new pair of shoes.', 'Menga yangi poyabzal sotib olishim kerak.'),
-(2, 6, 'The children are building a sandcastle.', 'Bolalar qum qasri qurishmoqda.'),
-(2, 7, 'She received a gift for her birthday.', 'U tugilgan kuni uchun sovga oldi.'),
-(2, 8, 'The coffee is too hot to drink.', 'Kofe ichish uchun juda issiq.'),
-(2, 9, 'He practiced playing the piano for hours.', 'U soatlab fortepiano chalishni mashq qildi.'),
-(2, 11, 'They had a barbecue in the backyard.', 'Ular orqa hovlida shashlik pishirdilar.'),
-(2, 10, 'The garden is full of colorful flowers.', 'Bog rang-barang gullar bilan tolib ketgan.'),
-(2, 12, 'Shes learning to speak French.', 'U fransuz tilini organmoqda.'),
-(2, 13, 'The sky is clear and blue today.', 'Bugun osmon toza va kok.'),
-(2, 14, 'He forgot to turn off the oven.', 'U pechni ochirishni unutdi.'),
-(2, 15, 'They are planning a surprise party.', 'Ular sirli bayramni rejalashtirmoqda.'),
-(2, 16, 'The laptop battery is almost dead.', 'Noutbuk batareyasi deyarli tugadi.'),
-(2, 17, 'Shes taking a photography class.', 'U fotosurat darslarini olmoqda.'),
-(2, 18, 'The store is having a sale this weekend.', 'Dokon bu hafta oxirida chegirma otkazmoqda.'),
-(2, 19, 'He likes to read mystery novels.', 'U sirli romanlarni oqishni yoqtiradi.'),
-(2, 20, 'The music was too loud at the party.', 'Partiyada musiqa juda baland edi.'),
-(2, 21, 'She borrowed a book from the library.', 'U kutubxonadan kitob qarz oldi.'),
-(2, 22, 'The doctor gave him some medicine.', 'Doktor unga dori berdi.'),
-(2, 23, 'They had a great time at the amusement park.', 'Ular kongilochar parkda ajoyib vaqt otkazdilar.'),
-(2, 24, 'The car broke down on the way.', 'Mashina yolda buzildi.'),
-(2, 25, 'She is making a scrapbook of her travels.', 'U sayohatlari haqida skrabk yapmoqda.'),
-(2, 26, 'The festival attracts many visitors.', 'Festival koplab mehmonlarni jalb qiladi.'),
-(2, 27, 'He enjoyed the quiet evening at home.', 'U uydagi tinch kechadan zavq oldi.'),
-(2, 28, 'The museum has a new exhibit.', 'Muzeyda yangi korgazma mavjud.'),
-(2, 29, 'She went hiking in the forest.', 'U ormon ichida sayr qildi.'),
-(2, 30, 'The restaurant serves delicious seafood.', 'Restoran mazali dengiz mahsulotlarini taqdim etadi.'),
-(2, 31, 'He found an old coin in the attic.', 'U atticda eski tangani topdi.'),
-(2, 32, 'The movie was based on a true story.', 'Film haqiqiy voqeaga asoslangan.'),
-(2, 33, 'She sings in a local choir.', 'U mahalliy xor dasturida qoshiq aytadi.'),
-(2, 34, 'The children made handmade cards.', 'Bolalar qolme-qol kartochkalar tayyorladilar.'),
-(2, 35, 'He watched the sunset from his balcony.', 'U quyosh botishini balkonidan tomosha qildi.'),
-(2, 36, 'She decorated the room with balloons.', 'U xonani sharflar bilan bezadi.'),
-(2, 37, 'The bakery has fresh bread every morning.', 'Nonvoyxona har tong yangi non bilan taminlaydi.'),
-(2, 38, 'They watched a documentary about space.', 'Ular kosmos haqida hujjatli film tomosha qilishdi.'),
-(2, 39, 'The kids enjoyed the puppet show.', 'Bolalar qolqoplar shousidan zavq olishdi.'),
-(2, 40, 'He likes to cook new recipes on weekends.', 'U hafta oxiri yangi retseptlarni pishirishni yoqtiradi.'),
-(2, 41, 'The lighthouse guides ships safely to shore.', 'Mayoq kemalarni xavfsiz sohilga yonaltiradi.'),
-(2, 42, 'She attended a workshop on digital art.', 'U raqamli sanat boyicha seminar qatnashdi.'),
-(2, 43, 'The students are preparing for their final exams.', 'Talabalar yakuniy imtihonlarga tayyorlanmoqda.'),
-(2, 44, 'The clock in the hall is very old.', 'Zaldagi soat juda eski.'),
-(2, 45, 'He is training for a marathon next month.', 'U kelasi oy marafon uchun mashq qilmoqda.'),
-(2, 46, 'The hotel offers free Wi-Fi for guests.', 'Mehmonxona mehmonlar uchun bepul Wi-Fi taklif etadi.'),
-(2, 47, 'She loves to visit art galleries on weekends.', 'U hafta oxirlari sanat galereyalarini korishni yaxshi koradi.'),
-(2, 48, 'The chef prepared a special dish for the guests.', 'Bosh oshpaz mehmonlar uchun maxsus taom tayyorladi.'),
-(2, 49, 'They had a picnic by the lake.', 'Ular kolda piknik qildilar.'),
-(2, 50, 'The concert was held in the city center.', 'Kontsert shahar markazida otkazildi.'),
-(2, 51, 'He enjoys gardening in his free time.', 'U bosh vaqtida bogdorchilik bilan shugullanadi.'),
-(2, 52, 'The museums collection includes ancient artifacts.', 'Muzey kolleksiyasida qadimiy artefaktlar mavjud.'),
-(2, 53, 'She takes long walks in the evening.', 'U kechqurun uzoq yurishlarni amalga oshiradi.'),
-(2, 54, 'The bookstore is having a clearance sale.', 'Kitob dokoni tozalash savdosini otkazmoqda.'),
-(2, 55, 'He repaired the broken chair.', 'U singan stulni tuzatdi.'),
-(2, 56, 'They celebrated their anniversary with a big party.', 'Ular yillik bayramlarini katta partiya bilan nishonlashdi.'),
-(2, 57, 'She participated in a charity run.', 'U xayriya yugurishida qatnashdi.'),
-(2, 58, 'The garden is full of ripe fruit.', 'Bog pishgan mevalar bilan tolib ketgan.'),
-(2, 59, 'He bought a new bike for his birthday.', 'U tugilgan kuni uchun yangi velosiped sotib oldi.'),
-(2, 60, 'The spa offers a variety of treatments.', 'Spa turli xil davolash xizmatlarini taklif etadi.'),
-(2, 61, 'She is learning how to play the violin.', 'U skripka chalishni organmoqda.'),
-(2, 62, 'The bakery makes delicious pastries.', 'Nonvoyxona mazali pishiriqlar tayyorlaydi.'),
-(2, 63, 'They visited the historical monument.', 'Ular tarixiy yodgorlikni kordilar.'),
-(2, 64, 'The beach was crowded with tourists.', 'Soqmoq sayyohlar bilan tolib ketgan edi.'),
-(2, 65, 'He enjoys watching nature documentaries.', 'U tabiat haqida hujjatli filmlarni tomosha qilishni yoqtiradi.'),
-(2, 66, 'She painted her room a bright color.', 'U xonasini yorqin rangga boyadi.'),
-(2, 67, 'The library is a quiet place for studying.', 'Kutubxona oqish uchun tinch joydir.'),
-(2, 68, 'They are building a new community center.', 'Ular yangi jamoat markazini qurmoqdalar.'),
-(2, 69, 'She loves to bake cookies for her family.', 'U oilasi uchun pechenye pishirishni yaxshi koradi.'),
-(2, 70, 'The zoo has many exotic animals.', 'Zoodagi koplab ekzotik hayvonlar mavjud.'),
-(2, 71, 'He is writing a novel about his travels.', 'U sayohatlari haqida roman yozmoqda.'),
-(2, 72, 'The pool is closed for maintenance.', 'Hovuz texnik xizmat korsatish uchun yopilgan.'),
-(2, 73, 'She enjoys making handmade jewelry.', 'U qol mehnati bilan zargarlik buyumlarini yaratishni yoqtiradi.'),
-(2, 74, 'They took a scenic drive through the countryside.', 'Ular qishloq joylari orqali manzarali sayohat qilishdi.'),
-(2, 75, 'The art class is very popular among students.', 'Sanat darsi talabalar orasida juda mashhur.');
-
