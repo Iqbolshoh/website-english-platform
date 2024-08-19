@@ -29,11 +29,9 @@ $word_name = $query->select(
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentences</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon.ico">
 </head>
+
 <style>
     body {
         font-family: Arial, sans-serif;

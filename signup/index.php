@@ -51,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,9 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -92,6 +90,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .form-group {
             margin-bottom: 15px;
+            position: relative;
+            /* Password container uchun */
         }
 
         .form-group label {
@@ -110,7 +110,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-size: 16px;
         }
 
-        .form-group button {
+        .form-group .password-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group .password-container input {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .form-group .password-toggle {
+            position: absolute;
+            right: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .form-group #submit {
             width: 100%;
             background-color: #007bff;
             color: #fff;
@@ -122,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transition: background-color 0.3s;
         }
 
-        .form-group button:hover {
+        .form-group #submit:hover {
             background-color: #0056b3;
         }
 
@@ -169,10 +188,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required maxlength="255">
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required maxlength="255">
+                    <button type="button" id="toggle-password" class="password-toggle"><i
+                            class="fas fa-eye"></i></button>
+                </div>
             </div>
             <div class="form-group">
-                <button type="submit">Sign Up</button>
+                <button type="submit" id="submit">Sign Up</button>
             </div>
         </form>
         <div class="text-center">
@@ -225,8 +248,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     });
             }
         });
-    </script>
 
+        document.getElementById('toggle-password').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = this.querySelector('i');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        });
+    </script>
 </body>
 
 </html>

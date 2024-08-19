@@ -13,7 +13,7 @@ $query = new Query();
 $userId = $_SESSION['user_id'];
 $answers = $_POST['answers'] ?? [];
 
-$totalQuestions = (int)($_POST['total_questions'] ?? 0);
+$totalQuestions = (int) ($_POST['total_questions'] ?? 0);
 $words = json_decode($_POST['words_data']);
 $correctAnswers = 0;
 
@@ -57,7 +57,7 @@ for ($i = 0; $i < $totalQuestions; $i++) {
         padding: 0;
         box-sizing: border-box;
     }
-    
+
     .container {
         width: calc(100% - 60px);
         max-width: 800px;

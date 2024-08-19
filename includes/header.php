@@ -1,7 +1,6 @@
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../script/jquery.min.js"></script>
 
 <style>
     body {
@@ -264,8 +263,8 @@
             <li><a href="../sentences/"><i class="fas fa-comment-dots"></i> Sentences</a></li>
             <li><a href="../exercise/"><i class="fas fa-brain"></i> Exercise</a></li>
             <li><a href="../settings/"><i class="fa-solid fa-gear"></i> Settings</a></li>
-            <li><a href="#" onclick="confirmLogout(); return false;"><i class="fa-solid fa-right-from-bracket"></i>
-                    Logout</a></li>
+            <li><a href="#" onclick="confirmLogout(); return false;"><i
+                        class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
         </ul>
     </nav>
 
