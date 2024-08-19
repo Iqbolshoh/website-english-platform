@@ -14,28 +14,29 @@ $userId = $_SESSION['user_id'];
 $numWords = (int) ($_GET['num_words'] ?? 10);
 $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
 
-if ($filter === 'liked') {
-    $likedWords = $query->search('liked_words', 'word_id', 'WHERE user_id = ?', [$userId], 'i');
-    $likedWordIds = array_column($likedWords, 'word_id');
+// if ($filter === 'liked') {
+//     $likedWords = $query->search('liked_words', 'word_id', 'WHERE user_id = ?', [$userId], 'i');
+//     $likedWordIds = array_column($likedWords, 'word_id');
 
-    if (empty($likedWordIds)) {
-        echo '
-        <div class="information-not-found">
-            <i class="fa fa-heart-broken"></i>
-            <p>You haven\'t liked any words yet.</p>
-            <a href="../dictionary/add.php" class="btn btn-primary">Add Words</a>
-        </div>';
-        exit;
-    }
+//     if (empty($likedWordIds)) {
+//         echo '
+//         <div class="information-not-found">
+//             <i class="fa fa-heart-broken"></i>
+//             <p>You haven\'t liked any words yet.</p>
+//             <a href="../dictionary/add.php" class="btn btn-primary">Add Words</a>
+//         </div>';
+//         exit;
+//     }
 
-    $results = $query->select(
-        'words',
-        'id, word, translation',
-        'WHERE id IN (' . implode(',', $likedWordIds) . ') AND user_id = ? ORDER BY RAND() LIMIT ?',
-        [$userId, $numWords],
-        'ii'
-    );
-} else {
+//     $results = $query->select(
+//         'words',
+//         'id, word, translation',
+//         'WHERE id IN (' . implode(',', $likedWordIds) . ') AND user_id = ? ORDER BY RAND() LIMIT ?',
+//         [$userId, $numWords],
+//         'ii'
+//     );
+// } else {
+if ($filter != 'liked') {
     $results = $query->select(
         'words',
         'id, word, translation',
@@ -43,6 +44,16 @@ if ($filter === 'liked') {
         [$userId, $numWords],
         'ii'
     );
+}
+
+if(!$result){
+    echo '
+    <div class="information-not-found">
+        <i class="fa fa-info-circle"></i>
+        <p>No words found.</p>
+        <a href="../dictionary/add.php" class="btn btn-primary">Add Words</a>
+    </div>';
+    exit;
 }
 
 $words = [];
