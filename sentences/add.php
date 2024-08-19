@@ -18,100 +18,12 @@ $wordId = intval($_GET['word_id']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Sentence</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
+    <link rel="stylesheet" href="../css/add.css">
 </head>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-    }
-
-    .justify-center {
-        width: 100%;
-        height: calc(100vh - 250px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .container {
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 22px;
-        width: calc(100% - 60px);
-        max-width: 600px;
-        box-sizing: border-box;
-    }
-
-    label span {
-        color: red;
-    }
-
-    h1 {
-        margin: 20px 0px;
-        color: #333;
-    }
-
-    .form-group {
-        margin-bottom: 17px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #555;
-    }
-
-    .form-group textarea {
-        width: 100%;
-        height: 90px;
-        padding: 6px 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-sizing: border-box;
-        resize: none;
-        overflow-y: hidden;
-        font-size: 16px;
-    }
-
-    .form-group button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .form-group button:hover {
-        background-color: #0056b3;
-    }
-
-    .message {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
-
-    .message.success {
-        color: #28a745;
-    }
-
-    .message.error {
-        color: #dc3545;
-    }
-</style>
-
 <body>
-    
+
     <?php include '../includes/header.php'; ?>
 
     <div class="justify-center">

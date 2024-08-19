@@ -3,7 +3,6 @@
 session_start();
 
 include '../config.php';
-
 $query = new Query();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
@@ -31,19 +30,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $query->getUserIdByUsername($username);
             $_SESSION['username'] = $username;
 
-            echo "<script>
-                    window.onload = function() { 
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Registration successful',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = '../';
-                        });
-                    };
-                  </script>";
+            ?>
+
+            <script>
+                window.onload = function () {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Registration successful',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = '../';
+                    });
+                };
+            </script>
+
+            <?php
         } else {
             $error_message = "An error occurred. Please try again.";
         }
@@ -58,113 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
+    <script src="../js/sweetalert2.js"></script>
+    <link rel="stylesheet" href="../css/login_signup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #eaeaea;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
-        .container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: calc(100% - 60px);
-            max-width: 450px;
-            box-sizing: border-box;
-        }
-
-        h1 {
-            margin: 0 0 20px;
-            font-size: 24px;
-            color: #333;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            position: relative;
-            /* Password container uchun */
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        .form-group .password-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .form-group .password-container input {
-            flex: 1;
-            padding-right: 40px;
-        }
-
-        .form-group .password-toggle {
-            position: absolute;
-            right: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-        }
-
-        .form-group #submit {
-            width: 100%;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 12px 15px;
-            border-radius: 4px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .form-group #submit:hover {
-            background-color: #0056b3;
-        }
-
-        .text-center {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .text-center a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .text-center a:hover {
-            text-decoration: underline;
-        }
-
-        #email-message,
-        #username-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
-        }
     </style>
 </head>
 
@@ -203,7 +105,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script>
         document.getElementById('email').addEventListener('input', function () {
             let email = this.value;

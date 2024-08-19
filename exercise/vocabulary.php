@@ -61,8 +61,9 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
     <title>Vocabulary Test</title>
+    <link rel="stylesheet" href="../css/exercise-vocabulary.css">
 </head>
 
 <body>
@@ -94,7 +95,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
             </div>
         </form>
 
-        <form action="submit_test.php" method="POST">
+        <form action="test_result.php" method="POST">
             <?php foreach ($words as $index => $word): ?>
                 <div class="question">
                     <p><?= $index + 1, ") ", htmlspecialchars($word['translation']) ?></p>
@@ -141,87 +142,3 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
 </body>
 
 </html>
-
-
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        width: calc(100% - 60px);
-        max-width: 800px;
-        margin: 50px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        box-sizing: border-box;
-    }
-
-    h1 {
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .question {
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background-color: #fafafa;
-    }
-
-    .question p {
-        font-size: 18px;
-        color: #555;
-        margin-bottom: 10px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 16px;
-        color: #333;
-    }
-
-    input[type="radio"] {
-        margin-right: 10px;
-    }
-
-    button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        background-color: #007bff;
-        color: #fff;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    #numWordsForm {
-        margin: 15px 0px;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    #numWordsForm div {
-        display: flex;
-        align-items: center;
-        width: 47%;
-        gap: 5px;
-    }
-
-    #numWordsForm select {
-        width: 100%
-    }
-</style>
