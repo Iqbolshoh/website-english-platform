@@ -43,7 +43,7 @@
             <span>Settings</span>
         </a>
 
-        <a href="#" class="header-link" onclick="confirmLogout(); return false;">
+        <a href="#" class="header-link" onclick="Logout(); return false;">
             <i class="fa-solid fa-right-from-bracket"></i>
             <span>Logout</span>
         </a>
@@ -56,7 +56,7 @@
             <li><a href="../sentences/"><i class="fas fa-comment-dots"></i> Sentences</a></li>
             <li><a href="../exercise/"><i class="fas fa-brain"></i> Exercise</a></li>
             <li><a href="../settings/"><i class="fa-solid fa-gear"></i> Settings</a></li>
-            <li><a href="#" onclick="confirmLogout(); return false;"><i class="fa-solid fa-right-from-bracket"></i>
+            <li><a href="#" onclick="Logout(); return false;"><i class="fa-solid fa-right-from-bracket"></i>
                     Logout</a></li>
         </ul>
     </nav>

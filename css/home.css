@@ -51,7 +51,7 @@ body {
 }
 
 .link-icon {
-    margin-right: 12px;
+    margin-right: 20px;
     font-size: 24px;
 }
 
@@ -70,7 +70,7 @@ body {
     color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
-    padding: 9px 12px;
+    padding: 9px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
