@@ -460,7 +460,7 @@ if ($results) {
         const info = wordInfo;
         document.getElementById('modalWord').textContent = `${info.word}`;
         document.getElementById('modalTranslation').textContent = `${info.translation}`;
-        document.getElementById('modalDefinition').textContent = `Definition: ${info.definition}`;
+        document.getElementById('modalDefinition').textContent = `${info.definition}`;
         document.getElementById('infoModal').dataset.wordId = info.id;
         document.getElementById('infoModal').classList.add('fade-in');
     }

@@ -135,15 +135,15 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <form id="wordForm" method="post">
                 <div class="form-group">
                     <label for="word">Word<span>*</span></label>
-                    <input type="text" id="word" name="word" required maxlength="100">
+                    <input type="text" id="word" name="word" required maxlength="150">
                 </div>
                 <div class="form-group">
                     <label for="translation">Translation<span>*</span></label>
-                    <input type="text" id="translation" name="translation" required maxlength="100">
+                    <input type="text" id="translation" name="translation" required maxlength="150">
                 </div>
                 <div class="form-group">
                     <label for="definition">Definition</label>
-                    <textarea id="definition" name="definition" maxlength="200"></textarea>
+                    <textarea id="definition" name="definition" maxlength="255"></textarea>
                 </div>
                 <div class="form-group">
                     <button type="submit">Add Word</button>
@@ -159,35 +159,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         $(document).ready(function () {
             $('#wordForm').on('submit', function (e) {
                 e.preventDefault();
-
-                var word = $('#word').val();
-                var translation = $('#translation').val();
-                var definition = $('#definition').val();
-
-                if (word.length > 50) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'The word cannot exceed 50 characters.',
-                    });
-                    return;
-                }
-                if (translation.length > 50) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'The translation cannot exceed 50 characters.',
-                    });
-                    return;
-                }
-                if (definition.length > 120) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'The definition cannot exceed 120 characters.',
-                    });
-                    return;
-                }
                 $.ajax({
                     url: './to_add.php',
                     type: 'POST',

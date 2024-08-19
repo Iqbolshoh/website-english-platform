@@ -14,9 +14,9 @@ CREATE TABLE users (
 CREATE TABLE words (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    word VARCHAR(100) NOT NULL,
-    translation VARCHAR(100),
-    definition VARCHAR(200),
+    word VARCHAR(150) NOT NULL,
+    translation VARCHAR(150),
+    definition VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

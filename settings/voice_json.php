@@ -28,3 +28,5 @@ header('Content-Type: application/json');
 echo json_encode($response);
 
 ?>
+
+<!-- json kadan darkor  seessiya sar shudanba jsnonba saqla kunad agar tamom shavad udalit kunat voise.json-->

@@ -64,4 +64,4 @@ foreach ($rows as $row) {
 }
 
 
-$pdf->Output($_SESSION['username'] . '-dictionary-' . date("H.i.s-m.d.Y") . '.pdf', 'D');
+$pdf->Output($_SESSION['username'] . '-sentences-' . date("H.i.s-m.d.Y") . '.pdf', 'D');
