@@ -12,11 +12,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 $user_id = $_SESSION['user_id'];
 $user = $query->find('users', $user_id)[0];
 
-if (!$user) {
-    echo 'User not found.';
-    exit;
-}
-
 $username = htmlspecialchars($user['username']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -106,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password" class="form-label">New Password:</label>
                 <div class="password-container">
                     <input type="password" id="password" name="password" class="password-input"
-                        placeholder="Leave blank if you don't want to change">
+                        placeholder="No change? Leave blank.">
                     <a type="button" id="toggle-password" class="password-toggle"><i class="fas fa-eye"></i></a>
                 </div>
 
@@ -114,8 +109,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </div>
-
-    <?php include '../includes/footer.php'; ?>
 
     <script>
         document.getElementById('toggle-password').addEventListener('click', function () {

@@ -1,14 +1,9 @@
-header {
-    position: relative !important;
-}
-
 .profile-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 200px);
-    margin-bottom: 120px;
-    position: relative;
+    margin: 20px 0px;
+    box-sizing: border-box;
 }
 
 .profile-form-container {
@@ -16,7 +11,7 @@ header {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    width: calc(100% - 60px);
+    width: calc(100% - 40px);
     max-width: 450px;
     box-sizing: border-box;
 }
@@ -27,7 +22,6 @@ header {
     border-bottom: 2px solid #ddd;
     padding-bottom: 20px;
     margin-bottom: 20px;
-    position: absolute;
     z-index: 1;
 }
 
@@ -130,11 +124,21 @@ header {
     border-bottom: 2px solid #ddd;
     padding-bottom: 20px;
     margin-bottom: 20px;
-    position: relative;
 }
 
 .profile-name {
     margin-left: 20px;
     font-size: 28px;
     color: #333;
+}
+
+@media (max-width: 350px) {
+    .profile-header .profile-image {
+        width: 90px;
+        height: 90px;
+    }
+
+    .profile-header .profile-name {
+        font-size: 22px;
+    }
 }

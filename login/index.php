@@ -15,6 +15,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
     session_start();
     $_SESSION['loggedin'] = true;
     $_SESSION['username'] = $_COOKIE['username'];
+    $_SESSION['user_id'] = $query->getUserIdByUsername($_COOKIE['username']);
 
     header("Location: ../");
     exit;
@@ -35,14 +36,12 @@ if (isset($_POST['submit'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
 
-
         setcookie('username', $input_username, time() + (86400 * 30), "/");
         setcookie('session_token', session_id(), time() + (86400 * 30), "/");
-
-        ?>
+?>
 
         <script>
-            window.onload = function () {
+            window.onload = function() {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -55,12 +54,12 @@ if (isset($_POST['submit'])) {
             };
         </script>
 
-        <?php
+    <?php
     } else {
-        ?>
+    ?>
 
         <script>
-            window.onload = function () {
+            window.onload = function() {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
@@ -71,7 +70,7 @@ if (isset($_POST['submit'])) {
             };
         </script>
 
-        <?php
+<?php
     }
 }
 ?>
@@ -120,7 +119,7 @@ if (isset($_POST['submit'])) {
     </div>
 
     <script>
-        document.getElementById('toggle-password').addEventListener('click', function () {
+        document.getElementById('toggle-password').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
 
