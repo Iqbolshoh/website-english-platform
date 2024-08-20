@@ -30,6 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $query->getUserIdByUsername($username);
             $_SESSION['username'] = $username;
 
+            setcookie('username', $username, time() + (86400 * 30), "/");
+            setcookie('session_token', session_id(), time() + (86400 * 30), "/");
+
             ?>
 
             <script>
@@ -65,9 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="../js/sweetalert2.js"></script>
     <link rel="stylesheet" href="../css/login_signup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-
-    </style>
 </head>
 
 <body>

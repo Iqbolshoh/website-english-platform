@@ -110,7 +110,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
             <div class="information-not-found">
                 <i class="fa fa-info-circle"></i>
                 <p>No words found.</p>
-                <a href="../dictionary/" class="btn btn-primary">Add Words</a>
+                <a href="../dictionary/" class="btn btn-primary">Dictionary</a>
             </div>
         <?php else: ?>
             <form action="test_result.php" method="POST">
@@ -144,9 +144,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
         document.getElementById('filter').addEventListener('change', function () {
             document.getElementById('numWordsForm').submit();
         });
-    </script>
 
-    <script>
         window.onload = function () {
             clearRadioButtons();
         };

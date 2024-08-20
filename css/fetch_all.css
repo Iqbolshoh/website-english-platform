@@ -218,9 +218,8 @@
     }
 }
 
-
 .information-not-found {
-    width: 100%;
+    width: calc(100% - 20px);
     max-width: 600px;
     margin: 50px auto;
     padding: 30px;
@@ -229,6 +228,7 @@
     text-align: center;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
     color: #343a40;
+    box-sizing: border-box;
 }
 
 .information-not-found i {

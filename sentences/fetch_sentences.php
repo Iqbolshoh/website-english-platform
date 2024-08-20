@@ -1,3 +1,4 @@
+<script src="../js/fetch_all-sentences.js"></script>
 <link rel="stylesheet" href="../css/fetch_all.css">
 
 <?php
@@ -90,13 +91,13 @@ if ($results) {
         }
 
         $html .= "<div class='vocabulary'>
-            <li id='{$sentenceId}' class='{$isExpanded}' onclick='toggleExpand(this)'>{$text}</li>
-            <div class='buttons'>
-                <i class='fas fa-volume-up' onclick=\"speakText('{$sentenceId}')\"></i>
-                <i class='fas fa-heart " . ($isLiked ? 'liked' : '') . "' id='{$likeId}' onclick=\"Liked('{$likeId}', '{$row['id']}')\"></i>
-                <i class='fas fa-info-circle' onclick='showInfo(" . json_encode(["sentence" => $row["sentence"], "translation" => $row["translation"], "id" => $row["id"]], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
-            </div>
-        </div>";
+        <li id='{$sentenceId}' class='{$isExpanded}' onclick='toggleExpand(this)'>{$text}</li>
+        <div class='buttons'>
+            <i class='fas fa-volume-up' onclick=\"speakText('{$sentenceId}')\"></i>
+            <i class='fas fa-heart " . ($isLiked ? 'liked' : '') . "' id='{$likeId}' onclick=\"Liked('{$likeId}', '{$row['id']}')\"></i>
+            <i class='fas fa-info-circle' onclick='showInfo(" . json_encode(["sentence" => $row["sentence"], "translation" => $row["translation"], "id" => $row["id"]], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
+        </div>
+    </div>";
     }
     $html .= "</ul>";
 
@@ -109,195 +110,15 @@ if ($results) {
 }
 ?>
 
-<div id="infoModal" class="modal" data-sentences-id="">
+<div id="infoModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <div id="modalSentence" class="modal-section"></div>
+        <div id="modalWord" class="modal-section"></div>
         <hr>
         <div id="modalTranslation" class="modal-section"></div>
         <div class="modal-buttons">
-            <i class="fas fa-volume-up" onclick="speakTextFromModal()"></i>
+            <i class='fas fa-volume-up' onclick="speakText('modal')"></i>
             <i class="fa-solid fa-trash" onclick="deleteSentences()"></i>
         </div>
     </div>
 </div>
-
-<script>
-    let isSpeaking = false;
-    let currentUtterance = null;
-
-    function fetchVoiceParameters(callback) {
-        fetch('../settings/voice_json.php')
-            .then(response => response.json())
-            .then(data => {
-                callback(data);
-            })
-            .catch(error => console.error('Xatolik:', error));
-    }
-
-    function setUtteranceParameters(utterance, params) {
-        utterance.volume = params.volume;
-        utterance.rate = params.rate;
-        utterance.pitch = params.pitch;
-    }
-
-    function speakText(id) {
-        const text = document.getElementById(id).innerText;
-
-        if (isSpeaking) {
-            speechSynthesis.cancel();
-            isSpeaking = false;
-        }
-
-        if (!isSpeaking) {
-            fetchVoiceParameters(params => {
-                currentUtterance = new SpeechSynthesisUtterance(text);
-                currentUtterance.lang = 'en-US';
-                setUtteranceParameters(currentUtterance, params);
-                currentUtterance.onend = () => {
-                    isSpeaking = false;
-                };
-
-                speechSynthesis.speak(currentUtterance);
-                isSpeaking = true;
-            });
-        }
-    }
-
-    function speakTextFromModal() {
-        const text = document.getElementById('modalSentence').innerText;
-
-        if (isSpeaking) {
-            speechSynthesis.cancel();
-            isSpeaking = false;
-        }
-
-        if (!isSpeaking) {
-            fetchVoiceParameters(params => {
-                currentUtterance = new SpeechSynthesisUtterance(text);
-                currentUtterance.lang = 'en-US';
-                setUtteranceParameters(currentUtterance, params);
-                currentUtterance.onend = () => {
-                    isSpeaking = false;
-                };
-
-                speechSynthesis.speak(currentUtterance);
-                isSpeaking = true;
-            });
-        }
-    }
-
-    function closeModal() {
-        document.getElementById('infoModal').classList.remove('fade-in');
-    }
-
-    function Liked(likeId, sentence_id) {
-        const element = document.getElementById(likeId);
-        const isLiked = element.classList.contains("liked");
-        const action = isLiked ? 'remove' : 'add';
-
-        fetch('liked.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `sentence_id=${sentence_id}&action=${action}`
-        })
-            .then(response => response.text())
-            .then(result => {
-                if (result === 'Success') {
-                    if (action === 'add') {
-                        element.classList.add('liked');
-                        element.style.color = 'red';
-                    } else {
-                        element.classList.remove('liked');
-                        element.style.color = '#ddd';
-                    }
-                } else {
-                    console.error('Failed to update like status.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-
-    function deleteSentences() {
-        const modal = document.getElementById('infoModal');
-        const sentenceId = modal.getAttribute('data-sentences-id');
-
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false
-        });
-
-        swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: `You won't be able to revert this action!`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: 'delete.php',
-                    type: 'POST',
-                    data: {
-                        id: sentenceId
-                    },
-                    success: function (response) {
-                        swalWithBootstrapButtons.fire({
-                            title: 'Deleted!',
-                            text: `The dictionary entry has been deleted.`,
-                            icon: 'success'
-                        }).then(() => {
-                            closeModal();
-                            location.reload();
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error deleting definition:', status, error);
-                        swalWithBootstrapButtons.fire({
-                            title: 'Failed!',
-                            text: 'Failed to delete the dictionary entry. Please try again.',
-                            icon: 'error'
-                        });
-                    }
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons.fire({
-                    title: 'Cancelled',
-                    text: 'The dictionary entry is safe :)',
-                    icon: 'info'
-                });
-            }
-        });
-    }
-
-    function showInfo(data) {
-        document.getElementById("modalSentence").innerText = data.sentence;
-        document.getElementById("modalTranslation").innerText = data.translation;
-        const modal = document.getElementById("infoModal");
-        modal.setAttribute('data-sentences-id', data.id);
-        modal.classList.add("fade-in");
-        modal.style.display = "block";
-    }
-
-    function toggleExpand(element) {
-        const isExpanded = element.classList.contains('expanded');
-
-        document.querySelectorAll('.vocabulary li').forEach(el => el.classList.remove('expanded'));
-
-        if (!isExpanded) {
-            element.classList.add('expanded');
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => { });
-
-</script>

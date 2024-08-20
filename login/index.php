@@ -3,10 +3,19 @@
 session_start();
 
 include '../config.php';
-
 $query = new Query();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header("Location: ../");
+    exit;
+}
+
+if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
+    session_id($_COOKIE['session_token']);
+    session_start();
+    $_SESSION['loggedin'] = true;
+    $_SESSION['username'] = $_COOKIE['username'];
+
     header("Location: ../");
     exit;
 }
@@ -25,6 +34,10 @@ if (isset($_POST['submit'])) {
         $_SESSION['loggedin'] = true;
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
+
+
+        setcookie('username', $input_username, time() + (86400 * 30), "/");
+        setcookie('session_token', session_id(), time() + (86400 * 30), "/");
 
         ?>
 

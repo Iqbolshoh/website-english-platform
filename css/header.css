@@ -9,7 +9,6 @@ header {
     background-color: #2f4f4f;
     color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
     padding: 9px 12px;
     display: flex;
     justify-content: space-between;
@@ -97,6 +96,7 @@ header a {
     display: none;
     flex-direction: column;
     position: absolute;
+    z-index: 999999999;
     top: 100%;
     left: 0;
     width: 100%;

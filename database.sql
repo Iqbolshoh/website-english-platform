@@ -8,6 +8,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    profile_image VARCHAR(255) DEFAULT 'default.png',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -44,15 +45,6 @@ CREATE TABLE liked_sentences (
     sentence_id INT,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (sentence_id) REFERENCES sentences(id) ON DELETE CASCADE
-);
-
-CREATE TABLE voice_settings (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    volume DECIMAL(3,1),
-    rate DECIMAL(3,1),
-    pitch DECIMAL(3,1),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 INSERT INTO

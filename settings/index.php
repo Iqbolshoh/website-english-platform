@@ -31,9 +31,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
         <div class="settings">
 
-            <a href="voice.php" class="link">
-                <i class="fas fa-volume-up"></i>
-                <span>Voice settings</span>
+            <a href="profile.php" class="link">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
             </a>
 
             <a href="dictionary-pdf.php" class="link">

@@ -25,7 +25,7 @@ for ($i = 0; $i < $totalQuestions; $i++) {
 }
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 
 <head>
@@ -49,5 +49,3 @@ for ($i = 0; $i < $totalQuestions; $i++) {
 </body>
 
 </html>
-
-<style></style>
