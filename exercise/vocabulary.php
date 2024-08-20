@@ -12,31 +12,27 @@ $query = new Query();
 
 $userId = $_SESSION['user_id'];
 $numWords = (int) ($_GET['num_words'] ?? 10);
-$filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
+$filter = $_GET['filter'] ?? 'all';
 
-// if ($filter === 'liked') {
-//     $likedWords = $query->search('liked_words', 'word_id', 'WHERE user_id = ?', [$userId], 'i');
-//     $likedWordIds = array_column($likedWords, 'word_id');
+$results = [];
 
-//     if (empty($likedWordIds)) {
-//         echo '
-//         <div class="information-not-found">
-//             <i class="fa fa-heart-broken"></i>
-//             <p>You haven\'t liked any words yet.</p>
-//             <a href="../dictionary/add.php" class="btn btn-primary">Add Words</a>
-//         </div>';
-//         exit;
-//     }
+if ($filter === 'liked') {
+    $likedWords = $query->search('liked_words', 'word_id', 'WHERE user_id = ?', [$userId], 'i');
+    $likedWordIds = array_column($likedWords, 'word_id');
 
-//     $results = $query->select(
-//         'words',
-//         'id, word, translation',
-//         'WHERE id IN (' . implode(',', $likedWordIds) . ') AND user_id = ? ORDER BY RAND() LIMIT ?',
-//         [$userId, $numWords],
-//         'ii'
-//     );
-// } else {
-if ($filter != 'liked') {
+    if (!empty($likedWordIds)) {
+        $placeholders = implode(',', array_fill(0, count($likedWordIds), '?'));
+        $types = str_repeat('i', count($likedWordIds) + 2);
+        $params = array_merge($likedWordIds, [$userId, $numWords]);
+        $results = $query->select(
+            'words',
+            'id, word, translation',
+            "WHERE id IN ($placeholders) AND user_id = ? ORDER BY RAND() LIMIT ?",
+            $params,
+            $types
+        );
+    }
+} else {
     $results = $query->select(
         'words',
         'id, word, translation',
@@ -46,45 +42,27 @@ if ($filter != 'liked') {
     );
 }
 
-if(!$result){
-    echo '
-    <div class="information-not-found">
-        <i class="fa fa-info-circle"></i>
-        <p>No words found.</p>
-        <a href="../dictionary/add.php" class="btn btn-primary">Add Words</a>
-    </div>';
-    exit;
-}
-
-$words = [];
-while ($row = array_shift($results)) {
-    $words[] = $row;
-}
-
-if (empty($words)) {
-    echo '
-    <div class="information-not-found">
-        <i class="fa fa-info-circle"></i>
-        <p>No words found.</p>
-        <a href="../dictionary/add.php" class="btn btn-primary">Add Words</a>
-    </div>';
-    exit;
-}
-
 function getRandomOptions($correctWord, $allWords, $numOptions = 4)
 {
     $options = [$correctWord];
-    while (count($options) < $numOptions) {
-        $randomWord = $allWords[array_rand($allWords)];
-        if (!in_array($randomWord, $options)) {
-            $options[] = $randomWord;
+    $allWordsCount = count($allWords);
+
+    if ($allWordsCount > 1) {
+        foreach ($allWords as $randomWord) {
+            if ($randomWord !== $correctWord && !in_array($randomWord, $options)) {
+                $options[] = $randomWord;
+            }
+            if (count($options) >= $numOptions) {
+                break;
+            }
         }
     }
+
     shuffle($options);
     return $options;
 }
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -97,35 +75,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
     <link rel="stylesheet" href="../css/exercise-vocabulary.css">
 </head>
 
-<style>
-    .information-not-found {
-        width: 100%;
-        height: calc(100vh - 300px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        margin: 0 auto;
-        background-color: #f8d7da;
-        color: #721c24;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        box-sizing: border-box;
-    }
 
-    .information-not-found i {
-        font-size: 30px;
-        color: #ff6347;
-        margin-bottom: 20px;
-    }
-
-    .information-not-found p {
-        font-size: 18px;
-        margin: 0;
-        color: #721c24;
-    }
-</style>
 
 <body>
     <?php include '../includes/header.php'; ?>
@@ -156,26 +106,34 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
             </div>
         </form>
 
-        <form action="test_result.php" method="POST">
-            <?php foreach ($words as $index => $word): ?>
-                <div class="question">
-                    <p><?= $index + 1, ") ", htmlspecialchars($word['translation']) ?></p>
-                    <?php
-                    $allWords = array_column($words, 'word');
-                    $options = getRandomOptions($word['word'], $allWords);
-                    ?>
-                    <?php foreach ($options as $optionIndex => $option): ?>
-                        <label>
-                            <input type="radio" name="answers[<?= $index ?>]" value="<?= htmlspecialchars($option) ?>">
-                            <?= htmlspecialchars($option) ?>
-                        </label>
-                    <?php endforeach; ?>
-                </div>
-            <?php endforeach; ?>
-            <input type="hidden" name="total_questions" value="<?= count($words) ?>">
-            <input type="hidden" name="words_data" value="<?= htmlspecialchars(json_encode($words)) ?>">
-            <button type="submit">Submit Test</button>
-        </form>
+        <?php if (empty($results)): ?>
+            <div class="information-not-found">
+                <i class="fa fa-info-circle"></i>
+                <p>No words found.</p>
+                <a href="../dictionary/" class="btn btn-primary">Add Words</a>
+            </div>
+        <?php else: ?>
+            <form action="test_result.php" method="POST">
+                <?php foreach ($results as $index => $word): ?>
+                    <div class="question">
+                        <p><?= ($index + 1) . ") " . htmlspecialchars($word['translation']) ?></p>
+                        <?php
+                        $allWords = array_column($results, 'word');
+                        $options = getRandomOptions($word['word'], $allWords);
+                        ?>
+                        <?php foreach ($options as $optionIndex => $option): ?>
+                            <label>
+                                <input type="radio" name="answers[<?= $index ?>]" value="<?= htmlspecialchars($option) ?>">
+                                <?= htmlspecialchars($option) ?>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endforeach; ?>
+                <input type="hidden" name="total_questions" value="<?= count($results) ?>">
+                <input type="hidden" name="words_data" value="<?= htmlspecialchars(json_encode($results)) ?>">
+                <button type="submit">Submit Test</button>
+            </form>
+        <?php endif; ?>
     </div>
 
     <script>

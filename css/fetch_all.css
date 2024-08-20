@@ -218,30 +218,42 @@
     }
 }
 
+
 .information-not-found {
     width: 100%;
-    height: calc(100vh - 300px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
     text-align: center;
-    margin: 0 auto;
-    background-color: #f8d7da;
-    color: #721c24;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    color: #343a40;
 }
 
 .information-not-found i {
-    font-size: 30px;
-    color: #ff6347;
+    font-size: 40px;
+    color: #007bff;
     margin-bottom: 20px;
 }
 
 .information-not-found p {
     font-size: 18px;
-    margin: 0;
-    color: #721c24;
+    color: #6c757d;
+    margin: 10px 0;
+}
+
+.information-not-found a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.information-not-found a:hover {
+    background-color: #0056b3;
 }

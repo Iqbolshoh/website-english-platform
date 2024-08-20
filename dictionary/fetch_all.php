@@ -107,12 +107,15 @@ if ($results) {
     $html .= "</ul>";
     echo $html;
 } else {
-    echo "<div class='information-not-found'>
-    <i class='fas fa-exclamation-circle'></i>
-    <p>Information not found</p>
-  </div>";
-}
-?>
+    ?>
+
+    <div class="information-not-found">
+        <i class="fa fa-info-circle"></i>
+        <p>No words found.</p>
+        <a href="../dictionary/add.php" class="btn btn-primary">Add Words</a>
+    </div>
+
+<?php } ?>
 
 <div id="infoModal" class="modal">
     <div class="modal-content">
