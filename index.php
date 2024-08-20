@@ -20,6 +20,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/footer.css">
     <link rel="stylesheet" href="./css/sweetalert2.css">
     <script src="./js/sweetalert2.js"></script>
 </head>
@@ -62,7 +63,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </div>
     </div>
 
-    <?php include 'includes/footer.php' ?>
+    <footer>
+        <div class="footer">
+            <p>&copy; 2024 Dictionary Portal. All Rights Reserved.</p>
+            <p>Follow us on
+                <a href="https://iqbolshoh.uz" target="_blank" class="social-icon"><i class="fas fa-globe"></i></a>
+                <a href="https://t.me/iqbolshoh_777" target="_blank" class="social-icon"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.instagram.com/iqbolshoh_777" target="_blank" class="social-icon"><i
+                        class="fab fa-instagram"></i></a>
+            </p>
+        </div>
+    </footer>
 
     <script>
         function confirmLogout() {
