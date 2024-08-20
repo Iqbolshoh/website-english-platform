@@ -6,13 +6,13 @@ class Query
     public function __construct()
     {
         $servername = "localhost";
-        // $username = "milliyto_shop";
-        // $password = "X?t&e#iF3Fc*";
-        // $dbname = "milliyto_english";
+        $username = "milliyto_shop";
+        $password = "X?t&e#iF3Fc*";
+        $dbname = "milliyto_english";
 
-        $username = "root";
-        $password = "";
-        $dbname = "english";
+        // $username = "root";
+        // $password = "";
+        // $dbname = "english";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -31,10 +31,12 @@ class Query
     // validate(): Sanitizes input to prevent HTML and SQL injection
     function validate($value)
     {
+        $value = str_replace(['‘', '’', '“', '”', '"', '„', '‟', '‹', '›', '«', '»', '`', '´', '❛', '❜', '❝', '❞', '〝', '〞'], "'", $value);
         $value = trim($value);
         $value = stripslashes($value);
         return $value;
     }
+
 
     // executeQuery(): Executes an SQL query with optional parameters
     public function executeQuery($sql, $params = [], $types = "")

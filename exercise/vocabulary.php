@@ -73,9 +73,10 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
     <title>Vocabulary Test</title>
     <link rel="stylesheet" href="../css/exercise-vocabulary.css">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 </head>
-
-
 
 <body>
     <?php include '../includes/header.php'; ?>
@@ -137,17 +138,18 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
     </div>
 
     <script>
-        document.getElementById('num_words').addEventListener('change', function () {
+        document.getElementById('num_words').addEventListener('change', function() {
             document.getElementById('numWordsForm').submit();
         });
 
-        document.getElementById('filter').addEventListener('change', function () {
+        document.getElementById('filter').addEventListener('change', function() {
             document.getElementById('numWordsForm').submit();
         });
 
-        window.onload = function () {
+        window.onload = function() {
             clearRadioButtons();
         };
+
         function clearRadioButtons() {
             const radioButtons = document.querySelectorAll('input[type="radio"]');
             radioButtons.forEach(radio => {
