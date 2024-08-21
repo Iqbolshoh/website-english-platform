@@ -6,13 +6,13 @@ class Query
     public function __construct()
     {
         $servername = "localhost";
-        $username = "milliyto_shop";
-        $password = "X?t&e#iF3Fc*";
-        $dbname = "milliyto_english";
+        // $username = "milliyto_shop";
+        // $password = "X?t&e#iF3Fc*";
+        // $dbname = "milliyto_english";
 
-        // $username = "root";
-        // $password = "";
-        // $dbname = "english";
+        $username = "root";
+        $password = "";
+        $dbname = "english";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -110,7 +110,7 @@ class Query
     function hashPassword($password)
     {
         $key = "iqbolshoh-ilhomjonov";
-        return hash_hmac('sha256', $password, $key);
+        return hash_hmac('sha256', $password, 'iqbolshoh-ilhomjonov');
     }
 
     // Check if email exists

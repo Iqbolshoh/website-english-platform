@@ -5,8 +5,8 @@ USE english;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fullname VARCHAR(255) NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(254) NOT NULL UNIQUE,
+    username VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     profile_image VARCHAR(255) DEFAULT 'default.png',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -14,37 +14,41 @@ CREATE TABLE users (
 
 CREATE TABLE words (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
+    user_id INT NOT NULL,
     word VARCHAR(150) NOT NULL,
     translation VARCHAR(150),
     definition VARCHAR(255),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX word_idx (word)
 );
 
 CREATE TABLE sentences (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    word_id INT,
-    sentence VARCHAR(200) NOT NULL,
+    user_id INT NOT NULL,
+    word_id INT NOT NULL,
+    sentence VARCHAR(255) NOT NULL,
     translation VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE
+    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE,
+    INDEX sentence_idx (sentence)
 );
 
 CREATE TABLE liked_words (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    word_id INT,
+    user_id INT NOT NULL,
+    word_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE
+    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE,
+    INDEX user_word_idx (user_id, word_id)
 );
 
 CREATE TABLE liked_sentences (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    sentence_id INT,
+    user_id INT NOT NULL,
+    sentence_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (sentence_id) REFERENCES sentences(id) ON DELETE CASCADE
+    FOREIGN KEY (sentence_id) REFERENCES sentences(id) ON DELETE CASCADE,
+    INDEX user_sentence_idx (user_id, sentence_id)
 );
 
 INSERT INTO
@@ -62,7 +66,6 @@ VALUES
         'admin',
         '0c138cbe7d1f479abb449366f3cb3dddd52bc104596ff91813c6674cd016896a'
     );
-
 
 INSERT INTO `words` (`user_id`, `word`, `translation`, `definition`) VALUES
 (2, 'apple', 'olma', 'A fruit that is usually round, red, green, or yellow and has a sweet taste.'),
@@ -191,3 +194,4 @@ INSERT INTO `words` (`user_id`, `word`, `translation`, `definition`) VALUES
 (2, 'yellow', 'sariq', 'The color between green and orange in the spectrum of visible light.'),
 (2, 'zebra', 'zebra', 'An African wild horse with black-and-white stripes.'),
 (2, 'zoo', 'hayvonot bogi', 'A park where animals are kept for public viewing.');
+
