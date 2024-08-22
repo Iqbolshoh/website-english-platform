@@ -5,12 +5,12 @@ USE english;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fullname VARCHAR(255) NULL,
-    email VARCHAR(254) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
     username VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     profile_image VARCHAR(255) DEFAULT 'default.png',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+);  
 
 CREATE TABLE words (
     id INT AUTO_INCREMENT PRIMARY KEY,

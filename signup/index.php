@@ -2,8 +2,8 @@
 
 session_start();
 
-include '../config.php';
-$query = new Query();
+include '../model/UserModel.php';
+$query = new UserModel();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("Location: ../");
@@ -16,44 +16,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $query->validate($_POST['fullname']);
     $email = $query->validate($_POST['email']);
     $username = $query->validate($_POST['username']);
-    $hashed_password = $query->hashPassword($_POST['password']);
+    $password = $_POST['password'];
 
-    if ($query->emailExists($email)) {
-        $error_message = "Email already exists.";
-    } elseif ($query->usernameExists($username)) {
-        $error_message = "Username already exists.";
+
+    $result = $query->createUser($fullname, $email, $username, $password);
+
+    if ($result) {
+        $_SESSION['loggedin'] = true;
+        $_SESSION['user_id'] = $query->getIdByUsername($username);
+        $_SESSION['username'] = $username;
+
+        setcookie('username', $username, time() + (86400 * 30), "/");
+        setcookie('session_token', session_id(), time() + (86400 * 30), "/");
+
+        ?>
+
+        <script>
+            window.onload = function () {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Registration successful',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.href = '../';
+                });
+            };
+        </script>
+
+        <?php
     } else {
-        $result = $query->registerUser($fullname, $email, $username, $hashed_password);
-
-        if ($result) {
-            $_SESSION['loggedin'] = true;
-            $_SESSION['user_id'] = $query->getUserIdByUsername($username);
-            $_SESSION['username'] = $username;
-
-            setcookie('username', $username, time() + (86400 * 30), "/");
-            setcookie('session_token', session_id(), time() + (86400 * 30), "/");
-
-            ?>
-
-            <script>
-                window.onload = function () {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Registration successful',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        window.location.href = '../';
-                    });
-                };
-            </script>
-
-            <?php
-        } else {
-            $error_message = "An error occurred. Please try again.";
-        }
+        $error_message = "An error occurred. Please try again.";
     }
+
 }
 ?>
 
@@ -152,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         document.getElementById('toggle-password').addEventListener('click', function () {
             const passwordField = document.getElementById('password');
-            const toggleIcon = this.querySelector('i');
+            const toggleIcon = this.userModelSelector('i');
 
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';

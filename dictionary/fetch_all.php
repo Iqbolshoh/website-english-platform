@@ -5,8 +5,8 @@
 
 session_start();
 
-include '../config.php';
-$query = new Query();
+include '../model/wordsModel.php';
+$query = new WordsModel();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
@@ -23,51 +23,27 @@ $WordSearch = strtolower($WordSearch);
 if ($lang == 'uz') {
     if (!empty($WordSearch)) {
         $queryParam = $query->validate($WordSearch);
-        $results = $query->search(
-            'words',
-            '*',
-            "WHERE user_id = ? AND translation LIKE ?",
-            [$userId, "%$queryParam%"],
-            "is"
-        );
+        $results = $query->select('words', '*', "user_id = $userId AND translation LIKE '%$queryParam%' ORDER BY translation");
     } else {
-        $results = $query->select(
-            'words',
-            '*',
-            'WHERE user_id = ? ORDER BY translation ASC',
-            [$userId],
-            'i'
-        );
+        $results = $query->select('words', '*', "user_id = $userId ORDER BY translation ASC");
     }
 } else {
     if (!empty($WordSearch)) {
         $queryParam = $query->validate($WordSearch);
-        $results = $query->search(
-            'words',
-            '*',
-            "WHERE user_id = ? AND word LIKE ?",
-            [$userId, "%$queryParam%"],
-            "is"
-        );
+        $results = $query->select('words', '*', "user_id = $userId AND word LIKE '%$queryParam%' ORDER BY word");
     } else {
-        $results = $query->select(
-            'words',
-            '*',
-            'WHERE user_id = ? ORDER BY word ASC',
-            [$userId],
-            'i'
-        );
+        $results = $query->select('words', '*', "user_id = $userId ORDER BY word ASC");
     }
 }
 
-$likedWords = $query->search('liked_words', 'word_id', 'WHERE user_id = ?', [$userId], 'i');
+$likedWords = $query->select('liked_words', 'word_id', "user_id = $userId");
 $likedWordIds = array_column($likedWords, 'word_id');
 
 if ($liked) {
     $results = [];
     foreach ($likedWords as $row) {
         $wordId = $row['word_id'];
-        $queryResult = $query->select('words', '*', "WHERE id = ? AND user_id = ?", [$wordId, $userId], 'ii');
+        $queryResult = $query->select('words', '*', "id = $wordId AND user_id = $userId");
         if ($queryResult) {
             $results = array_merge($results, $queryResult);
         }

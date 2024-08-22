@@ -7,8 +7,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-include '../config.php';
-$query = new Query();
+include '../model/config.php';
+$query = new Database();
 
 $userId = $_SESSION['user_id'];
 $answers = $_POST['answers'] ?? [];

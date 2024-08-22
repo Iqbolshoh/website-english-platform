@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -7,39 +6,25 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-include '../config.php';
-$query = new Query();
+include '../model/config.php';
+$query = new Database();
 
-$userId = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 $numWords = (int) ($_GET['num_words'] ?? 10);
 $filter = $_GET['filter'] ?? 'all';
 
 $results = [];
 
 if ($filter === 'liked') {
-    $likedWords = $query->search('liked_words', 'word_id', 'WHERE user_id = ?', [$userId], 'i');
+    $likedWords = $query->select('liked_words', 'word_id', "user_id = $user_id");
     $likedWordIds = array_column($likedWords, 'word_id');
 
     if (!empty($likedWordIds)) {
-        $placeholders = implode(',', array_fill(0, count($likedWordIds), '?'));
-        $types = str_repeat('i', count($likedWordIds) + 2);
-        $params = array_merge($likedWordIds, [$userId, $numWords]);
-        $results = $query->select(
-            'words',
-            'id, word, translation',
-            "WHERE id IN ($placeholders) AND user_id = ? ORDER BY RAND() LIMIT ?",
-            $params,
-            $types
-        );
+        $likedWordIdsList = implode(',', $likedWordIds);
+        $results = $query->select('words', '*', "id IN ($likedWordIdsList) LIMIT $numWords");
     }
 } else {
-    $results = $query->select(
-        'words',
-        'id, word, translation',
-        'WHERE user_id = ? ORDER BY RAND() LIMIT ?',
-        [$userId, $numWords],
-        'ii'
-    );
+    $results = $query->select('words', '*', "1 LIMIT $numWords");
 }
 
 function getRandomOptions($correctWord, $allWords, $numOptions = 4)
@@ -48,20 +33,15 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
     $allWordsCount = count($allWords);
 
     if ($allWordsCount > 1) {
-        foreach ($allWords as $randomWord) {
-            if ($randomWord !== $correctWord && !in_array($randomWord, $options)) {
-                $options[] = $randomWord;
-            }
-            if (count($options) >= $numOptions) {
-                break;
-            }
+        $randomKeys = array_rand(array_diff($allWords, [$correctWord]), min($numOptions - 1, $allWordsCount - 1));
+        foreach ($randomKeys as $key) {
+            $options[] = $allWords[$key];
         }
     }
 
     shuffle($options);
     return $options;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -122,7 +102,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
                         $allWords = array_column($results, 'word');
                         $options = getRandomOptions($word['word'], $allWords);
                         ?>
-                        <?php foreach ($options as $optionIndex => $option): ?>
+                        <?php foreach ($options as $option): ?>
                             <label>
                                 <input type="radio" name="answers[<?= $index ?>]" value="<?= htmlspecialchars($option) ?>">
                                 <?= htmlspecialchars($option) ?>
@@ -138,24 +118,19 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
     </div>
 
     <script>
-        document.getElementById('num_words').addEventListener('change', function() {
+        document.getElementById('num_words').addEventListener('change', function () {
             document.getElementById('numWordsForm').submit();
         });
 
-        document.getElementById('filter').addEventListener('change', function() {
+        document.getElementById('filter').addEventListener('change', function () {
             document.getElementById('numWordsForm').submit();
         });
 
-        window.onload = function() {
-            clearRadioButtons();
-        };
-
-        function clearRadioButtons() {
-            const radioButtons = document.querySelectorAll('input[type="radio"]');
-            radioButtons.forEach(radio => {
+        window.addEventListener('load', function () {
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
                 radio.checked = false;
             });
-        }
+        });
     </script>
 
 </body>

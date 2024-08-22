@@ -5,8 +5,8 @@
 
 session_start();
 
-include '../config.php';
-$query = new Query();
+include '../model/SentencesModal.php';
+$query = new SentencesModel();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
@@ -14,6 +14,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 $userId = $_SESSION['user_id'];
+// $word_id = $_GET['word_id'];
 
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
 $liked = isset($_GET['liked']) ? $_GET['liked'] : false;
@@ -31,31 +32,19 @@ if ($lang == 'uz') {
 }
 
 if ($searchCondition) {
-    $results = $query->search(
-        'sentences',
-        '*',
-        "WHERE user_id = ? AND $searchCondition ORDER BY $orderBy",
-        [$userId, "%$queryParam%"],
-        "is"
-    );
+    $results = $query->select('sentences', '*', "user_id = $userId AND $searchCondition ORDER BY $orderBy '%$queryParam%'");
 } else {
-    $results = $query->select(
-        'sentences',
-        '*',
-        "WHERE user_id = ? ORDER BY $orderBy",
-        [$userId],
-        'i'
-    );
+    $results = $query->select('sentences', '*', "user_id = $userId ORDER BY $orderBy");
 }
 
-$likedSentences = $query->search('liked_sentences', 'sentence_id', 'WHERE user_id = ?', [$userId], 'i');
+$likedSentences = $query->select('liked_sentences', 'sentence_id', "user_id = $userId");
 $likedSentenceIds = array_column($likedSentences, 'sentence_id');
 
 if ($liked) {
     $results = [];
     foreach ($likedSentences as $row) {
         $sentenceId = $row['sentence_id'];
-        $queryResult = $query->select('sentences', '*', "WHERE id = ? AND user_id = ?", [$sentenceId, $userId], 'ii');
+        $queryResult = $query->select('sentences', '*', "WHERE id = $sentenceId AND user_id = $userId");
         if ($queryResult) {
             $results = array_merge($results, $queryResult);
         }
@@ -104,7 +93,8 @@ if ($results) {
 } else {
     echo "<div class='information-not-found'>
     <i class='fas fa-exclamation-circle'></i>
-    <p>Information not found</p>
+    <p>Sentence not found</p>
+    <a href='../dictionary/' class='btn btn-primary'>Add Sentence</a>
   </div>";
 }
 ?>
