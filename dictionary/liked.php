@@ -2,8 +2,8 @@
 
 session_start();
 
-include '../config.php';
-$query = new Query();
+include '../model/wordsModel.php';
+$query = new WordsModel();
 
 $userId = $_SESSION['user_id'];
 
@@ -18,5 +18,5 @@ if ($word_id <= 0 || !in_array($action, ['add', 'remove'])) {
 if ($action === 'add') {
     $query->insert('liked_words', ['user_id' => $userId, 'word_id' => $word_id]);
 } elseif ($action === 'remove') {
-    $query->delete('liked_words', 'user_id = ? AND word_id = ?', [$userId, $word_id], 'ii');
+    $query->delete('liked_words', "user_id = $userId AND word_id = $word_id");
 }

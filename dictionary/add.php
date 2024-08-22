@@ -2,8 +2,8 @@
 
 session_start();
 
-include '../config.php';
-$query = new Query();
+include '../model/wordsModel.php';
+$query = new WordsModel();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
