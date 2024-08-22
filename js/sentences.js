@@ -28,7 +28,7 @@ $(document).ready(function () {
 
     function fetchSuggestions(query, lang, liked, wordId) {
         $.ajax({
-            url: "fetch_sentences.php",
+            url: "fetch_all.php",
             type: "GET",
             data: {
                 query: query,

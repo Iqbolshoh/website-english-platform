@@ -13,38 +13,44 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-$userId = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id'];
 // $word_id = $_GET['word_id'];
 
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
 $liked = isset($_GET['liked']) ? $_GET['liked'] : false;
-$sentenceSearch = isset($_GET['query']) ? $_GET['query'] : '';
+$search = isset($_GET['query']) ? $_GET['query'] : '';
 $results = [];
 
-$queryParam = $query->validate($sentenceSearch);
+$queryParam = $query->validate($search);
 
 if ($lang == 'uz') {
-    $searchCondition = !empty($sentenceSearch) ? "translation LIKE ?" : '';
+    $WordSearch = !empty($search) ? "translation LIKE ?" : '';
     $orderBy = 'translation ASC';
 } else {
-    $searchCondition = !empty($sentenceSearch) ? "sentence LIKE ?" : '';
+    $WordSearch = !empty($search) ? "sentence LIKE ?" : '';
     $orderBy = 'sentence ASC';
 }
 
-if ($searchCondition) {
-    $results = $query->select('sentences', '*', "user_id = $userId AND $searchCondition ORDER BY $orderBy '%$queryParam%'");
+if ($WordSearch) {
+    $results = $query->select('sentences', '*', "user_id = $user_id AND $WordSearch ORDER BY $orderBy '%$queryParam%'");
 } else {
-    $results = $query->select('sentences', '*', "user_id = $userId ORDER BY $orderBy");
+    $results = $query->select('sentences', '*', "user_id = $user_id ORDER BY $orderBy");
 }
 
-$likedSentences = $query->select('liked_sentences', 'sentence_id', "user_id = $userId");
+if ($lang == 'uz') {
+    
+} else {
+    
+}
+
+$likedSentences = $query->select('liked_sentences', 'sentence_id', "user_id = $user_id");
 $likedSentenceIds = array_column($likedSentences, 'sentence_id');
 
 if ($liked) {
     $results = [];
     foreach ($likedSentences as $row) {
         $sentenceId = $row['sentence_id'];
-        $queryResult = $query->select('sentences', '*', "WHERE id = $sentenceId AND user_id = $userId");
+        $queryResult = $query->select('sentences', '*', "WHERE id = $sentenceId AND user_id = $user_id");
         if ($queryResult) {
             $results = array_merge($results, $queryResult);
         }
@@ -52,10 +58,10 @@ if ($liked) {
 }
 
 if ($results) {
-    usort($results, function ($a, $b) use ($sentenceSearch) {
-        $sentenceSearchLower = strtolower($sentenceSearch);
-        $aStartsWith = strtolower(substr($a['sentence'], 0, strlen($sentenceSearchLower))) === $sentenceSearchLower;
-        $bStartsWith = strtolower(substr($b['sentence'], 0, strlen($sentenceSearchLower))) === $sentenceSearchLower;
+    usort($results, function ($a, $b) use ($search) {
+        $searchLower = strtolower($search);
+        $aStartsWith = strtolower(substr($a['sentence'], 0, strlen($searchLower))) === $searchLower;
+        $bStartsWith = strtolower(substr($b['sentence'], 0, strlen($searchLower))) === $searchLower;
 
         if ($aStartsWith && !$bStartsWith)
             return -1;
@@ -74,8 +80,8 @@ if ($results) {
 
         $isExpanded = isset($expandedSentences[$row['id']]) ? 'expanded' : '';
 
-        if ($sentenceSearch) {
-            $text = preg_replace("/(" . preg_quote($sentenceSearch, '/') . ")/i", "<span class='highlight'>$1</span>", $text);
+        if ($search) {
+            $text = preg_replace("/(" . preg_quote($search, '/') . ")/i", "<span class='highlight'>$1</span>", $text);
         }
 
         $html .= "<div class='vocabulary'>

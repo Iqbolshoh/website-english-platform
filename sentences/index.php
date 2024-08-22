@@ -48,7 +48,7 @@ $word_id = $_GET['word_id'];
             </div>
 
             <div class="display-flex">
-                <button onclick="window.location.href='./add.php'">
+                <button onclick="window.location.href='../dictionary/'">
                     Add a dictionary
                 </button>
                 <div id="liked-btn-2" class="heart-box">
@@ -62,7 +62,7 @@ $word_id = $_GET['word_id'];
 
     </div>
 
-    <script src="../js/sentences-index.js"></script>
+    <script src="../js/sentences.js"></script>
 
 </body>
 
