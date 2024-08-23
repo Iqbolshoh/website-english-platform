@@ -89,6 +89,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
                 <label for="num_words" style="font-size: 16px; color: #333;">Tests:</label>
                 <select name="num_words" id="num_words"
                     style="padding: 5px; border-radius: 4px; border: 1px solid #ddd; font-size: 14px;">
+                    <option value="5" <?= $numWords == 5 ? 'selected' : '' ?>>5</option>
                     <option value="10" <?= $numWords == 10 ? 'selected' : '' ?>>10</option>
                     <option value="15" <?= $numWords == 15 ? 'selected' : '' ?>>15</option>
                     <option value="20" <?= $numWords == 20 ? 'selected' : '' ?>>20</option>
@@ -138,24 +139,19 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
     </div>
 
     <script>
-        document.getElementById('num_words').addEventListener('change', function() {
+        document.getElementById('num_words').addEventListener('change', function () {
             document.getElementById('numWordsForm').submit();
         });
 
-        document.getElementById('filter').addEventListener('change', function() {
+        document.getElementById('filter').addEventListener('change', function () {
             document.getElementById('numWordsForm').submit();
         });
 
-        window.onload = function() {
-            clearRadioButtons();
-        };
-
-        function clearRadioButtons() {
-            const radioButtons = document.querySelectorAll('input[type="radio"]');
-            radioButtons.forEach(radio => {
+        window.addEventListener('load', function () {
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
                 radio.checked = false;
             });
-        }
+        });
     </script>
 
 </body>
