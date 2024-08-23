@@ -2,39 +2,46 @@
 
 session_start();
 
-include '../model/UserModel.php';
-$query = new UserModel();
+include '../config.php';
+$query = new Query();
+
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header("Location: ../");
+    exit;
+}
 
 if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
     session_id($_COOKIE['session_token']);
     session_start();
-
     $_SESSION['loggedin'] = true;
     $_SESSION['username'] = $_COOKIE['username'];
-    $_SESSION['user_id'] = $query->getIdByUsername($_COOKIE['username']);
+    $_SESSION['user_id'] = $query->getUserIdByUsername($_COOKIE['username']);
 
     header("Location: ../");
     exit;
 }
 
 if (isset($_POST['submit'])) {
-    $username = $query->validate($_POST['username']);
-    $password = $_POST['password'];
+    $input_username = $query->validate($_POST['username']);
+    $hashed_password = $query->hashPassword($_POST['password']);
 
-    $user = $query->login($username, $password);
+    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    $stmt = $query->executeQuery($sql, [$input_username, $hashed_password], 'ss');
 
-    if ($user) {
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
 
         $_SESSION['loggedin'] = true;
-        $_SESSION['user_id'] = $query->getIdByUsername($username);
-        $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
 
-        setcookie('username', $username, time() + (86400 * 30), "/");
+        setcookie('username', $input_username, time() + (86400 * 30), "/");
         setcookie('session_token', session_id(), time() + (86400 * 30), "/");
-        ?>
+?>
 
         <script>
-            window.onload = function () {
+            window.onload = function() {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -47,12 +54,12 @@ if (isset($_POST['submit'])) {
             };
         </script>
 
-        <?php
+    <?php
     } else {
-        ?>
+    ?>
 
         <script>
-            window.onload = function () {
+            window.onload = function() {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
@@ -63,7 +70,7 @@ if (isset($_POST['submit'])) {
             };
         </script>
 
-        <?php
+<?php
     }
 }
 ?>
@@ -112,7 +119,7 @@ if (isset($_POST['submit'])) {
     </div>
 
     <script>
-        document.getElementById('toggle-password').addEventListener('click', function () {
+        document.getElementById('toggle-password').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
 

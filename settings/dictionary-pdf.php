@@ -5,8 +5,8 @@ session_start();
 
 $user_id = $_SESSION['user_id'];
 
-include '../model/config.php';
-$query = new Database();
+include '../config.php';
+$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
@@ -46,7 +46,7 @@ $pdf->Ln();
 $pdf->SetFont('Arial', '', 12);
 $pdf->SetTextColor(0, 0, 0);
 
-$rows = $query->select('words', 'word, translation, definition', "user_id = $user_id ORDER BY word ASC");
+$rows = $query->select('words', 'word, translation, definition', "WHERE user_id = $user_id ORDER BY word ASC");
 $rowNumber = 1;
 foreach ($rows as $row) {
     $pdf->Cell($columnWidths['no'], 10, $rowNumber++, 1);

@@ -2,8 +2,8 @@
 
 session_start();
 
-include '../model/config.php';
-$query = new Database();
+include '../config.php';
+$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");

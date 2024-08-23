@@ -5,15 +5,15 @@
 
 session_start();
 
-include '../model/wordsModel.php';
-$query = new WordsModel();
+include '../config.php';
+$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$userId = $_SESSION['user_id'];
 
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
 $liked = isset($_GET['liked']) ? $_GET['liked'] : false;
@@ -23,27 +23,51 @@ $WordSearch = strtolower($WordSearch);
 if ($lang == 'uz') {
     if (!empty($WordSearch)) {
         $queryParam = $query->validate($WordSearch);
-        $results = $query->select('words', '*', "user_id = $user_id AND translation LIKE '%$queryParam%' ORDER BY translation");
+        $results = $query->search(
+            'words',
+            '*',
+            "WHERE user_id = ? AND translation LIKE ?",
+            [$userId, "%$queryParam%"],
+            "is"
+        );
     } else {
-        $results = $query->select('words', '*', "user_id = $user_id ORDER BY translation ASC");
+        $results = $query->select(
+            'words',
+            '*',
+            'WHERE user_id = ? ORDER BY translation ASC',
+            [$userId],
+            'i'
+        );
     }
 } else {
     if (!empty($WordSearch)) {
         $queryParam = $query->validate($WordSearch);
-        $results = $query->select('words', '*', "user_id = $user_id AND word LIKE '%$queryParam%' ORDER BY word");
+        $results = $query->search(
+            'words',
+            '*',
+            "WHERE user_id = ? AND word LIKE ?",
+            [$userId, "%$queryParam%"],
+            "is"
+        );
     } else {
-        $results = $query->select('words', '*', "user_id = $user_id ORDER BY word ASC");
+        $results = $query->select(
+            'words',
+            '*',
+            'WHERE user_id = ? ORDER BY word ASC',
+            [$userId],
+            'i'
+        );
     }
 }
 
-$likedWords = $query->select('liked_words', 'word_id', "user_id = $user_id");
-$likedWord_ids = array_column($likedWords, 'word_id');
+$likedWords = $query->search('liked_words', 'word_id', 'WHERE user_id = ?', [$userId], 'i');
+$likedWordIds = array_column($likedWords, 'word_id');
 
 if ($liked) {
     $results = [];
     foreach ($likedWords as $row) {
-        $word_id = $row['word_id'];
-        $queryResult = $query->select('words', '*', "id = $word_id AND user_id = $user_id");
+        $wordId = $row['word_id'];
+        $queryResult = $query->select('words', '*', "WHERE id = ? AND user_id = ?", [$wordId, $userId], 'ii');
         if ($queryResult) {
             $results = array_merge($results, $queryResult);
         }
@@ -68,14 +92,14 @@ if ($results) {
 
     $html = "<ul>";
     foreach ($results as $index => $row) {
-        $word_id = "word_" . $index;
+        $wordId = "word_" . $index;
         $likeId = "heart_" . $index;
         $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['word']);
-        $isLiked = in_array($row['id'], $likedWord_ids);
+        $isLiked = in_array($row['id'], $likedWordIds);
         $html .= "<div class='vocabulary'>
-            <li id='{$word_id}' class='{$isExpanded}' onclick='toggleExpand(this)'>" . str_ireplace($WordSearch, "<span class='highlight'>{$WordSearch}</span>", $text) . "</li>
+            <li id='{$wordId}' class='{$isExpanded}' onclick='toggleExpand(this)'>" . str_ireplace($WordSearch, "<span class='highlight'>{$WordSearch}</span>", $text) . "</li>
             <div class='buttons'>
-                <i class='fas fa-volume-up' onclick=\"speakText('{$word_id}')\"></i>
+                <i class='fas fa-volume-up' onclick=\"speakText('{$wordId}')\"></i>
                 <i class='fas fa-heart " . ($isLiked ? 'liked' : '') . "' id='{$likeId}' onclick=\"Liked('{$likeId}', '{$row['id']}')\"></i>
                 <i class='fas fa-info-circle' onclick='showInfo(" . json_encode(["word" => $row["word"], "translation" => $row["translation"], "definition" => $row["definition"], "id" => $row["id"]], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
             </div>

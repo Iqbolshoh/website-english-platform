@@ -9,6 +9,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
+
+$wordId = intval($_GET['word_id']);
+
+$word_name = $query->select(
+    'words',
+    'word',
+    'WHERE id = ?',
+    [$wordId],
+    'i'
+)[0]['word'];
+
 ?>
 
 <!DOCTYPE html>
@@ -17,16 +28,16 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dictionary</title>
+    <title>Sentences</title>
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
     <link rel="stylesheet" href="../css/dictionary-sentences.css">
 </head>
 
 <body>
-
     <?php include '../includes/header.php'; ?>
 
     <div class="container">
+
         <form id="searchForm" onsubmit="return false;">
             <label for="word" style="display: none;">Search Word:</label>
             <input type="text" id="word" name="word" placeholder="Type a word..." required>
@@ -47,21 +58,28 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </div>
 
             <div class="display-flex">
-                <button onclick="window.location.href='./add.php'">
-                    Add a dictionary
+                <button onclick="window.location.href='./add.php?word_id=<?= $wordId ?>'">
+                    Add a sentences
                 </button>
                 <div id="liked-btn-2" class="heart-box">
                     <i class='fas fa-heart' id="liked2"></i>
                 </div>
             </div>
+
         </div>
 
+        <div class="word-container">
+            <p class="title"><?= $word_name ?></p>
+        </div>
+
+        <input type="hidden" id="wordId" value="<?php echo htmlspecialchars($wordId); ?>">
 
         <div id="suggestions"></div>
         <div id="result"></div>
+
     </div>
 
-    <script src="../js/dictionary.js"></script>
+    <script src="../js/sentences.js"></script>
 
 </body>
 

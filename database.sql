@@ -10,7 +10,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     profile_image VARCHAR(255) DEFAULT 'default.png',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);  
+);
 
 CREATE TABLE words (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,8 +18,7 @@ CREATE TABLE words (
     word VARCHAR(150) NOT NULL,
     translation VARCHAR(150),
     definition VARCHAR(255),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    INDEX word_idx (word)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE sentences (
@@ -29,8 +28,7 @@ CREATE TABLE sentences (
     sentence VARCHAR(255) NOT NULL,
     translation VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE,
-    INDEX sentence_idx (sentence)
+    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE
 );
 
 CREATE TABLE liked_words (
@@ -38,8 +36,7 @@ CREATE TABLE liked_words (
     user_id INT NOT NULL,
     word_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE,
-    INDEX user_word_idx (user_id, word_id)
+    FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE
 );
 
 CREATE TABLE liked_sentences (
@@ -47,8 +44,7 @@ CREATE TABLE liked_sentences (
     user_id INT NOT NULL,
     sentence_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (sentence_id) REFERENCES sentences(id) ON DELETE CASCADE,
-    INDEX user_sentence_idx (user_id, sentence_id)
+    FOREIGN KEY (sentence_id) REFERENCES sentences(id) ON DELETE CASCADE
 );
 
 INSERT INTO

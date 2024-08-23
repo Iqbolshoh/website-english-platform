@@ -18,6 +18,7 @@ $userId = $_SESSION['user_id'];
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
 $liked = isset($_GET['liked']) ? $_GET['liked'] : false;
 $sentenceSearch = isset($_GET['query']) ? $_GET['query'] : '';
+$wordId = intval($_GET['word_id']);
 $results = [];
 
 $queryParam = $query->validate($sentenceSearch);
@@ -34,17 +35,17 @@ if ($searchCondition) {
     $results = $query->search(
         'sentences',
         '*',
-        "WHERE user_id = ? AND $searchCondition ORDER BY $orderBy",
-        [$userId, "%$queryParam%"],
-        "is"
+        "WHERE user_id = ? AND word_id = ? AND $searchCondition ORDER BY $orderBy",
+        [$userId, $wordId, "%$queryParam%"],
+        "iis"
     );
 } else {
     $results = $query->select(
         'sentences',
         '*',
-        "WHERE user_id = ? ORDER BY $orderBy",
-        [$userId],
-        'i'
+        "WHERE user_id = ? AND word_id = ? ORDER BY $orderBy",
+        [$userId, $wordId],
+        'ii'
     );
 }
 
@@ -55,7 +56,7 @@ if ($liked) {
     $results = [];
     foreach ($likedSentences as $row) {
         $sentenceId = $row['sentence_id'];
-        $queryResult = $query->select('sentences', '*', "WHERE id = ? AND user_id = ?", [$sentenceId, $userId], 'ii');
+        $queryResult = $query->select('sentences', '*', "WHERE id = ? AND user_id = ? AND word_id = ?", [$sentenceId, $userId, $wordId], 'iii');
         if ($queryResult) {
             $results = array_merge($results, $queryResult);
         }

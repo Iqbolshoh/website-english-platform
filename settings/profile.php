@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-include '../modeL/UserModel.php';
-$query = new UserModel();
+include '../config.php';
+$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
@@ -10,7 +10,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 $user_id = $_SESSION['user_id'];
-$user = $query->getUserById($user_id);
+$user = $query->find('users', $user_id)[0];
 
 $username = htmlspecialchars($user['username']);
 
@@ -48,10 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
 
     if (!empty($password)) {
-        $updateData['password'] = hash_hmac('sha256', $password, 'iqbolshoh-ilhomjonov');
+        $updateData['password'] = $query->hashPassword($password);
     }
 
-    $query->update('users', $updateData, "id = $user_id");
+    $query->update('users', $updateData, 'id = ?', [$user_id], 'i');
 
     header("Location: profile.php");
     exit;

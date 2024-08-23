@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     const hearts = document.querySelectorAll('.heart-box');
 
@@ -26,15 +27,14 @@ $(document).ready(function () {
         };
     }
 
-    function fetchSuggestions(query, lang, liked, wordId) {
+    function fetchSuggestions(query, lang, liked) {
         $.ajax({
-            url: "fetch_sentences.php",
+            url: "fetch_all.php",
             type: "GET",
             data: {
                 query: query,
                 lang: lang,
-                liked: liked,
-                word_id: wordId
+                liked: liked
             },
             success: function (response) {
                 $("#suggestions").html(response);
@@ -48,13 +48,12 @@ $(document).ready(function () {
     function handleInput() {
         const query = $("#word").val().trim();
         const lang = $("#languageSelect").val();
-        const wordId = $("#wordId").val();
-        fetchSuggestions(query, lang, showLiked, wordId);
+        fetchSuggestions(query, lang, showLiked);
     }
 
     function toggleLiked() {
         showLiked = showLiked === 0 ? 1 : 0;
-        fetchSuggestions($("#word").val().trim(), $("#languageSelect").val(), showLiked, $("#wordId").val());
+        fetchSuggestions($("#word").val().trim(), $("#languageSelect").val(), showLiked);
         $("#liked-btn-1").toggleClass('liked', showLiked === 1);
     }
 
@@ -76,5 +75,5 @@ $(document).ready(function () {
         toggleLiked();
     });
 
-    fetchSuggestions("", $("#languageSelect").val(), showLiked, $("#wordId").val());
+    fetchSuggestions("", $("#languageSelect").val(), showLiked);
 });

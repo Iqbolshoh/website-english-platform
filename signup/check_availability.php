@@ -1,7 +1,7 @@
 <?php
+include '../config.php';
 
-include '../model/UserModel.php';
-$query = new UserModel();
+$query = new Query();
 
 if (isset($_POST['email'])) {
     $email = $_POST['email'];

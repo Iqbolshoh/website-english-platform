@@ -126,5 +126,5 @@ document.addEventListener('DOMContentLoaded', () => { });
 function sentences() {
     const wordId = document.getElementById('infoModal').dataset.wordId;
 
-    window.location.href = '../sentences/?word_id=' + wordId;
+    window.location.href = '../sentences/sentences.php?word_id=' + wordId;
 }

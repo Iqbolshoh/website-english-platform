@@ -5,8 +5,8 @@ session_start();
 
 $user_id = $_SESSION['user_id'];
 
-include '../model/config.php';
-$query = new Database();
+include '../config.php';
+$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
@@ -45,7 +45,7 @@ $pdf->Cell($columnWidths['translation'], 10, 'Translation', 1, 1, 'C', true);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', '', 12);
 
-$rows = $query->select('sentences', 'sentence, translation', "user_id = $user_id ORDER BY sentence ASC");
+$rows = $query->select('sentences', 'sentence, translation', "WHERE user_id = $user_id ORDER BY sentence ASC");
 foreach ($rows as $row) {
     $y = $pdf->GetY();
     $pageHeight = $pdf->GetPageHeight();

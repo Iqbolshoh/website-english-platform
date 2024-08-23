@@ -1,10 +1,9 @@
 <?php
 
 session_start();
+include '../config.php';
 
-include '../model/SentencesModal.php';
-$query = new SentencesModel();
-
+$query = new Query();
 $userId = $_SESSION['user_id'];
 
 $sentence_id = isset($_POST['sentence_id']) ? (int) $_POST['sentence_id'] : 0;
@@ -17,12 +16,12 @@ if ($sentence_id <= 0 || !in_array($action, ['add', 'remove'])) {
 
 try {
     if ($action === 'add') {
-        $exists = $query->select('liked_sentences', 'id', "WHERE user_id = $userId AND sentence_id = $sentence_id");
+        $exists = $query->select('liked_sentences', 'id', 'WHERE user_id = ? AND sentence_id = ?', [$userId, $sentence_id], 'ii');
         if (empty($exists)) {
             $query->insert('liked_sentences', ['user_id' => $userId, 'sentence_id' => $sentence_id]);
         }
     } elseif ($action === 'remove') {
-        $query->delete('liked_sentences', "user_id = $userId AND sentence_id = $sentence_id");
+        $query->delete('liked_sentences', 'user_id = ? AND sentence_id = ?', [$userId, $sentence_id], 'ii');
     }
     echo 'Success';
 } catch (Exception $e) {
