@@ -11,7 +11,7 @@ include '../config.php';
 $query = new Query();
 
 $userId = $_SESSION['user_id'];
-$numWords = (int) ($_GET['num_words'] ?? 10);
+$numWords = (int) ($_GET['num_words'] ?? 5);
 $filter = $_GET['filter'] ?? 'all';
 
 $results = [];
