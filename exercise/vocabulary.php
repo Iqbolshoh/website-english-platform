@@ -81,7 +81,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
 
         <form id="numWordsForm" action="" method="GET" style="display: flex; align-items: center; gap: 10px;">
             <div>
-                <label for="num_words" style="font-size: 16px; color: #333;">Number of Words:</label>
+                <label for="num_words" style="font-size: 16px; color: #333;">Tests:</label>
                 <select name="num_words" id="num_words"
                     style="padding: 5px; border-radius: 4px; border: 1px solid #ddd; font-size: 14px;">
                     <option value="5" <?= $numWords == 5 ? 'selected' : '' ?>>5</option>

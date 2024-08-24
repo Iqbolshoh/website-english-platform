@@ -32,7 +32,7 @@ document.getElementById('testForm').addEventListener('submit', function (event) 
     });
 
     Swal.fire({
-        title: "Test Results",
+        title: `Test Results ${Math.round(correctCount / totalQuestions * 100)}%`,
         text: `You got ${correctCount} out of ${totalQuestions} correct!`,
         icon: "success",
         confirmButtonText: 'OK'
@@ -41,6 +41,13 @@ document.getElementById('testForm').addEventListener('submit', function (event) 
     form.querySelectorAll('input[type="radio"]').forEach(input => {
         input.disabled = true;
     });
+});
+
+document.querySelector('form').addEventListener('change', (event) => {
+    const target = event.target.name;
+    if (target === 'num_words' || target === 'filter') {
+        event.target.form.submit();
+    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {

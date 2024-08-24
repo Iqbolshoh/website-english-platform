@@ -37,8 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sentenceForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        if (isSubmitted) return;
-
         isSubmitted = true;
 
         const formData = new FormData(sentenceForm);
@@ -61,9 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         Swal.fire({
-            title: "Good job!",
+            title: `Test Results ${Math.round(correctCount / totalSentences * 100)}%`,
             text: `You got ${correctCount} out of ${totalSentences} correct!`,
-            icon: "success"
+            icon: "success",
+            confirmButtonText: 'OK'
         });
 
         document.querySelectorAll('input[type="text"]').forEach(input => {
