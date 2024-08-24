@@ -39,7 +39,6 @@ CREATE TABLE texts (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE liked_words (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
