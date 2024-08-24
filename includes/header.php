@@ -32,6 +32,11 @@
             <span>Sentences</span>
         </a>
 
+        <a href="../texts/" class="header-link">
+            <i class="fas fa-book link-icon"></i>
+            <span class="link-text">Texts</span>
+        </a>
+
         <a href="../exercise/" class="header-link">
             <i class="fas fa-brain"></i>
             <span>Exercise</span>
@@ -42,10 +47,6 @@
             <span>Settings</span>
         </a>
 
-        <a href="#" class="header-link" onclick="Logout(); return false;">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Logout</span>
-        </a>
     </div>
 
     <nav class="header-nav">
@@ -53,10 +54,9 @@
             <li><a href="../"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="../dictionary/"><i class="fas fa-language"></i> Dictionary</a></li>
             <li><a href="../sentences/"><i class="fas fa-comment-dots"></i> Sentences</a></li>
+            <li><a href="../texts/"><i class="fas fa-book link-icon"></i>Texts</a></li>
             <li><a href="../exercise/"><i class="fas fa-brain"></i> Exercise</a></li>
             <li><a href="../settings/"><i class="fa-solid fa-gear"></i> Settings</a></li>
-            <li><a href="#" onclick="Logout(); return false;"><i class="fa-solid fa-right-from-bracket"></i>
-                    Logout</a></li>
         </ul>
     </nav>
 
@@ -92,26 +92,4 @@
         });
     });
 
-    function Logout() {
-        const menuToggle = document.querySelector('.header-menu-toggle');
-        const links = document.querySelector('.header-links');
-        const icon = menuToggle.querySelector('i');
-        links.classList.remove('active');
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this action!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, log out!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                window.location.href = '../logout/';
-            }
-        });
-    }
 </script>

@@ -37,7 +37,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </a>
 
             <a href="./sentence.php" class="link">
-                <i class="fas fa-sort"></i>
+                <i class="fas fa-comment-dots link-icon"></i>
                 <span>Order Sentences</span>
             </a>
 

@@ -32,6 +32,11 @@ $word_name = $query->select(
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
     <link rel="stylesheet" href="../css/dictionary-sentences.css">
 </head>
+<style>
+    #suggestions {
+        height: calc(100vh - 356px) !important;
+    }
+</style>
 
 <body>
     <?php include '../includes/header.php'; ?>

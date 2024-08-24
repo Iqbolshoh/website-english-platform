@@ -46,10 +46,39 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <span>Save sentences .pdf</span>
             </a>
 
+            <a href="#" class="link" onclick="Logout(); return false;">
+                <i class="fa-solid fa-right-from-bracket link-icon"></i>
+                <span class="link-text">Logout</span>
+            </a>
+
         </div>
 
     </div>
+    
+    <script>
+        function Logout() {
+            const menuToggle = document.querySelector('.header-menu-toggle');
+            const links = document.querySelector('.header-links');
+            const icon = menuToggle.querySelector('i');
+            links.classList.remove('active');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this action!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, log out!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
 
+                    window.location.href = '../logout/';
+                }
+            });
+        }
+    </script>
     <?php include '../includes/footer.php' ?>
 </body>
 

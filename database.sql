@@ -31,6 +31,15 @@ CREATE TABLE sentences (
     FOREIGN KEY (word_id) REFERENCES words(id) ON DELETE CASCADE
 );
 
+CREATE TABLE texts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    content VARCHAR(2000) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
 CREATE TABLE liked_words (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -45,6 +54,14 @@ CREATE TABLE liked_sentences (
     sentence_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (sentence_id) REFERENCES sentences(id) ON DELETE CASCADE
+);
+
+CREATE TABLE liked_texts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    text_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (text_id) REFERENCES texts(id) ON DELETE CASCADE
 );
 
 INSERT INTO

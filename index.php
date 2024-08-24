@@ -27,7 +27,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 </head>
 
 <body>
-    
+
     <header class="site-header">
         <a href="./" class="logo-link">
             <img src="./images/logo.png" alt="logo" class="logo-img">
@@ -47,6 +47,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <span class="link-text">Sentences</span>
             </a>
 
+            <a href="texts/" class="link-item">
+                <i class="fas fa-book link-icon"></i>
+                <span class="link-text">Texts</span>
+            </a>
+
             <a href="exercise/" class="link-item">
                 <i class="fas fa-brain link-icon"></i>
                 <span class="link-text">Exercise</span>
@@ -57,10 +62,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <span class="link-text">Settings</span>
             </a>
 
-            <a href="#" class="link-item" onclick="confirmLogout(); return false;">
-                <i class="fa-solid fa-right-from-bracket link-icon"></i>
-                <span class="link-text">Logout</span>
-            </a>
         </div>
     </div>
 
@@ -69,30 +70,14 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <p>&copy; 2024 Dictionary Portal. All Rights Reserved.</p>
             <p>Follow us on
                 <a href="https://iqbolshoh.uz" target="_blank" class="social-icon"><i class="fas fa-globe"></i></a>
-                <a href="https://t.me/iqbolshoh_777" target="_blank" class="social-icon"><i class="fab fa-telegram"></i></a>
+                <a href="https://t.me/iqbolshoh_777" target="_blank" class="social-icon"><i
+                        class="fab fa-telegram"></i></a>
                 <a href="https://www.instagram.com/iqbolshoh_777" target="_blank" class="social-icon"><i
                         class="fab fa-instagram"></i></a>
             </p>
         </div>
     </footer>
 
-    <script>
-        function confirmLogout() {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this action!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, log out!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = './logout/';
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>

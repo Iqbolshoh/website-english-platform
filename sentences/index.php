@@ -22,6 +22,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link rel="stylesheet" href="../css/dictionary-sentences.css">
 </head>
 
+<style>
+    #suggestions {
+        height: calc(100vh - 252px) !important;
+    }
+</style>
+
 <body>
 
     <?php include '../includes/header.php'; ?>
