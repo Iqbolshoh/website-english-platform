@@ -100,11 +100,12 @@ if ($results) {
     }
     $html .= "</ul>";
 
-    echo $html;
+    echo $html; 
 } else {
     echo "<div class='information-not-found'>
     <i class='fas fa-exclamation-circle'></i>
-    <p>Information not found</p>
+    <p>No sentences found.</p>
+    <a href='../dictionary/' class='btn btn-primary'>Add Sentences</a>
   </div>";
 }
 ?>

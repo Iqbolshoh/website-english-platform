@@ -27,7 +27,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 </head>
 
 <body>
-
+    
     <header class="site-header">
         <a href="./" class="logo-link">
             <img src="./images/logo.png" alt="logo" class="logo-img">

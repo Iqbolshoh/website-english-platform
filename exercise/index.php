@@ -36,6 +36,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <span>Vocabulary Test</span>
             </a>
 
+            <a href="./sentence.php" class="link">
+                <i class="fas fa-sort"></i>
+                <span>Order Sentences</span>
+            </a>
+
         </div>
     </div>
 
