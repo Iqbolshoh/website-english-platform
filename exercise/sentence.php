@@ -117,22 +117,23 @@ function getRandomWords($sentence, $numWords = 8)
                 <input type="hidden" name="num_sentences" value="<?= $numSentences ?>">
                 <input type="hidden" name="filter" value="<?= htmlspecialchars($filter) ?>">
                 <input type="hidden" name="total_sentences" value="<?= count($results) ?>">
-                <button type="submit">Submit Answers</button>
+                <button type="submit">Submit Test</button>
                 <button type="button" id="refresh-test">Refresh Test</button>
             </form>
 
-            <div id="result" class="result"></div>
         <?php endif; ?>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const wordOptions = document.querySelectorAll('.word');
-            const resultDiv = document.getElementById('result');
             const sentenceForm = document.getElementById('sentence-form');
+            let isSubmitted = false;
 
             wordOptions.forEach(wordElement => {
                 wordElement.addEventListener('click', () => {
+                    if (isSubmitted) return;
+
                     const word = wordElement.textContent.trim();
                     const input = document.querySelector(`input[name="${wordElement.dataset.input}"]`);
 
@@ -162,6 +163,10 @@ function getRandomWords($sentence, $numWords = 8)
             sentenceForm.addEventListener('submit', (event) => {
                 event.preventDefault();
 
+                if (isSubmitted) return;
+
+                isSubmitted = true;
+
                 const formData = new FormData(sentenceForm);
                 const totalSentences = parseInt(formData.get('total_sentences'), 10);
                 let correctCount = 0;
@@ -181,14 +186,22 @@ function getRandomWords($sentence, $numWords = 8)
                     }
                 }
 
-                resultDiv.innerHTML = `Number of correct answers: ${correctCount} / ${totalSentences}`;
+                Swal.fire({
+                    title: "Good job!",
+                    text: `You got ${correctCount} out of ${totalSentences} correct!`,
+                    icon: "success"
+                });
+
+                document.querySelectorAll('input[type="text"]').forEach(input => {
+                    input.setAttribute('readonly', 'readonly');
+                });
+
+                document.querySelectorAll('.word').forEach(word => {
+                    word.classList.add('disabled');
+                });
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const refreshButton = document.getElementById('refresh-test');
-
-            refreshButton.addEventListener('click', () => {
+            document.getElementById('refresh-test').addEventListener('click', () => {
                 window.location.reload();
             });
         });
