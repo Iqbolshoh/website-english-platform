@@ -21,6 +21,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
     <link rel="stylesheet" href="../css/add.css">
 </head>
+<style>
+    .justify-center {
+        height: calc(100vh - 180px) !important;
+    }
+</style>
 
 <body>
 
