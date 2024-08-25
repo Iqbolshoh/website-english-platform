@@ -38,7 +38,7 @@ foreach ($rows as $row) {
     $pdf->SetFont('Arial', '', 12);
     $pdf->MultiCell($columnWidth, 10, $row['content']);
 
-    $pdf->SetTextColor(0, 0, 0);
+    $pdf->SetTextColor(44, 62, 80);
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Cell($columnWidth, 10, 'Translation', 0, 1, 'C');
 

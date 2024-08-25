@@ -34,7 +34,13 @@ $word_name = $query->select(
 </head>
 <style>
     #suggestions {
-        height: calc(100vh - 355px) !important;
+        height: calc(100vh - 465px) !important;
+    }
+
+    @media (max-width: 768px) {
+        #suggestions {
+            height: calc(100vh - 435px) !important;
+        }
     }
 </style>
 
@@ -85,6 +91,8 @@ $word_name = $query->select(
     </div>
 
     <script src="../js/sentences.js"></script>
+
+    <?php include '../includes/footer.php'; ?>
 
 </body>
 

@@ -61,6 +61,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <div id="result"></div>
     </div>
 
+    <?php include '../includes/footer.php'; ?>
+    
     <script src="../js/dictionary.js"></script>
 
 </body>

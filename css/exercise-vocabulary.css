@@ -1,12 +1,18 @@
 .container {
     width: calc(100% - 40px);
     max-width: 800px;
-    margin: 50px auto;
+    margin: 20px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
+    height: 85vh;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
+}
+
+footer {
+    position: static !important;
+    display: block;
 }
 
 h1 {

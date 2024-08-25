@@ -97,7 +97,7 @@ function deleteText() {
                 success: function (response) {
                     swalWithBootstrapButtons.fire({
                         title: 'Deleted!',
-                        text: `The dictionary entry "${word}" has been deleted.`,
+                        text: `You won't be able to revert this action!`,
                         icon: 'success'
                     }).then(() => {
                         closeModal();

@@ -6,6 +6,11 @@
     box-sizing: border-box;
 }
 
+footer {
+    position: static !important;
+    display: block;
+}
+
 .profile-form-container {
     background-color: #fff;
     border-radius: 8px;

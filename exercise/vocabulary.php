@@ -134,6 +134,8 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
 
         <?php endif; ?>
     </div>
+    
+    <?php include '../includes/footer.php'; ?>
 
     <script src="../js/exercise-vocabulary.js"></script>
 

@@ -125,6 +125,8 @@ function getRandomWords($sentence, $numWords = 8)
         <?php endif; ?>
     </div>
 
+    <?php include '../includes/footer.php'; ?>
+    
     <script src="../js/exercise-sentences.js"></script>
 
 </body>

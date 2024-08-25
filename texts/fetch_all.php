@@ -96,7 +96,7 @@ if ($results) {
 <?php } ?>
 
 <div id="infoModal" class="modal" onclick="closeModal()">
-    <div class="modal-content">
+    <div class="modal-content" onclick="event.stopPropagation()">
         <span class="close" onclick="closeModal()">&times;</span>
         <div id="modalTitle" class="modal-section"></div>
         <div id="modalWord" class="modal-section"></div>

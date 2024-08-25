@@ -109,9 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </div>
+    
+    <?php include '../includes/footer.php'; ?>
 
     <script>
-        document.getElementById('toggle-password').addEventListener('click', function () {
+        document.getElementById('toggle-password').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
 
@@ -126,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         });
 
-        document.getElementById('profile-form').addEventListener('submit', function (event) {
+        document.getElementById('profile-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
             Swal.fire({
