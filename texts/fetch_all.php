@@ -67,20 +67,22 @@ if ($results) {
         return strcmp(strtolower($a['content']), strtolower($b['content']));
     });
 
+    $isExpanded = isset($expandedSentences[$row['id']]) ? 'expanded' : '';
+
     $html = "<ul>";
     foreach ($results as $index => $row) {
         $textId = "text_" . $index;
         $likeId = "heart_" . $index;
         $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['content']);
         $isLiked = in_array($row['id'], $likedtextIds);
-        $html .= "<li id='{$textId}' class='vocabulary' onclick='toggleExpand(this)'>" .
-            str_ireplace($textsearch, "<span class='highlight'>{$textsearch}</span>", $text) .
-            "<div class='buttons'>
+        $html .= "<div class='vocabulary'>
+            <li id='{$textId}' class='{$isExpanded}' onclick='toggleExpand(this)'>" . str_ireplace($textsearch, "<span class='highlight'>{$textsearch}</span>", $text) . "</li>
+            <div class='buttons'>
                 <i class='fas fa-volume-up' onclick=\"speakText('{$textId}')\"></i>
                 <i class='fas fa-heart " . ($isLiked ? 'liked' : '') . "' id='{$likeId}' onclick=\"Liked('{$likeId}', '{$row['id']}')\"></i>
                 <i class='fas fa-info-circle' onclick='showInfo(" . json_encode(["title" => $row["title"], "word" => $row["content"], "translation" => $row["translation"], "definition" => $row["definition"], "id" => $row["id"]], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
             </div>
-        </li>";
+        </div>";
     }
     $html .= "</ul>";
     echo $html;

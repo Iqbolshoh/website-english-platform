@@ -63,12 +63,12 @@
 </header>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const menuToggle = document.querySelector('.header-menu-toggle');
         const links = document.querySelector('.header-links');
         const icon = menuToggle.querySelector('i');
 
-        menuToggle.addEventListener('click', function () {
+        menuToggle.addEventListener('click', function() {
             if (links.classList.contains('active')) {
                 links.classList.remove('active');
                 icon.classList.remove('fa-times');
@@ -80,7 +80,7 @@
             }
         });
 
-        document.addEventListener('click', function (event) {
+        document.addEventListener('click', function(event) {
             const isClickInsideMenu = links.contains(event.target);
             const isClickInsideToggle = menuToggle.contains(event.target);
 
@@ -91,5 +91,4 @@
             }
         });
     });
-
 </script>

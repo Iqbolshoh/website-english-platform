@@ -10,10 +10,6 @@ class Query
         $password = "X?t&e#iF3Fc*";
         $dbname = "milliyto_english";
 
-        $username = "root";
-        $password = "";
-        $dbname = "english";
-
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
         if ($this->conn->connect_error) {

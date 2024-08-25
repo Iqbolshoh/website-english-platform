@@ -121,6 +121,7 @@ function toggleExpand(element) {
         element.classList.add('expanded');
     }
 }
+
 document.addEventListener('DOMContentLoaded', () => { });
 
 function sentences() {

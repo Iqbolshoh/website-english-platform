@@ -1,9 +1,3 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
 .container {
     width: calc(100% - 40px);
     max-width: 800px;
@@ -56,7 +50,7 @@ input[type="text"] {
     display: inline-block;
     margin: 5px;
     padding: 5px;
-    color: #333; 
+    color: #333;
     border: 1px solid #333;
     cursor: pointer;
     border-radius: 5px;

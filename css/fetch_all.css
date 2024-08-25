@@ -23,7 +23,7 @@
 }
 
 .vocabulary i {
-    font-size: 21px;
+    font-size: 20px;
 }
 
 .vocabulary .buttons {
@@ -116,13 +116,19 @@
     animation: slideIn 0.3s ease;
 }
 
+#modalTitle,
 #modalWord,
 #modalSentence {
     margin-bottom: 10px;
-    font-size: 20px;
-    line-height: 1.5;
+    font-size: 17px;
+    line-height: 1.3;
     color: #2c3e50;
-    font-weight: bold;
+}
+
+#modalTitle {
+    font-size: 21px;
+    text-transform: uppercase;
+    color: #000;
 }
 
 .modal-content hr {
@@ -134,14 +140,14 @@
 
 #modalTranslation {
     margin-bottom: 10px;
-    font-size: 18px;
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.3;
     color: #16a085;
 }
 
 #modalDefinition {
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.3;
     color: #34495e;
     word-wrap: break-word;
 }

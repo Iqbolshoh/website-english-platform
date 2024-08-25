@@ -54,12 +54,17 @@ function closeModal() {
     document.getElementById('infoModal').classList.remove('fade-in');
 }
 
-
-
 function toggleExpand(element) {
-    element.classList.toggle('expanded');
+    const isExpanded = element.classList.contains('expanded');
+
+    document.querySelectorAll('.vocabulary li').forEach(el => el.classList.remove('expanded'));
+
+    if (!isExpanded) {
+        element.classList.add('expanded');
+    }
 }
 
+document.addEventListener('DOMContentLoaded', () => { });
 
 function deleteText() {
     const TextId = document.getElementById('infoModal').dataset.TextId;

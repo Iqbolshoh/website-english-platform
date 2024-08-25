@@ -1,8 +1,4 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #eaeaea;
-    margin: 0;
-    padding: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
