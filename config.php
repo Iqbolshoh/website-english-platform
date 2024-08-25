@@ -10,9 +10,9 @@ class Query
         $password = "X?t&e#iF3Fc*";
         $dbname = "milliyto_english";
 
-        // $username = "root";
-        // $password = "";
-        // $dbname = "english";
+        $username = "root";
+        $password = "";
+        $dbname = "english";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -251,6 +251,30 @@ class Query
         $typeArray = str_split($types);
         foreach ($params as $key => $param) {
             $stmt->bind_param($typeArray[$key], $param);
+        }
+    }
+    public function addText($userId, $textTitle, $textContent, $translation)
+    {
+        $textTitle = $this->validate($textTitle);
+        $textContent = $this->validate($textContent);
+        $translation = $this->validate($translation);
+
+        $sql = "INSERT INTO texts (user_id, title, content, translation) VALUES (?, ?, ?, ?)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if ($stmt === false) {
+            die("SQL prepare error: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("isss", $userId, $textTitle, $textContent, $translation);
+
+        if ($stmt->execute()) {
+            $insertedId = $this->conn->insert_id;
+            $stmt->close();
+            return $insertedId;
+        } else {
+            die("SQL execute error: " . $stmt->error);
         }
     }
 }

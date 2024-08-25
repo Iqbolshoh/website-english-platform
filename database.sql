@@ -36,6 +36,7 @@ CREATE TABLE texts (
     user_id INT NOT NULL,
     title VARCHAR(150) NOT NULL,
     content VARCHAR(2000) NOT NULL,
+    translation VARCHAR(2000) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

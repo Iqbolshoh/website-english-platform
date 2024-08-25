@@ -34,7 +34,7 @@ $word_name = $query->select(
 </head>
 <style>
     #suggestions {
-        height: calc(100vh - 356px) !important;
+        height: calc(100vh - 355px) !important;
     }
 </style>
 

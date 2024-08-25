@@ -24,7 +24,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 <style>
     #suggestions {
-        height: calc(100vh - 252px) !important;
+        height: calc(100vh - 300px) !important;
+    }
+
+    @media (max-width: 768px) {
+        #suggestions {
+            height: calc(100vh - 251px) !important;
+        }
     }
 </style>
 
