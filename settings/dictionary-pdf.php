@@ -20,14 +20,13 @@ $pdf->SetFont('Arial', 'B', 16);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->SetFillColor(22, 160, 133);
 $pdf->Cell(0, 10, 'Dictionary Entries', 0, 1, 'C', true);
-$pdf->Ln(10);
+$pdf->Ln(3);
 
 $pdf->SetFont('Arial', 'B', 12);
 
 $headerColors = [
     'word' => ['text' => [255, 255, 255], 'fill' => [22, 160, 133]],
-    'translation' => ['text' => [255, 255, 255], 'fill' => [44, 62, 80]],
-    'definition' => ['text' => [255, 255, 255], 'fill' => [52, 73, 94]]
+    'translation' => ['text' => [255, 255, 255], 'fill' => [44, 62, 80]]
 ];
 
 $columnWidths = [
@@ -46,17 +45,17 @@ $pdf->Ln();
 $pdf->SetFont('Arial', '', 12);
 $pdf->SetTextColor(0, 0, 0);
 
-$rows = $query->select('words', 'word, translation, definition', "WHERE user_id = $user_id ORDER BY word ASC");
+$rows = $query->select('words', 'word, translation', "WHERE user_id = $user_id ORDER BY word ASC");
 $rowNumber = 1;
 foreach ($rows as $row) {
     $pdf->Cell($columnWidths['no'], 10, $rowNumber++, 1);
     $pdf->Cell($columnWidths['word'], 10, $row['word'], 1);
-    
+
     $pdf->Cell($columnWidths['translation'], 10, $row['translation'], 1);
 
     $pdf->Ln();
     $currentY = $pdf->GetY();
-    $pdf->SetY($currentY); 
+    $pdf->SetY($currentY);
 }
 
 $pdf->Output($_SESSION['username'] . '-dictionary-' . date("H.i.s-m.d.Y") . '.pdf', 'D');

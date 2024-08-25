@@ -37,13 +37,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </a>
 
             <a href="dictionary-pdf.php" class="link">
-                <i class="fa-solid fa-file-pdf"></i>
+                <i class="fa-solid fa-download"></i>
                 <span>Save dictionary .pdf</span>
             </a>
 
             <a href="sentences-pdf.php" class="link">
                 <i class="fa-solid fa-download"></i>
                 <span>Save sentences .pdf</span>
+            </a>
+
+            <a href="text-pdf.php" class="link">
+                <i class="fa-solid fa-download"></i>
+                <span>Save Text .pdf</span>
             </a>
 
             <a href="#" class="link" onclick="Logout(); return false;">

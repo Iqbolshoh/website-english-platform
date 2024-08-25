@@ -126,6 +126,22 @@ function showInfo(data) {
     modal.setAttribute('data-sentences-id', data.id);
     modal.classList.add("fade-in");
     modal.style.display = "block";
+
+    fetch('getWordName.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'id': data.id
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            let title = document.getElementById('modalTitle');
+            title.textContent = data.word
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function toggleExpand(element) {
@@ -139,3 +155,4 @@ function toggleExpand(element) {
 }
 
 document.addEventListener('DOMContentLoaded', () => { });
+

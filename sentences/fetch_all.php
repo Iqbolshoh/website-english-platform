@@ -100,7 +100,7 @@ if ($results) {
     }
     $html .= "</ul>";
 
-    echo $html; 
+    echo $html;
 } else {
     echo "<div class='information-not-found'>
     <i class='fas fa-exclamation-circle'></i>
@@ -108,11 +108,13 @@ if ($results) {
     <a href='../dictionary/' class='btn btn-primary'>Add Sentences</a>
   </div>";
 }
+
 ?>
 
-<div id="infoModal" class="modal">
+<div id="infoModal" class="modal" onclick="closeModal()">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modalTitle" class="modal-section"><?= $word_name ?></div>
         <div id="modalWord" class="modal-section"></div>
         <hr>
         <div id="modalTranslation" class="modal-section"></div>

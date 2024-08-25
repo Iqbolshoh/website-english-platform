@@ -108,7 +108,8 @@ if ($results) {
     $html .= "</ul>";
     echo $html;
 } else {
-    ?>
+
+?>
 
     <div class="information-not-found">
         <i class="fa fa-info-circle"></i>
@@ -118,7 +119,7 @@ if ($results) {
 
 <?php } ?>
 
-<div id="infoModal" class="modal">
+<div id="infoModal" class="modal" onclick="closeModal()">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <div id="modalWord" class="modal-section"></div>
