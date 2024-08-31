@@ -57,8 +57,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </a>
 
         </div>
-
+        
     </div>
+    
+    <?php include '../includes/footer.php' ?>
     
     <script>
         function Logout() {
@@ -84,7 +86,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             });
         }
     </script>
-    <?php include '../includes/footer.php' ?>
 </body>
 
 </html>

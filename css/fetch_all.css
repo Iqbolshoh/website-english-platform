@@ -226,7 +226,7 @@
 .information-not-found {
     width: calc(100% - 20px);
     max-width: 600px;
-    margin: 50px auto;
+    margin: 10px auto;
     padding: 30px;
     border-radius: 10px;
     background-color: #f8f9fa;

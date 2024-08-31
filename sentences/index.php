@@ -25,7 +25,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <style>
     @media (max-width: 768px) {
         #suggestions {
-            height: calc(100vh - 331px) !important;
+            height: calc(100vh - 381px) !important;
         }
     }
 </style>
@@ -68,9 +68,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
     </div>
 
-    <script src="../js/sentences-index.js"></script>
-
     <?php include '../includes/footer.php'; ?>
+
+    <script src="../js/sentences-index.js"></script>
 
 </body>
 

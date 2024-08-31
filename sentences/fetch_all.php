@@ -1,4 +1,3 @@
-<script src="../js/fetch_all-sentences.js"></script>
 <link rel="stylesheet" href="../css/fetch_all.css">
 
 <?php
@@ -124,3 +123,5 @@ if ($results) {
         </div>
     </div>
 </div>
+
+<script src="../js/fetch_all-sentences.js"></script>

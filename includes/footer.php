@@ -10,3 +10,34 @@
         </p>
     </div>
 </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.querySelector('.header-menu-toggle');
+        const links = document.querySelector('.header-links');
+        const icon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', function() {
+            if (links.classList.contains('active')) {
+                links.classList.remove('active');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                links.classList.add('active');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            const isClickInsideMenu = links.contains(event.target);
+            const isClickInsideToggle = menuToggle.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickInsideToggle && links.classList.contains('active')) {
+                links.classList.remove('active');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    });
+</script>

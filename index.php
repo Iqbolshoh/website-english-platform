@@ -23,7 +23,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link rel="stylesheet" href="./css/home.css">
     <link rel="stylesheet" href="./css/footer.css">
     <link rel="stylesheet" href="./css/sweetalert2.css">
-    <script src="./js/sweetalert2.js"></script>
 </head>
 
 <body>
