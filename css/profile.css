@@ -7,7 +7,7 @@
 }
 
 footer {
-    position: static !important;
+    position: relative !important;
     display: block;
 }
 
