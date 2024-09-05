@@ -15,6 +15,32 @@ This is an English learning platform designed to help users improve their vocabu
 - **Search**: A search function to find words, sentences, and texts easily.
 - **Favorite Words, Sentences, and Texts**: Users can save their favorite words, sentences, and texts.
 
+## Pages
+
+### Home Page
+![Home Page](images/home.png)
+- The home page welcomes users to the platform and provides navigation links to other sections.
+
+### Dictionary Page
+![Dictionary Page](images/dictionary.png)
+- Users can add and view vocabulary words along with their translations and definitions.
+
+### Sentences Page
+![Sentences Page](images/sentences.png)
+- Users can create and view sentences using the vocabulary words, including translations.
+
+### Texts Page
+![Texts Page](images/texts.png)
+- Users can upload and read texts, and add translations for practice.
+
+### Exercises Page
+![Exercises Page](images/exercise.png)
+- Contains tests for vocabulary and sentences to help users practice and improve their English.
+
+### Settings Page
+![Settings Page](images/settings.png)
+- Users can manage their account settings and preferences.
+
 ## Installation
 
 1. Clone the repository:
