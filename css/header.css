@@ -1,5 +1,10 @@
-body {
+* {
     font-family: 'Arial', sans-serif;
+    letter-spacing: normal;
+    line-height: 1.7;
+}
+
+body {
     background-color: #f4f7f9;
     margin: 0;
     padding: 0;

@@ -47,7 +47,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                     <textarea id="text_content" name="text_content" required maxlength="2000"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="translation">translation<span>*</span></label>
+                    <label for="translation">Translation<span>*</span></label>
                     <textarea id="translation" name="translation" required maxlength="2000"></textarea>
                 </div>
                 <div class="form-group">
