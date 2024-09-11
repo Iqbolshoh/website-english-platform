@@ -11,7 +11,9 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 }
 
 if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
+
     if (session_id() !== $_COOKIE['session_token']) {
+        session_write_close();
         session_id($_COOKIE['session_token']);
         session_start();
     }
