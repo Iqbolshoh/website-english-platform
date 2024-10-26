@@ -31,6 +31,22 @@ if ($filter === 'liked') {
             $types
         );
     }
+} else if ($filter === 'end') {
+    $results = $query->select(
+        'words',
+        'id, word, translation',
+        'WHERE user_id = ? ORDER BY id DESC LIMIT ?',
+        [$userId, $numWords],
+        'ii'
+    );
+} else if ($filter === 'begin') {
+    $results = $query->select(
+        'words',
+        'id, word, translation',
+        'WHERE user_id = ? ORDER BY id ASC LIMIT ?',
+        [$userId, $numWords],
+        'ii'
+    );
 } else {
     $results = $query->select(
         'words',
@@ -40,6 +56,8 @@ if ($filter === 'liked') {
         'ii'
     );
 }
+
+shuffle($results);
 
 function getRandomOptions($correctWord, $allWords, $numOptions = 4)
 {
@@ -84,12 +102,13 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
                 <label for="num_words" style="font-size: 16px; color: #333;">Tests:</label>
                 <select name="num_words" id="num_words"
                     style="padding: 5px; border-radius: 4px; border: 1px solid #ddd; font-size: 14px;">
-                    <option value="5" <?= $numWords == 5 ? 'selected' : '' ?>>5</option>
                     <option value="10" <?= $numWords == 10 ? 'selected' : '' ?>>10</option>
-                    <option value="15" <?= $numWords == 15 ? 'selected' : '' ?>>15</option>
                     <option value="20" <?= $numWords == 20 ? 'selected' : '' ?>>20</option>
                     <option value="30" <?= $numWords == 30 ? 'selected' : '' ?>>30</option>
                     <option value="50" <?= $numWords == 50 ? 'selected' : '' ?>>50</option>
+                    <option value="100" <?= $numWords == 100 ? 'selected' : '' ?>>100</option>
+                    <option value="200" <?= $numWords == 200 ? 'selected' : '' ?>>200</option>
+                    <option value="300" <?= $numWords == 300 ? 'selected' : '' ?>>300</option>
                 </select>
             </div>
 
@@ -99,6 +118,8 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
                     style="padding: 5px; border-radius: 4px; border: 1px solid #ddd; font-size: 14px;">
                     <option value="all" <?= $filter == 'all' ? 'selected' : '' ?>>All</option>
                     <option value="liked" <?= $filter == 'liked' ? 'selected' : '' ?>>Liked</option>
+                    <option value="begin" <?= $filter == 'begin' ? 'selected' : '' ?>>From the beginning</option>
+                    <option value="end" <?= $filter == 'end' ? 'selected' : '' ?>>From the end</option>
                 </select>
             </div>
         </form>
@@ -134,7 +155,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
 
         <?php endif; ?>
     </div>
-    
+
     <?php include '../includes/footer.php'; ?>
 
     <script src="../js/exercise-vocabulary.js"></script>

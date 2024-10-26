@@ -71,9 +71,10 @@ function getRandomWords($sentence, $numWords = 8)
                 <select name="num_sentences" id="num_sentences">
                     <option value="5" <?= $numSentences == 5 ? 'selected' : '' ?>>5</option>
                     <option value="10" <?= $numSentences == 10 ? 'selected' : '' ?>>10</option>
-                    <option value="15" <?= $numSentences == 15 ? 'selected' : '' ?>>15</option>
                     <option value="20" <?= $numSentences == 20 ? 'selected' : '' ?>>20</option>
                     <option value="30" <?= $numSentences == 30 ? 'selected' : '' ?>>30</option>
+                    <option value="50" <?= $numSentences == 50 ? 'selected' : '' ?>>50</option>
+                    <option value="100" <?= $numSentences == 100 ? 'selected' : '' ?>>100</option>
                 </select>
             </div>
 
@@ -126,7 +127,7 @@ function getRandomWords($sentence, $numWords = 8)
     </div>
 
     <?php include '../includes/footer.php'; ?>
-    
+
     <script src="../js/exercise-sentences.js"></script>
 
 </body>
