@@ -23,9 +23,9 @@ $user = $query->select('users');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User List</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-
         .table {
             background-color: #fff;
             border-radius: 0.5rem;
