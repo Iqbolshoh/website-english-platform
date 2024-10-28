@@ -110,7 +110,7 @@ button:hover {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
-    height: calc(100vh - 430px);
+    height: calc(100vh - 300px);
     overflow-y: auto;
     padding: 10px;
 }

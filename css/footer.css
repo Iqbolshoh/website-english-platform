@@ -1,5 +1,5 @@
 footer {
-    position: fixed;
+    position: static !important;
     bottom: 0;
     width: 100%;
     background-color: #2f4f4f;
@@ -9,8 +9,22 @@ footer {
     text-align: center;
 }
 
+.container {
+    width: calc(100% - 40px);
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    box-sizing: border-box;
+    min-height: calc(100vh - 170px);
+}
+
+footer {
+    position: static !important;
+    display: block;
+}
+
 footer .footer {
-    display: flex;
+    display: block;
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
