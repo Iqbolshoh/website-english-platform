@@ -36,6 +36,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <span>Profile</span>
             </a>
 
+            <?php if ($_SESSION['username'] == 'iqbolshoh') : ?>
+                <a href="users.php" class="link">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>Users</span>
+                </a>
+            <?php endif ?>
+
             <a href="dictionary-pdf.php" class="link">
                 <i class="fa-solid fa-download"></i>
                 <span>Save dictionary .pdf</span>
@@ -57,11 +64,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </a>
 
         </div>
-        
+
     </div>
-    
+
     <?php include '../includes/footer.php' ?>
-    
+
     <script>
         function Logout() {
             const menuToggle = document.querySelector('.header-menu-toggle');
