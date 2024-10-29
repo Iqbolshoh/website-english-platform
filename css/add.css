@@ -5,12 +5,18 @@
     align-items: center;
 }
 
+.container {
+    padding: 0px !important;
+}
+
 .add-container {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px 20px 10px 20px;
     width: calc(100% - 40px);
+    width: 100%;
+    margin: 0px;
     max-width: 600px;
     box-sizing: border-box;
 }

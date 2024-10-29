@@ -96,7 +96,7 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <div class="container">
+    <div class="form-container">
 
         <h1>Login</h1>
 

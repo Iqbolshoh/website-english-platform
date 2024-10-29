@@ -2,7 +2,6 @@
 
 session_start();
 
-
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     header("Location: ../");
     exit;
@@ -78,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <div class="container">
+    <div class="form-container">
         <h1>Sign Up</h1>
         <form id="signupForm" method="post" action="">
             <div class="form-group">
