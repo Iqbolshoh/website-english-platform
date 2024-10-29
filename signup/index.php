@@ -34,10 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             setcookie('username', $username, time() + (86400 * 30), "/", "", true, true);
             setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
 
-            ?>
+?>
 
             <script>
-                window.onload = function () {
+                window.onload = function() {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
@@ -50,9 +50,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 };
             </script>
 
-            <?php
+<?php
         } else {
-            $error_message = "An error occurred. Please try again.";
+            echo "<script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '$error_message',
+        });
+    </script>";
         }
     }
 }
@@ -107,16 +113,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <script>
-        document.getElementById('email').addEventListener('input', function () {
+        document.getElementById('email').addEventListener('input', function() {
             let email = this.value;
             if (email.length > 0) {
                 fetch('check_availability.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `email=${encodeURIComponent(email)}`
-                })
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `email=${encodeURIComponent(email)}`
+                    })
                     .then(response => response.json())
                     .then(data => {
                         const messageElement = document.getElementById('email-message');
@@ -129,16 +135,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
 
-        document.getElementById('username').addEventListener('input', function () {
+        document.getElementById('username').addEventListener('input', function() {
             let username = this.value;
             if (username.length > 0) {
                 fetch('check_availability.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `username=${encodeURIComponent(username)}`
-                })
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `username=${encodeURIComponent(username)}`
+                    })
                     .then(response => response.json())
                     .then(data => {
                         const messageElement = document.getElementById('username-message');
@@ -151,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
 
-        document.getElementById('toggle-password').addEventListener('click', function () {
+        document.getElementById('toggle-password').addEventListener('click', function() {
             const passwordField = document.getElementById('password');
             const toggleIcon = this.querySelector('i');
 
