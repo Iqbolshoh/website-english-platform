@@ -1,13 +1,14 @@
 <?php
-session_start();
 
-include '../config.php';
-$query = new Query();
+session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
+
+include '../config.php';
+$query = new Query();
 
 $user_id = $_SESSION['user_id'];
 $user = $query->find('users', $user_id)[0];

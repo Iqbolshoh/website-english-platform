@@ -2,10 +2,15 @@
 
 session_start();
 
-$user_id = $_SESSION['user_id'];
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../login/");
+    exit;
+}
 
 include '../config.php';
 $query = new Query();
+
+$user_id = $_SESSION['user_id'];
 
 header('Content-Type: application/json');
 
@@ -43,4 +48,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 echo json_encode($response);
-?>

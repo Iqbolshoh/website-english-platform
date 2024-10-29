@@ -2,15 +2,27 @@
 
 session_start();
 
-include '../config.php';
-$query = new Query();
-
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
 
+include '../config.php';
+$query = new Query();
+
 $wordId = intval($_GET['word_id']);
+$userId = $_SESSION['user_id'];
+$results = [];
+
+if (!$wordId) {
+    $results = $query->select(
+        'words',
+        '*',
+        'WHERE user_id = ? ORDER BY word ASC',
+        [$userId],
+        'i'
+    );
+}
 
 ?>
 
@@ -31,31 +43,48 @@ $wordId = intval($_GET['word_id']);
 
     <div class="justify-center">
         <div class="container">
-            <h1>Add New Sentence</h1>
+            <div class="add-container">
 
-            <div id="responseMessage" class="message"></div>
+                <h1>Add New Sentence</h1>
 
-            <form id="sentenceForm" method="post">
-                <input type="hidden" name="word_id" value="<?php echo htmlspecialchars($wordId); ?>" />
-                <div class="form-group">
-                    <label for="sentence">Sentence<span>*</span></label>
-                    <textarea id="sentence" name="sentence" required maxlength="200"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="translation">Translation<span>*</span></label>
-                    <textarea id="translation" name="translation" required maxlength="255"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Add Sentence</button>
-                </div>
-            </form>
+                <div id="responseMessage" class="message"></div>
+
+                <form id="sentenceForm" method="post">
+                    <?php if (!$wordId): ?>
+                        <div class="form-group">
+                            <label for="word">Select Word<span>*</span></label>
+                            <select id="word" name="word_id" required>
+                                <option value="">Select a Word</option>
+                                <?php foreach ($results as $row): ?>
+                                    <option value="<?php echo htmlspecialchars($row['id']); ?>">
+                                        <?php echo htmlspecialchars($row['word']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php else: ?>
+                        <input type="hidden" name="word_id" value="<?php echo htmlspecialchars($wordId); ?>" />
+                    <?php endif; ?>
+
+                    <div class="form-group">
+                        <label for="sentence">Sentence<span>*</span></label>
+                        <textarea id="sentence" name="sentence" required maxlength="200"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="translation">Translation<span>*</span></label>
+                        <textarea id="translation" name="translation" required maxlength="255"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Add Sentence</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
     <?php include '../includes/footer.php'; ?>
 
     <script src="../js/sentences-add.js"></script>
-
 </body>
 
 </html>

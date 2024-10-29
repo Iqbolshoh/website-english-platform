@@ -1,12 +1,14 @@
 <?php
+
 session_start();
-include '../config.php';
-$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
+
+include '../config.php';
+$query = new Query();
 
 if ($_SESSION['username'] !== 'iqbolshoh') {
     header("Location: ../");

@@ -2,13 +2,13 @@
 
 session_start();
 
-include '../config.php';
-$query = new Query();
-
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
+
+include '../config.php';
+$query = new Query();
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +48,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
             <div class="display-flex">
                 <button onclick="window.location.href='./add.php'">
-                    Add a dictionary
+                    Add a text
                 </button>
                 <div id="liked-btn-2" class="heart-box">
                     <i class='fas fa-heart' id="liked2"></i>
@@ -62,7 +62,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     </div>
 
     <?php include '../includes/footer.php'; ?>
-    
+
     <script src="../js/dictionary.js"></script>
 
 </body>

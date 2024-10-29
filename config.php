@@ -24,7 +24,6 @@ class Query
         }
     }
 
-    // validate(): Sanitizes input to prevent HTML and SQL injection
     function validate($value)
     {
         $value = str_replace(['‘', '’', '“', '”', '"', '„', '‟', '‹', '›', '«', '»', '`', '´', '❛', '❜', '❝', '❞', '〝', '〞'], "'", $value);
@@ -34,7 +33,6 @@ class Query
     }
 
 
-    // executeQuery(): Executes an SQL query with optional parameters
     public function executeQuery($sql, $params = [], $types = "")
     {
         $stmt = $this->conn->prepare($sql);
@@ -50,7 +48,6 @@ class Query
         return $stmt;
     }
 
-    // select(): Retrieves data from a specified table
     public function select($table, $columns = "*", $condition = "", $params = [], $types = "")
     {
         $sql = "SELECT $columns FROM $table $condition";
@@ -58,7 +55,6 @@ class Query
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // insert(): Adds a new record to a specified table
     public function insert($table, $data)
     {
         $keys = implode(', ', array_keys($data));
@@ -69,7 +65,6 @@ class Query
         return $this->conn->insert_id;
     }
 
-    // update(): Updates existing records in a specified table
     public function update($table, $data, $condition = "", $params = [], $types = "")
     {
         $set = '';
@@ -89,7 +84,6 @@ class Query
         $this->executeQuery($sql, array_merge(array_values($data), $params), $types);
     }
 
-    // delete(): Removes records from a specified table
     public function delete($table, $condition = "", $params = [], $types = "")
     {
         if ($condition) {
@@ -102,14 +96,12 @@ class Query
         $this->executeQuery($sql, $params, $types);
     }
 
-    // hashPassword(): Hashes a password using sha256 with a key
     function hashPassword($password)
     {
         $key = "iqbolshoh-ilhomjonov";
         return hash_hmac('sha256', $password, 'iqbolshoh-ilhomjonov');
     }
 
-    // Check if email exists
     public function emailExists($email)
     {
         $sql = "SELECT id FROM users WHERE email = ?";
@@ -127,7 +119,6 @@ class Query
         return false;
     }
 
-    // Check if username exists
     public function usernameExists($username)
     {
         $sql = "SELECT id FROM users WHERE username = ?";
@@ -145,7 +136,6 @@ class Query
         return false;
     }
 
-    // Register a new user
     public function registerUser($fullname, $email, $username, $password)
     {
         $sql = "INSERT INTO users (fullname, email, username, password) VALUES (?, ?, ?, ?)";
@@ -167,7 +157,6 @@ class Query
         return !empty($result) ? $result[0]['id'] : null;
     }
 
-    // find(): Finds a record by its ID in a specified table
     public function find($table, $id)
     {
         $id = $this->validate($id);
@@ -176,13 +165,11 @@ class Query
         return $this->select($table, "*", $condition, $params, 'i');
     }
 
-    // search(): Searches for records based on a condition in a specified table
     public function search($table, $columns = "*", $condition = "", $params = [], $types = "")
     {
         return $this->select($table, $columns, $condition, $params, $types);
     }
 
-    // fetchAll(): Retrieves all records from a specified table
     public function fetchAll($table, $columns = "*")
     {
         $sql = "SELECT $columns FROM $table";
@@ -190,27 +177,23 @@ class Query
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // getLastInsertId(): Gets the ID of the last inserted record
     public function getLastInsertId()
     {
         return $this->conn->insert_id;
     }
 
-    // removeLike(): Removes a like from a user's liked words
     public function removeLike($userId, $wordId)
     {
         $stmt = $this->conn->prepare("DELETE FROM liked_words WHERE user_id = ? AND word_id = ?");
         $stmt->execute([$userId, $wordId]);
     }
 
-    // addLike(): Adds a like for a word by a user
     public function addLike($userId, $wordId)
     {
         $stmt = $this->conn->prepare("INSERT INTO liked_words (user_id, word_id) VALUES (?, ?)");
         $stmt->execute([$userId, $wordId]);
     }
 
-    // checkLiked(): Checks if a user has liked a specific word
     public function checkLiked($userId, $wordId)
     {
         $stmt = $this->conn->prepare("SELECT COUNT(*) AS count FROM liked_words WHERE user_id = ? AND word_id = ?");

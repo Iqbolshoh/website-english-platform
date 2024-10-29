@@ -1,17 +1,17 @@
 <?php
-require('./fpdf186/fpdf.php');
 
 session_start();
-
-$user_id = $_SESSION['user_id'];
-
-include '../config.php';
-$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
+
+include '../config.php';
+$query = new Query();
+
+require('./fpdf186/fpdf.php');
+$user_id = $_SESSION['user_id'];
 
 $pdf = new FPDF();
 $pdf->AddPage();

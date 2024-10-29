@@ -1,9 +1,15 @@
 <?php
 
 session_start();
-include '../config.php';
 
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../login/");
+    exit;
+}
+
+include '../config.php';
 $query = new Query();
+
 $userId = $_SESSION['user_id'];
 
 $sentence_id = isset($_POST['sentence_id']) ? (int) $_POST['sentence_id'] : 0;

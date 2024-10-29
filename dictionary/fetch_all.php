@@ -1,16 +1,14 @@
-<link rel="stylesheet" href="../css/fetch_all.css">
-
 <?php
 
 session_start();
-
-include '../config.php';
-$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
+
+include '../config.php';
+$query = new Query();
 
 $userId = $_SESSION['user_id'];
 
@@ -18,6 +16,8 @@ $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
 $liked = isset($_GET['liked']) ? $_GET['liked'] : false;
 $WordSearch = isset($_GET['query']) ? $_GET['query'] : '';
 $WordSearch = strtolower($WordSearch);
+
+$results = [];
 
 if ($lang == 'uz') {
     if (!empty($WordSearch)) {
@@ -109,14 +109,15 @@ if ($results) {
 } else {
 
 ?>
-
     <div class="information-not-found">
         <i class="fa fa-info-circle"></i>
         <p>No words found.</p>
         <a href="../dictionary/add.php" class="btn btn-primary">Add Words</a>
     </div>
-    
+
 <?php } ?>
+
+<link rel="stylesheet" href="../css/fetch_all.css">
 
 <div id="infoModal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">

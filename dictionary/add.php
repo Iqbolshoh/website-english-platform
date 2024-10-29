@@ -2,13 +2,13 @@
 
 session_start();
 
-include '../config.php';
-$query = new Query();
-
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
+
+include '../config.php';
+$query = new Query();
 ?>
 
 <!DOCTYPE html>
@@ -28,27 +28,29 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
     <div class="justify-center">
         <div class="container">
-            <h1>Add New Word</h1>
+            <div class="add-container">
+                <h1>Add New Word</h1>
 
-            <div id="responseMessage" class="message"></div>
+                <div id="responseMessage" class="message"></div>
 
-            <form id="wordForm" method="post">
-                <div class="form-group">
-                    <label for="word">Word<span>*</span></label>
-                    <input type="text" id="word" name="word" required maxlength="150">
-                </div>
-                <div class="form-group">
-                    <label for="translation">Translation<span>*</span></label>
-                    <input type="text" id="translation" name="translation" required maxlength="150">
-                </div>
-                <div class="form-group">
-                    <label for="definition">Definition</label>
-                    <textarea id="definition" name="definition" maxlength="255"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Add Word</button>
-                </div>
-            </form>
+                <form id="wordForm" method="post">
+                    <div class="form-group">
+                        <label for="word">Word<span>*</span></label>
+                        <input type="text" id="word" name="word" required maxlength="150">
+                    </div>
+                    <div class="form-group">
+                        <label for="translation">Translation<span>*</span></label>
+                        <input type="text" id="translation" name="translation" required maxlength="150">
+                    </div>
+                    <div class="form-group">
+                        <label for="definition">Definition</label>
+                        <textarea id="definition" name="definition" maxlength="255"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Add Word</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

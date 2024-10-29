@@ -1,16 +1,14 @@
-<link rel="stylesheet" href="../css/fetch_all.css">
-
 <?php
 
 session_start();
-
-include '../config.php';
-$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
+
+include '../config.php';
+$query = new Query();
 
 $userId = $_SESSION['user_id'];
 
@@ -104,11 +102,13 @@ if ($results) {
     echo "<div class='information-not-found'>
     <i class='fas fa-exclamation-circle'></i>
     <p>No sentences found.</p>
-    <a href='../dictionary/' class='btn btn-primary'>Add Sentences</a>
+    <a href='./add.php' class='btn btn-primary'>Add Sentences</a>
   </div>";
 }
 
 ?>
+
+<link rel="stylesheet" href="../css/fetch_all.css">
 
 <div id="infoModal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">

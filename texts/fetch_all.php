@@ -1,19 +1,18 @@
-<link rel="stylesheet" href="../css/fetch_all.css">
-<script src="../js/fetch_all-texts.js"></script>
-
 <?php
 
 session_start();
-
-include '../config.php';
-$query = new Query();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ../login/");
     exit;
 }
 
+include '../config.php';
+$query = new Query();
+
 $userId = $_SESSION['user_id'];
+
+$results = [];
 
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'eng';
 $liked = isset($_GET['liked']) ? $_GET['liked'] : false;
@@ -94,6 +93,9 @@ if ($results) {
         <a href="./add.php" class="btn btn-primary">Add texts</a>
     </div>
 <?php } ?>
+
+<link rel="stylesheet" href="../css/fetch_all.css">
+<script src="../js/fetch_all-texts.js"></script>
 
 <div id="infoModal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">

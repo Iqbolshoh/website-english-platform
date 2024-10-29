@@ -1,7 +1,3 @@
-body {
-    height: 100vh;
-}
-
 .justify-center {
     width: 100%;
     display: flex;
@@ -9,7 +5,7 @@ body {
     align-items: center;
 }
 
-.container {
+.add-container {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -91,5 +87,46 @@ textarea {
 @media (max-width: 768px) {
     .justify-center {
         margin: 20px 0px;
+    }
+}
+
+.form-group button {
+    width: 100%;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #555;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.form-group select::after {
+    content: "▼";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .form-group select {
+        font-size: 14px;
+        padding: 8px;
     }
 }
