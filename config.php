@@ -154,7 +154,7 @@ class Query
     public function getUserIdByUsername($username)
     {
         $result = $this->select('users', 'id', 'WHERE username = ?', [$username], 's');
-        return !empty($result) ? $result[0]['id'] : null;
+        return $result[0]['id'];
     }
 
     public function find($table, $id)

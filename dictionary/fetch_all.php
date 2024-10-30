@@ -87,10 +87,10 @@ if ($results) {
         return strcmp(strtolower($a['word']), strtolower($b['word']));
     });
 
-    $isExpanded = isset($expandedSentences[$row['id']]) ? 'expanded' : '';
-
+    
     $html = "<ul>";
     foreach ($results as $index => $row) {
+        $isExpanded = isset($expandedSentences[$row['id']]) ? 'expanded' : '';
         $wordId = "word_" . $index;
         $likeId = "heart_" . $index;
         $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['word']);

@@ -10,7 +10,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 include '../config.php';
 $query = new Query();
 
-$wordId = intval($_GET['word_id']);
+$wordId = isset($_GET['word_id']) ? intval($_GET['word_id']) : 0;
 $userId = $_SESSION['user_id'];
 $results = [];
 

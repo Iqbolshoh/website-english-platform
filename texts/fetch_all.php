@@ -66,10 +66,10 @@ if ($results) {
         return strcmp(strtolower($a['content']), strtolower($b['content']));
     });
 
-    $isExpanded = isset($expandedSentences[$row['id']]) ? 'expanded' : '';
-
+    
     $html = "<ul>";
     foreach ($results as $index => $row) {
+        $isExpanded = isset($expandedSentences[$row['id']]) ? 'expanded' : '';
         $textId = "text_" . $index;
         $likeId = "heart_" . $index;
         $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['content']);
