@@ -3,10 +3,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.container {
-    padding: 0px !important;
+    min-height: calc(100vh - 170px);
+    box-sizing: border-box;
+    margin: 20px 0px;
 }
 
 .add-container {
@@ -15,7 +14,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px 20px 10px 20px;
     width: calc(100% - 40px);
-    width: 100%;
     margin: 0px;
     max-width: 600px;
     box-sizing: border-box;

@@ -42,43 +42,41 @@ if (!$wordId) {
     <?php include '../includes/header.php'; ?>
 
     <div class="justify-center">
-        <div class="container">
-            <div class="add-container">
+        <div class="add-container">
 
-                <h1>Add New Sentence</h1>
+            <h1>Add New Sentence</h1>
 
-                <div id="responseMessage" class="message"></div>
+            <div id="responseMessage" class="message"></div>
 
-                <form id="sentenceForm" method="post">
-                    <?php if (!$wordId): ?>
-                        <div class="form-group">
-                            <label for="word">Select Word<span>*</span></label>
-                            <select id="word" name="word_id" required>
-                                <option value="">Select a Word</option>
-                                <?php foreach ($results as $row): ?>
-                                    <option value="<?php echo htmlspecialchars($row['id']); ?>">
-                                        <?php echo htmlspecialchars($row['word']); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    <?php else: ?>
-                        <input type="hidden" name="word_id" value="<?php echo htmlspecialchars($wordId); ?>" />
-                    <?php endif; ?>
-
+            <form id="sentenceForm" method="post">
+                <?php if (!$wordId): ?>
                     <div class="form-group">
-                        <label for="sentence">Sentence<span>*</span></label>
-                        <textarea id="sentence" name="sentence" required maxlength="200"></textarea>
+                        <label for="word">Select Word<span>*</span></label>
+                        <select id="word" name="word_id" required>
+                            <option value="">Select a Word</option>
+                            <?php foreach ($results as $row): ?>
+                                <option value="<?php echo htmlspecialchars($row['id']); ?>">
+                                    <?php echo htmlspecialchars($row['word']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label for="translation">Translation<span>*</span></label>
-                        <textarea id="translation" name="translation" required maxlength="255"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit">Add Sentence</button>
-                    </div>
-                </form>
-            </div>
+                <?php else: ?>
+                    <input type="hidden" name="word_id" value="<?php echo htmlspecialchars($wordId); ?>" />
+                <?php endif; ?>
+
+                <div class="form-group">
+                    <label for="sentence">Sentence<span>*</span></label>
+                    <textarea id="sentence" name="sentence" required maxlength="200"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="translation">Translation<span>*</span></label>
+                    <textarea id="translation" name="translation" required maxlength="255"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Add Sentence</button>
+                </div>
+            </form>
         </div>
     </div>
 
