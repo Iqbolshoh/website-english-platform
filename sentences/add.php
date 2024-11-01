@@ -11,10 +11,19 @@ include '../config.php';
 $query = new Query();
 
 $wordId = isset($_GET['word_id']) ? intval($_GET['word_id']) : 0;
-$userId = $_SESSION['user_id'];
+$userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 $results = [];
+$word_name = "";
 
-if (!$wordId) {
+if ($wordId) {
+    $word_name = $query->select(
+        'words',
+        'word',
+        'WHERE id = ? AND user_id = ?',
+        [$wordId, $userId],
+        'ii'
+    )[0]['word'];
+} else {
     $results = $query->select(
         'words',
         '*',
@@ -23,6 +32,7 @@ if (!$wordId) {
         'i'
     );
 }
+
 
 ?>
 
@@ -49,7 +59,17 @@ if (!$wordId) {
             <div id="responseMessage" class="message"></div>
 
             <form id="sentenceForm" method="post">
-                <?php if (!$wordId): ?>
+                <?php if ($wordId): ?>
+                    <div class="form-group">
+                        <label for="word">Selected Word</label>
+                        <input type="hidden" id="word" name="word_id" value="<?php echo htmlspecialchars($wordId); ?>">
+                        <select disabled>
+                            <option>
+                                <?php echo htmlspecialchars($word_name); ?>
+                            </option>
+                        </select>
+                    </div>
+                <?php else: ?>
                     <div class="form-group">
                         <label for="word">Select Word<span>*</span></label>
                         <select id="word" name="word_id" required>
@@ -61,8 +81,6 @@ if (!$wordId) {
                             <?php endforeach; ?>
                         </select>
                     </div>
-                <?php else: ?>
-                    <input type="hidden" name="word_id" value="<?php echo htmlspecialchars($wordId); ?>" />
                 <?php endif; ?>
 
                 <div class="form-group">
