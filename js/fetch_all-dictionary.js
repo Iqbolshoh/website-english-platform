@@ -47,6 +47,8 @@ function showInfo(wordInfo) {
     document.getElementById('modalTranslation').textContent = `${info.translation}`;
     document.getElementById('modalDefinition').textContent = `${info.definition}`;
     document.getElementById('infoModal').dataset.wordId = info.id;
+    document.getElementById('infoModal').dataset.listId = info.list_id;
+
     document.getElementById('infoModal').classList.add('fade-in');
 }
 
@@ -57,7 +59,7 @@ function closeModal() {
 
 function deleteDefinition() {
     const wordId = document.getElementById('infoModal').dataset.wordId;
-    const word = document.getElementById('modalWord').textContent.replace('Word: ', '');
+    const listElement = document.getElementById(document.getElementById('infoModal').dataset.listId)
 
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -90,7 +92,12 @@ function deleteDefinition() {
                         icon: 'success'
                     }).then(() => {
                         closeModal();
-                        location.reload();
+                        listElement.remove()
+                        const listItems = document.querySelectorAll('ul > div.list > li');
+                        const itemCount = listItems.length;
+                        if (itemCount == 0) {
+                            location.reload()
+                        }
                     });
                 },
                 error: function (xhr, status, error) {

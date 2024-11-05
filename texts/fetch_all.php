@@ -1,14 +1,4 @@
-<?php
-
-session_start();
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
-    exit;
-}
-
-include '../config.php';
-$query = new Query();
+<?php include '../check.php';
 
 $userId = $_SESSION['user_id'];
 
@@ -66,20 +56,30 @@ if ($results) {
         return strcmp(strtolower($a['content']), strtolower($b['content']));
     });
 
-    
+
     $html = "<ul>";
     foreach ($results as $index => $row) {
         $isExpanded = isset($expandedSentences[$row['id']]) ? 'expanded' : '';
+        $list_id = "list_" . $index;
         $textId = "text_" . $index;
         $likeId = "heart_" . $index;
         $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['content']);
         $isLiked = in_array($row['id'], $likedtextIds);
-        $html .= "<div class='vocabulary'>
+
+        $html .= "<div class='list' id='{$list_id}'>
+
             <li id='{$textId}' class='{$isExpanded}' onclick='toggleExpand(this)'>" . str_ireplace($textsearch, "<span class='highlight'>{$textsearch}</span>", $text) . "</li>
             <div class='buttons'>
                 <i class='fas fa-volume-up' onclick=\"speakText('{$textId}')\"></i>
                 <i class='fas fa-heart " . ($isLiked ? 'liked' : '') . "' id='{$likeId}' onclick=\"Liked('{$likeId}', '{$row['id']}')\"></i>
-                <i class='fas fa-info-circle' onclick='showInfo(" . json_encode(["title" => $row["title"], "word" => $row["content"], "translation" => $row["translation"], "definition" => $row["definition"], "id" => $row["id"]], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
+                <i class='fas fa-info-circle' onclick='showInfo(" . json_encode([
+            "title" => $row["title"],
+            "word" => $row["content"],
+            "translation" => $row["translation"],
+            "definition" => $row["definition"],
+            "list_id" => $list_id,
+            "id" => $row["id"]
+        ], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
             </div>
         </div>";
     }
@@ -89,7 +89,7 @@ if ($results) {
 ?>
     <div class="information-not-found">
         <i class="fa fa-info-circle"></i>
-        <p>No texts found.</p>
+        <p>No sentences written.</p>
         <a href="./add.php" class="btn btn-primary">Add texts</a>
     </div>
 <?php } ?>

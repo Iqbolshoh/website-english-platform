@@ -1,0 +1,1 @@
+<?php setcookie('last_page',  "." . $_SERVER['SCRIPT_NAME'], time() + (86400 * 30), "/");

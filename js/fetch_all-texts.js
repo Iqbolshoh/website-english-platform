@@ -47,6 +47,7 @@ function showInfo(textInfo) {
     document.getElementById('modalWord').textContent = `${info.word}`;
     document.getElementById('modalTranslation').textContent = `${info.translation}`;
     document.getElementById('infoModal').dataset.TextId = info.id;
+    document.getElementById('infoModal').dataset.listId = info.list_id;
     document.getElementById('infoModal').classList.add('fade-in');
 }
 
@@ -68,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => { });
 
 function deleteText() {
     const TextId = document.getElementById('infoModal').dataset.TextId;
-    const word = document.getElementById('modalWord').textContent;
+    const listElement = document.getElementById(document.getElementById('infoModal').dataset.listId)
 
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -101,7 +102,12 @@ function deleteText() {
                         icon: 'success'
                     }).then(() => {
                         closeModal();
-                        location.reload();
+                        listElement.remove()
+                        const listItems = document.querySelectorAll('ul > div.list > li');
+                        const itemCount = listItems.length;
+                        if (itemCount == 0) {
+                            location.reload()
+                        }
                     });
                 },
                 error: function (xhr, status, error) {

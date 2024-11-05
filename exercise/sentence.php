@@ -1,15 +1,7 @@
+<?php include '../check.php'; ?>
+<?php include '../last_page.php' ?>
+
 <?php
-
-session_start();
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
-    exit;
-}
-
-include '../config.php';
-$query = new Query();
-
 $userId = $_SESSION['user_id'];
 $numSentences = (int) ($_GET['num_sentences'] ?? 5);
 $filter = $_GET['filter'] ?? 'all';
@@ -98,7 +90,7 @@ function getRandomWords($sentence, $numWords = 8)
             <form action="" method="POST" id="sentence-form">
                 <?php foreach ($results as $index => $sentence): ?>
                     <div class="sentences-box">
-                        <p><?= htmlspecialchars($sentence['translation']) ?></p>
+                        <p id="translate"><?= htmlspecialchars($sentence['translation']) ?></p>
                         <div class="sentence">
                             <label>
                                 <input type="hidden" name="correct_sentences[<?= $index ?>]"

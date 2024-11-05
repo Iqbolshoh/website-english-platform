@@ -9,27 +9,42 @@ document.getElementById('testForm').addEventListener('submit', function (event) 
 
     let correctCount = 0;
     let allCorrect = true;
-
     wordsData.forEach((word, index) => {
         const correctWord = word.word;
         const selectedAnswer = answers[index] || '';
 
         const questionDiv = form.querySelector(`.question:nth-child(${index + 1})`);
         const labels = questionDiv.querySelectorAll('label');
+        let isAnswered = false;
 
         labels.forEach(label => {
             const radio = label.querySelector('input[type="radio"]');
+
+            if (radio.checked) {
+                isAnswered = true;
+            }
+
             if (radio.value === correctWord) {
                 label.classList.add('correct');
                 if (radio.checked) {
                     correctCount++;
                 }
             } else if (radio.checked && radio.value !== correctWord) {
-                label.classList.add('error');
+                label.classList.add('incorrect');
                 allCorrect = false;
             }
         });
+
+        if (!isAnswered) {
+            labels.forEach(label => {
+                const radio = label.querySelector('input[type="radio"]');
+                if (radio.value === correctWord) {
+                    label.classList.add('unselected');
+                }
+            });
+        }
     });
+
 
     Swal.fire({
         title: `Test Results ${Math.round(correctCount / totalQuestions * 100)}%`,

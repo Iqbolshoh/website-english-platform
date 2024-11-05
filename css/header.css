@@ -1,4 +1,21 @@
-* {
+body,
+input,
+textarea,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+button,
+select,
+h6 {
     font-family: 'Arial', sans-serif;
     letter-spacing: normal;
     line-height: 1.7;

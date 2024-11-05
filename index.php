@@ -9,6 +9,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: ./login/");
     exit;
 }
+
+$login = $_GET['page'] ?? "";
+
+if (isset($_COOKIE['last_page']) && $login === "login") {
+    $last_page = $_COOKIE['last_page'];
+    header("Location: $last_page");
+    exit;
+}
+
+setcookie('last_page',  ".." . $_SERVER['SCRIPT_NAME'], time() + (86400 * 30), "/");
+
 ?>
 
 <!DOCTYPE html>

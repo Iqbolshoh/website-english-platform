@@ -1,4 +1,4 @@
-.vocabulary {
+.list {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -9,37 +9,37 @@
     gap: 10px;
 }
 
-.vocabulary li {
+.list li {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
 }
 
-.vocabulary li.expanded {
+.list li.expanded {
     white-space: normal;
     overflow: visible;
     text-overflow: initial;
 }
 
-.vocabulary i {
+.list i {
     font-size: 20px;
 }
 
-.vocabulary .buttons {
+.list .buttons {
     display: flex;
     gap: 5px;
 }
 
-.vocabulary {
+.list {
     line-height: 1.7;
 }
 
-.vocabulary span.highlight {
+.list span.highlight {
     color: red;
 }
 
-.vocabulary:hover {
+.list:hover {
     background-color: #f5f5f5;
 }
 

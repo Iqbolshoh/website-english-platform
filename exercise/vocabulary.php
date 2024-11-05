@@ -1,15 +1,7 @@
+<?php include '../check.php'; ?>
+<?php include '../last_page.php' ?>
+
 <?php
-
-session_start();
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
-    exit;
-}
-
-include '../config.php';
-$query = new Query();
-
 $userId = $_SESSION['user_id'];
 $numWords = (int) ($_GET['num_words'] ?? 10);
 $filter = $_GET['filter'] ?? 'all';

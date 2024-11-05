@@ -1,14 +1,5 @@
-<?php
-
-session_start();
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
-    exit;
-}
-
-include '../config.php';
-$query = new Query();
+<?php include '../check.php'; ?>
+<?php include '../last_page.php';
 
 $user_id = $_SESSION['user_id'];
 $user = $query->find('users', $user_id)[0];
@@ -98,7 +89,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     value="<?php echo htmlspecialchars($user['email']); ?>" required>
 
                 <label for="profile_image" class="form-label">Profile Image:</label>
-                <input type="file" id="profile_image" name="profile_image" class="form-input" accept="image/*">
+                <div class="custom-file-input">
+                    <input type="file" id="profile_image" name="profile_image" class="form-input" accept="image/*">
+                    <div class="file-input-content">
+                        <span class="file-label">Choose File</span>
+                        <i class="fa-solid fa-image"></i>
+                    </div>
+                </div>
 
                 <label for="password" class="form-label">New Password:</label>
                 <div class="password-container">

@@ -84,10 +84,21 @@ button:hover {
 
 .error {
     background-color: #f8d7da;
+    color: #721c24;
 }
 
 .correct {
     background-color: #d4edda;
+    color: #155724;
+}
+
+.unselected {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+del {
+    font-size: 14px;
 }
 
 select {

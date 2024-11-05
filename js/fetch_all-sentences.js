@@ -65,6 +65,7 @@ function Liked(likeId, sentence_id) {
 function deleteSentences() {
     const modal = document.getElementById('infoModal');
     const sentenceId = modal.getAttribute('data-sentences-id');
+    const listElement = document.getElementById(document.getElementById('infoModal').dataset.listId)
 
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -97,7 +98,12 @@ function deleteSentences() {
                         icon: 'success'
                     }).then(() => {
                         closeModal();
-                        location.reload();
+                        listElement.remove()
+                        const listItems = document.querySelectorAll('ul > div.list > li');
+                        const itemCount = listItems.length;
+                        if (itemCount == 0) {
+                            location.reload()
+                        }
                     });
                 },
                 error: function (xhr, status, error) {
@@ -122,6 +128,8 @@ function deleteSentences() {
 function showInfo(data) {
     document.getElementById("modalWord").innerText = data.sentence;
     document.getElementById("modalTranslation").innerText = data.translation;
+    document.getElementById('infoModal').dataset.listId = data.list_id;
+
     const modal = document.getElementById("infoModal");
     modal.setAttribute('data-sentences-id', data.id);
     modal.classList.add("fade-in");
@@ -154,5 +162,4 @@ function toggleExpand(element) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => { });
 

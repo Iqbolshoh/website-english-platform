@@ -1,14 +1,5 @@
-<?php
-
-session_start();
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
-    exit;
-}
-
-include '../config.php';
-$query = new Query();
+<?php include '../check.php'; ?>
+<?php include '../last_page.php';
 
 $wordId = intval($_GET['word_id']);
 

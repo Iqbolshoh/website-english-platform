@@ -1,14 +1,4 @@
-<?php
-
-session_start();
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
-    exit;
-}
-
-include '../config.php';
-$query = new Query();
+<?php include '../check.php';
 
 require('./fpdf186/fpdf.php');
 $user_id = $_SESSION['user_id'];
@@ -18,7 +8,7 @@ $pdf->AddPage();
 
 $pdf->SetFont('Arial', 'B', 16);
 $pdf->SetTextColor(255, 255, 255);
-$pdf->SetFillColor(22, 160, 133); 
+$pdf->SetFillColor(22, 160, 133);
 $pdf->Cell(0, 10, 'Sentences and Translations', 0, 1, 'C', true);
 $pdf->Ln(3);
 
@@ -60,7 +50,7 @@ foreach ($rows as $row) {
     $pdf->SetTextColor(44, 62, 80);
     $pdf->SetX($pdf->GetX());
     $pdf->MultiCell($columnWidths['sentence'], $rowHeight, $row['sentence'], 0, 'L');
-    
+
     $pdf->SetTextColor(22, 160, 133);
     $pdf->SetXY($pdf->GetX() + $columnWidths['sentence'], $y);
     $pdf->MultiCell($columnWidths['translation'], $rowHeight, $row['translation'], 0, 'L');

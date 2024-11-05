@@ -3,7 +3,7 @@
 session_start();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    header("Location: ../");
+    header("Location: ../?page=login");
     exit;
 }
 
@@ -22,7 +22,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
     $_SESSION['username'] = $_COOKIE['username'];
     $_SESSION['user_id'] = $query->getUserIdByUsername($_COOKIE['username']);
 
-    header("Location: ../");
+    header("Location: ../?page=login");
     exit;
 }
 
@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    window.location.href = '../';
+                    window.location.href = '../?page=login';
                 });
             };
         </script>

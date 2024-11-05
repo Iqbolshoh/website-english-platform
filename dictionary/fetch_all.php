@@ -1,14 +1,4 @@
-<?php
-
-session_start();
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
-    exit;
-}
-
-include '../config.php';
-$query = new Query();
+<?php include '../check.php';
 
 $userId = $_SESSION['user_id'];
 
@@ -87,20 +77,29 @@ if ($results) {
         return strcmp(strtolower($a['word']), strtolower($b['word']));
     });
 
-    
+
     $html = "<ul>";
     foreach ($results as $index => $row) {
         $isExpanded = isset($expandedSentences[$row['id']]) ? 'expanded' : '';
+        $list_id = "list_" . $index;
         $wordId = "word_" . $index;
         $likeId = "heart_" . $index;
         $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['word']);
         $isLiked = in_array($row['id'], $likedWordIds);
-        $html .= "<div class='vocabulary'>
-            <li id='{$wordId}' class='{$isExpanded}' onclick='toggleExpand(this)'>" . str_ireplace($WordSearch, "<span class='highlight'>{$WordSearch}</span>", $text) . "</li>
+
+        $html .= "<div class='list' id='{$list_id}'>
+            <li id='{$wordId}' class='{$isExpanded}' onclick='toggleExpand(this)'>" .
+            str_ireplace($WordSearch, "<span class='highlight'>{$WordSearch}</span>", $text) . "</li>
             <div class='buttons'>
                 <i class='fas fa-volume-up' onclick=\"speakText('{$wordId}')\"></i>
                 <i class='fas fa-heart " . ($isLiked ? 'liked' : '') . "' id='{$likeId}' onclick=\"Liked('{$likeId}', '{$row['id']}')\"></i>
-                <i class='fas fa-info-circle' onclick='showInfo(" . json_encode(["word" => $row["word"], "translation" => $row["translation"], "definition" => $row["definition"], "id" => $row["id"]], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
+                <i class='fas fa-info-circle' onclick='showInfo(" . json_encode([
+                "word" => $row["word"],
+                "translation" => $row["translation"],
+                "definition" => $row["definition"],
+                "list_id" => $list_id,
+                "id" => $row['id']
+            ], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
             </div>
         </div>";
     }
@@ -109,9 +108,10 @@ if ($results) {
 } else {
 
 ?>
+
     <div class="information-not-found">
         <i class="fa fa-info-circle"></i>
-        <p>No words found.</p>
+        <p>There are no words.</p>
         <a href="../dictionary/add.php" class="btn btn-primary">Add Words</a>
     </div>
 

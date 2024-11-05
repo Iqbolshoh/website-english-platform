@@ -47,14 +47,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const originalSentence = formData.get(`correct_sentences[${i}]`).trim();
             const userAnswer = formData.get(`sentences[${i}]`).trim();
 
-            const box = document.querySelector(`.sentences-box:nth-of-type(${i + 1})`);
-            box.classList.remove('error', 'correct');
+            let box = document.querySelector(`.sentences-box:nth-of-type(${i + 1})`);
+            box.classList.remove('unselected', 'error', 'incorrect');
 
+            let text = document.querySelectorAll('input[type="text"]');
+            let translate = document.querySelectorAll("#translate");
             if (originalSentence === userAnswer) {
                 correctCount++;
                 box.classList.add('correct');
-            } else {
+            } else if (userAnswer) {
+                translate[i].innerHTML += `<br><del>${userAnswer}<del>`
+                text[i].value = originalSentence;
                 box.classList.add('error');
+            } else {
+                text[i].value = originalSentence;
+                box.classList.add('unselected');
             }
         }
 
@@ -78,4 +85,3 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.reload();
     });
 });
-

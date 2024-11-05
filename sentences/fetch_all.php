@@ -1,14 +1,4 @@
-<?php
-
-session_start();
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: ../login/");
-    exit;
-}
-
-include '../config.php';
-$query = new Query();
+<?php include '../check.php';
 
 $userId = $_SESSION['user_id'];
 
@@ -75,6 +65,7 @@ if ($results) {
 
     $html = "<ul>";
     foreach ($results as $index => $row) {
+        $list_id = "list_" . $index;
         $sentenceId = "sentence_" . $index;
         $likeId = "heart_" . $index;
         $text = $lang == 'uz' ? htmlspecialchars($row['translation']) : htmlspecialchars($row['sentence']);
@@ -86,12 +77,17 @@ if ($results) {
             $text = preg_replace("/(" . preg_quote($sentenceSearch, '/') . ")/i", "<span class='highlight'>$1</span>", $text);
         }
 
-        $html .= "<div class='vocabulary'>
+        $html .= "<div class='list' id='{$list_id}'>
         <li id='{$sentenceId}' class='{$isExpanded}' onclick='toggleExpand(this)'>{$text}</li>
         <div class='buttons'>
             <i class='fas fa-volume-up' onclick=\"speakText('{$sentenceId}')\"></i>
             <i class='fas fa-heart " . ($isLiked ? 'liked' : '') . "' id='{$likeId}' onclick=\"Liked('{$likeId}', '{$row['id']}')\"></i>
-            <i class='fas fa-info-circle' onclick='showInfo(" . json_encode(["sentence" => $row["sentence"], "translation" => $row["translation"], "id" => $row["id"]], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
+            <i class='fas fa-info-circle' onclick='showInfo(" . json_encode([
+            "sentence" => $row["sentence"],
+            "translation" => $row["translation"],
+            "list_id" => $list_id,
+            "id" => $row["id"]
+        ], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
         </div>
     </div>";
     }
@@ -101,7 +97,7 @@ if ($results) {
 } else {
     echo "<div class='information-not-found'>
     <i class='fas fa-exclamation-circle'></i>
-    <p>No sentences found.</p>
+    <p>No sentences written.</p>
     <a href='./add.php' class='btn btn-primary'>Add Sentences</a>
   </div>";
 }
@@ -123,5 +119,11 @@ if ($results) {
         </div>
     </div>
 </div>
+
+<script>
+    function getResultsEmpty() {
+        return <?php echo empty(count($results) - 1) ? 'true' : 'false'; ?>;
+    }
+</script>
 
 <script src="../js/fetch_all-sentences.js"></script>
