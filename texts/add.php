@@ -21,8 +21,6 @@
 
             <h1>Add New Text</h1>
 
-            <div id="responseMessage" class="message"></div>
-
             <form id="textForm" method="post">
                 <div class="form-group">
                     <label for="text_title">Text Title<span>*</span></label>

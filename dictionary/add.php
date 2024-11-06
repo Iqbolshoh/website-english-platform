@@ -20,8 +20,6 @@
         <div class="add-container">
             <h1>Add New Word</h1>
 
-            <div id="responseMessage" class="message"></div>
-
             <form id="wordForm" method="post">
                 <div class="form-group">
                     <label for="word">Word<span>*</span></label>

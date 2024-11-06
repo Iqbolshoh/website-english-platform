@@ -48,8 +48,6 @@ if ($wordId) {
 
             <h1>Add New Sentence</h1>
 
-            <div id="responseMessage" class="message"></div>
-
             <form id="sentenceForm" method="post">
                 <?php if ($wordId): ?>
                     <div class="form-group">

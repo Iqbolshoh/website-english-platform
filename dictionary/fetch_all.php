@@ -107,7 +107,7 @@ if ($results) {
     echo $html;
 } else {
 
-?>
+    ?>
 
     <div class="information-not-found">
         <i class="fa fa-info-circle"></i>
@@ -132,6 +132,7 @@ if ($results) {
 
             <div class="btn">
                 <i class='fas fa-volume-up' onclick="speakText('modal')"></i>
+                <i class='fas fa-edit' onclick="editWord()"></i>
                 <i class="fa-solid fa-trash" onclick="deleteDefinition()"></i>
             </div>
         </div>

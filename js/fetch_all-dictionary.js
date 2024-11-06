@@ -52,10 +52,14 @@ function showInfo(wordInfo) {
     document.getElementById('infoModal').classList.add('fade-in');
 }
 
+function editWord() {
+    const wordId = document.getElementById('infoModal').dataset.wordId;
+    window.location.href = `edit.php?word_id=${wordId}`;
+}
+
 function closeModal() {
     document.getElementById('infoModal').classList.remove('fade-in');
 }
-
 
 function deleteDefinition() {
     const wordId = document.getElementById('infoModal').dataset.wordId;

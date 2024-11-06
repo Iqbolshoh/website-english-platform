@@ -53,32 +53,35 @@
     color: red;
 }
 
+.fa-heart:hover {
+    transform: scale(1.2);
+}
+
+.fa-heart:active {
+    transform: scale(1.1);
+}
+
 .fa-info-circle,
 .fa-volume-up,
-.fa-trash {
+.fa-trash,
+.fa-edit {
     color: #777;
     transition: color 0.3s, transform 0.3s;
 }
 
 .fa-info-circle:hover,
 .fa-volume-up:hover,
-.fa-trash:hover {
+.fa-trash:hover,
+.fa-edit:hover {
     color: #ff6347;
-    transform: scale(1.2);
-}
-
-.fa-heart:hover {
     transform: scale(1.2);
 }
 
 .fa-info-circle:active,
 .fa-volume-up:active,
-.fa-trash:active {
+.fa-trash:active,
+.fa-edit:active {
     color: #ff4000;
-    transform: scale(1.1);
-}
-
-.fa-heart:active {
     transform: scale(1.1);
 }
 
