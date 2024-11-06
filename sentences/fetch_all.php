@@ -117,8 +117,8 @@ if ($results) {
             <i class='fas fa-volume-up' onclick="speakText('modal')"></i>
             
             <div class="btn">
-                <i class="fa-solid fa-trash" onclick="deleteSentences()"></i>
                 <i class='fas fa-edit' onclick="editSentence()"></i>
+                <i class="fa-solid fa-trash" onclick="deleteSentences()"></i>
             </div>
         </div>
     </div>
