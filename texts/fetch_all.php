@@ -76,7 +76,6 @@ if ($results) {
             "title" => $row["title"],
             "word" => $row["content"],
             "translation" => $row["translation"],
-            "definition" => $row["definition"],
             "list_id" => $list_id,
             "id" => $row["id"]
         ], JSON_HEX_APOS | JSON_HEX_QUOT) . ")'></i>
