@@ -44,6 +44,7 @@ if (isset($_POST['submit'])) {
 
         setcookie('username', $input_username, time() + (86400 * 30), "/", "", true, true);
         setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
+        setcookie('last_page',  ".." . $_SERVER['SCRIPT_NAME'], time() + (86400 * 30), "/");
 ?>
 
         <script>
@@ -55,7 +56,7 @@ if (isset($_POST['submit'])) {
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    window.location.href = '../?page=login';
+                    window.location.href = '../';
                 });
             };
         </script>

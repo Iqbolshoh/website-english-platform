@@ -10,9 +10,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-$login = $_GET['page'] ?? "";
+$login_page = $_GET['page'] ?? "";
 
-if (isset($_COOKIE['last_page']) && $login === "login") {
+if (isset($_COOKIE['last_page']) && $login_page === "login") {
     $last_page = $_COOKIE['last_page'];
     header("Location: $last_page");
     exit;
