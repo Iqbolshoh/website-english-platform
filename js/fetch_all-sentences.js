@@ -26,6 +26,10 @@ function speakText(id) {
     }
 }
 
+function editSentence() {
+    const sentenceId = document.getElementById('infoModal').dataset.id
+    window.location.href = `edit.php?sentence_id=${sentenceId}`;
+}
 
 function closeModal() {
     document.getElementById('infoModal').classList.remove('fade-in');
@@ -129,6 +133,7 @@ function showInfo(data) {
     document.getElementById("modalWord").innerText = data.sentence;
     document.getElementById("modalTranslation").innerText = data.translation;
     document.getElementById('infoModal').dataset.listId = data.list_id;
+    document.getElementById('infoModal').dataset.id = data.id;
 
     const modal = document.getElementById("infoModal");
     modal.setAttribute('data-sentences-id', data.id);

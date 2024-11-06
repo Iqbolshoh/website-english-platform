@@ -78,15 +78,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 class="profile-form">
                 <label for="fullname" class="form-label">Full Name:</label>
                 <input type="text" id="fullname" name="fullname" class="form-input"
-                    value="<?php echo htmlspecialchars($user['fullname']); ?>" required>
+                    value="<?php echo htmlspecialchars($user['fullname']); ?>" required maxlength="255">
 
                 <label for="username" class="form-label">Username:</label>
                 <input type="text" id="username" name="username" class="form-input" value="<?php echo $username; ?>"
-                    readonly>
+                    readonly maxlength="150">
 
                 <label for="email" class="form-label">Email:</label>
                 <input type="email" id="email" name="email" class="form-input"
-                    value="<?php echo htmlspecialchars($user['email']); ?>" required>
+                    value="<?php echo htmlspecialchars($user['email']); ?>" required maxlength="255">
 
                 <label for="profile_image" class="form-label">Profile Image:</label>
                 <div class="custom-file-input">
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password" class="form-label">New Password:</label>
                 <div class="password-container">
                     <input type="password" id="password" name="password" class="password-input"
-                        placeholder="No change? Leave blank.">
+                        placeholder="No change? Leave blank." maxlength="255">
                     <a type="button" id="toggle-password" class="password-toggle"><i class="fas fa-eye"></i></a>
                 </div>
 

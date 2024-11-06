@@ -115,7 +115,10 @@ if ($results) {
         <div id="modalTranslation" class="modal-section"></div>
         <div class="modal-buttons">
             <i class='fas fa-volume-up' onclick="speakText('modal')"></i>
-            <i class="fa-solid fa-trash" onclick="deleteSentences()"></i>
+            <div class="btn">
+                <i class="fa-solid fa-trash" onclick="deleteSentences()"></i>
+                <i class='fas fa-edit' onclick="editSentence()"></i>
+            </div>
         </div>
     </div>
 </div>

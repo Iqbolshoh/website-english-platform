@@ -51,6 +51,12 @@ function showInfo(textInfo) {
     document.getElementById('infoModal').classList.add('fade-in');
 }
 
+function editText() {
+    const TextId = document.getElementById('infoModal').dataset.TextId
+    window.location.href = `edit.php?text_id=${TextId}`;
+}
+
+
 function closeModal() {
     document.getElementById('infoModal').classList.remove('fade-in');
 }

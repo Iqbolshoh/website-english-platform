@@ -2,7 +2,7 @@
 include '../check.php';
 
 $userId = $_SESSION['user_id'];
-$word_id = $_GET['word_id'] ?? 0;
+$word_id = $_GET['word_id'] ? (int) $_GET['word_id'] : 0;
 
 $word = $query->select('words', '*', "WHERE user_id = ? AND id = ?", [$userId, $word_id], "ii")[0];
 
@@ -15,11 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $params = [$updatedWord, $updatedTranslation, $updatedDefinition, $userId, $word_id];
     $types = "sssii";
 
-    if ($query->executeQuery($sql, $params, $types)) {
-        echo "<script>Swal.fire('Success!', 'Changes saved successfully.', 'success');</script>";
-    } else {
-        echo "<script>Swal.fire('Error!', 'Error saving changes.', 'error');</script>";
-    }
+    $query->executeQuery($sql, $params, $types);
 
     header("Location: edit.php");
     exit;
@@ -49,17 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="word">Word<span>*</span></label>
                     <input type="text" id="word" name="word" class="form-control"
-                        value="<?php echo htmlspecialchars($word['word']); ?>" required>
+                        value="<?php echo htmlspecialchars($word['word']); ?>" required maxlength="150">
                 </div>
                 <div class="form-group">
                     <label for="translation">Translation<span>*</span></label>
                     <input type="text" id="translation" name="translation" class="form-control"
-                        value="<?php echo htmlspecialchars($word['translation']); ?>" required>
+                        value="<?php echo htmlspecialchars($word['translation']); ?>" required maxlength="150">
                 </div>
                 <div class="form-group">
                     <label for="definition">Definition</label>
                     <textarea id="definition" name="definition" class="form-control"
-                        rows="3"><?php echo htmlspecialchars($word['definition']); ?></textarea>
+                        rows="3" maxlength="255"><?php echo htmlspecialchars($word['definition']); ?></textarea>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Update</button>
@@ -75,18 +71,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </html>
 <script>
-    $(document).ready(function () {
-        $("#profile-form").submit(function (event) {
+    $(document).ready(function() {
+        $("#profile-form").submit(function(event) {
             event.preventDefault();
 
             $.ajax({
                 url: '',
                 type: 'POST',
                 data: $(this).serialize(),
-                success: function () {
+                success: function() {
                     Swal.fire('Success!', 'Changes saved successfully.', 'success');
                 },
-                error: function () {
+                error: function() {
                     Swal.fire('Error!', 'There was an error saving your changes.', 'error');
                 }
             });
