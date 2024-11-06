@@ -14,7 +14,7 @@ $login_page = $_GET['page'] ?? "";
 
 if (isset($_COOKIE['last_page']) && $login_page === "login") {
     $last_page = $_COOKIE['last_page'];
-    header("Location: $last_page");
+    header("Location: ../$last_page");
     exit;
 }
 

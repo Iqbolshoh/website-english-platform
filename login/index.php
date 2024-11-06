@@ -44,7 +44,7 @@ if (isset($_POST['submit'])) {
 
         setcookie('username', $input_username, time() + (86400 * 30), "/", "", true, true);
         setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
-        setcookie('last_page',  ".." . $_SERVER['SCRIPT_NAME'], time() + (86400 * 30), "/");
+        setcookie('last_page',  "../", time() + (86400 * 30), "/");
 ?>
 
         <script>
