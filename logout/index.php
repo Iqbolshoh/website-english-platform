@@ -16,5 +16,9 @@ if (isset($_COOKIE['last_page'])) {
     setcookie('last_page', '', time() - 3600, '/');
 }
 
+if (isset($_COOKIE['user_id'])) {
+    setcookie('user_id', '', time() - 3600, '/');
+}
+
 header("Location: ../login/");
 exit;

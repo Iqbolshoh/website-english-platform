@@ -26,13 +26,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $query->registerUser($fullname, $email, $username, $hashed_password);
 
         if ($result) {
+            $user_id = $query->getUserIdByUsername($username);
             $_SESSION['loggedin'] = true;
-            $_SESSION['user_id'] = $query->getUserIdByUsername($username);
+            $_SESSION['user_id'] = $user_id;
             $_SESSION['username'] = $username;
 
             setcookie('username', $username, time() + (86400 * 30), "/", "", true, true);
             setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
-
+            setcookie('user_id', $user_id, time() + (86400 * 30), "/", "", true, true);
 ?>
 
             <script>

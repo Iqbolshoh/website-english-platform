@@ -20,7 +20,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
 
     $_SESSION['loggedin'] = true;
     $_SESSION['username'] = $_COOKIE['username'];
-    $_SESSION['user_id'] = $query->getUserIdByUsername($_COOKIE['username']);
+    $_SESSION['user_id'] = $_COOKIE['user_id'];
 
     header("Location: ../?page=login");
     exit;
@@ -44,6 +44,7 @@ if (isset($_POST['submit'])) {
 
         setcookie('username', $input_username, time() + (86400 * 30), "/", "", true, true);
         setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
+        setcookie('user_id', $user['id'], time() + (86400 * 30), "/", "", true, true);
         setcookie('last_page',  "../", time() + (86400 * 30), "/");
 ?>
 
