@@ -7,36 +7,38 @@ $user = $query->find('users', $user_id)[0];
 $username = htmlspecialchars($user['username']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $fullname = $_POST['fullname'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $profile_image = $user['profile_image'];
-    if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['profile_image']['tmp_name'];
-        $fileName = $_FILES['profile_image']['name'];
+    $profile_picture = $user['profile_picture'];
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
+        $fileName = $_FILES['profile_picture']['name'];
         $fileNameCmps = explode(".", $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
         $uploadFileDir = '../src/images/profile-image/';
         $dest_path = $uploadFileDir . $newFileName;
 
-        if ($profile_image && $profile_image !== 'default.png') {
-            $oldFilePath = $uploadFileDir . $profile_image;
+        if ($profile_picture && $profile_picture !== 'default.png') {
+            $oldFilePath = $uploadFileDir . $profile_picture;
             if (file_exists($oldFilePath)) {
                 unlink($oldFilePath);
             }
         }
 
         if (move_uploaded_file($fileTmpPath, $dest_path)) {
-            $profile_image = $newFileName;
+            $profile_picture = $newFileName;
         }
     }
 
     $updateData = [
-        'fullname' => $fullname,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
         'email' => $email,
-        'profile_image' => $profile_image
+        'profile_picture' => $profile_picture
     ];
 
     if (!empty($password)) {
@@ -70,27 +72,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="profile-form-container">
             <div class="profile-header">
                 <img class="profile-image"
-                    src="../src/images/profile-image/<?php echo $user['profile_image'] ? $user['profile_image'] : 'default.png'; ?>"
+                    src="../src/images/profile-image/<?php echo $user['profile_picture'] ? $user['profile_picture'] : 'default.png'; ?>"
                     alt="Profile Image">
-                <h2 class="profile-name"><?php echo htmlspecialchars($user['fullname']); ?></h2>
+                <h2 class="profile-name"><?php echo htmlspecialchars($user['username']); ?></h2>
             </div>
             <form id="profile-form" action="profile.php" method="POST" enctype="multipart/form-data"
                 class="profile-form">
-                <label for="fullname" class="form-label">Full Name:</label>
-                <input type="text" id="fullname" name="fullname" class="form-input"
-                    value="<?php echo htmlspecialchars($user['fullname']); ?>" required maxlength="255">
+                <label for="first_name" class="form-label">First Name:</label>
+                <input type="text" id="first_name" name="first_name" class="form-input"
+                    value="<?php echo htmlspecialchars($user['first_name']); ?>" required maxlength="30">
+
+                <label for="last_name" class="form-label">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" class="form-input"
+                    value="<?php echo htmlspecialchars($user['last_name']); ?>" required maxlength="30">
 
                 <label for="username" class="form-label">Username:</label>
                 <input type="text" id="username" name="username" class="form-input" value="<?php echo $username; ?>"
-                    readonly maxlength="150">
+                    readonly maxlength="30">
 
                 <label for="email" class="form-label">Email:</label>
                 <input type="email" id="email" name="email" class="form-input"
-                    value="<?php echo htmlspecialchars($user['email']); ?>" required maxlength="255">
+                    value="<?php echo htmlspecialchars($user['email']); ?>" required maxlength="100">
 
-                <label for="profile_image" class="form-label">Profile Image:</label>
+                <label for="profile_picture" class="form-label">Profile Picture:</label>
                 <div class="custom-file-input">
-                    <input type="file" id="profile_image" name="profile_image" class="form-input" accept="image/*">
+                    <input type="file" id="profile_picture" name="profile_picture" class="form-input" accept="image/*">
                     <div class="file-input-content">
                         <span class="file-label">Choose File</span>
                         <i class="fa-solid fa-image"></i>
@@ -125,21 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 toggleIcon.classList.remove('fa-eye-slash');
                 toggleIcon.classList.add('fa-eye');
             }
-        });
-
-        document.getElementById('profile-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            Swal.fire({
-                title: 'Profile Updated',
-                text: 'Your profile has been updated successfully!',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
-            });
         });
     </script>
 </body>

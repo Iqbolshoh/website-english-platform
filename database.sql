@@ -65,6 +65,9 @@ CREATE TABLE liked_texts (
     FOREIGN KEY (text_id) REFERENCES texts(id) ON DELETE CASCADE
 );
 
+-- login: admin
+-- password: admin
+
 INSERT INTO
     users (first_name, last_name, email, username, password)
 VALUES
