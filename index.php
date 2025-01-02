@@ -31,7 +31,7 @@ setcookie('last_page',  ".." . $_SERVER['SCRIPT_NAME'], time() + (86400 * 30), "
     <title>Home</title>
     <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./`css/home.css">
     <link rel="stylesheet" href="./css/footer.css">
     <link rel="stylesheet" href="./css/sweetalert2.css">
 </head>
