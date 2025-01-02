@@ -13,7 +13,14 @@ $response = ['exists' => false];
 
 if (isset($_POST['email'])) {
     $email = $_POST['email'];
-    $email_check = $query->select('users', 'email', 'email = ?', [$email], 's');
+
+    $email_check = $query->select(
+        'users',
+        'email',
+        'WHERE email = ?',
+        [$email],
+        's'
+    );
     if ($email_check) {
         $response['exists'] = true;
     }
@@ -21,7 +28,13 @@ if (isset($_POST['email'])) {
 
 if (isset($_POST['username'])) {
     $username = $_POST['username'];
-    $username_check = $query->select('users', 'username', 'username = ?', [$username], 's');
+    $username_check = $query->select(
+        'users',
+        'username',
+        'WHERE username = ?',
+        [$username],
+        's'
+    );
     if ($username_check) {
         $response['exists'] = true;
     }

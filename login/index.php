@@ -17,7 +17,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
         session_start();
     }
 
-    $result = $query->select('users', 'id', "username = ?", [$_COOKIE['username']], 's');
+    $result = $query->select('users', 'id', "WHERE username = ?", [$_COOKIE['username']], 's');
 
     if (!empty($result)) {
         $user = $result[0];
@@ -34,7 +34,7 @@ if (isset($_COOKIE['username']) && isset($_COOKIE['session_token'])) {
 if (isset($_POST['submit'])) {
     $username = strtolower($_POST['username']);
     $password = $query->hashPassword($_POST['password']);
-    $result = $query->select('users', '*', "username = ? AND password = ?", [$username, $password], 'ss');
+    $result = $query->select('users', '*', "WHERE username = ? AND password = ?", [$username, $password], 'ss');
 
     if (!empty($result)) {
         $user = $result[0];
