@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileNameCmps = explode(".", $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-        $uploadFileDir = '../images/profile-image/';
+        $uploadFileDir = '../src/images/profile-image/';
         $dest_path = $uploadFileDir . $newFileName;
 
         if ($profile_image && $profile_image !== 'default.png') {
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../src/css/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="profile-form-container">
             <div class="profile-header">
                 <img class="profile-image"
-                    src="../images/profile-image/<?php echo $user['profile_image'] ? $user['profile_image'] : 'default.png'; ?>"
+                    src="../src/images/profile-image/<?php echo $user['profile_image'] ? $user['profile_image'] : 'default.png'; ?>"
                     alt="Profile Image">
                 <h2 class="profile-name"><?php echo htmlspecialchars($user['fullname']); ?></h2>
             </div>

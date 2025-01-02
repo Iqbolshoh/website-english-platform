@@ -1,10 +1,10 @@
 <?php include '../check.php'; ?>
 <?php include '../last_page.php';
 
-if ($_SESSION['username'] !== 'iqbolshoh') {
-    header("Location: ../");
-    exit;
-}
+// if ($_SESSION['username'] !== 'iqbolshoh') {
+//     header("Location: ../");
+//     exit;
+// }
 
 $user = $query->select('users');
 ?>
@@ -76,11 +76,11 @@ $user = $query->select('users');
                     <?php foreach ($user as $u): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($u['id']); ?></td>
-                            <td><?php echo htmlspecialchars($u['fullname']); ?></td>
+                            <td><?php echo htmlspecialchars($u['last_name'] . " " . $u['first_name']); ?></td>
                             <td><?php echo htmlspecialchars($u['email']); ?></td>
                             <td><?php echo htmlspecialchars($u['username']); ?></td>
                             <td class="text-center">
-                                <img src="../images/profile-image/<?php echo htmlspecialchars($u['profile_image']); ?>" alt="Profile Image" class="profile-img">
+                                <img src="../src/images/profile-image/<?php echo htmlspecialchars($u['profile_picture']); ?>" alt="Profile Image" class="profile-img">
                             </td>
                             <td><?php echo htmlspecialchars($u['created_at']); ?></td>
                         </tr>
