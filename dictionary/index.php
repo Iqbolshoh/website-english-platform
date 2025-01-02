@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dictionary</title>
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <link rel="stylesheet" href="../css/dictionary-sentences.css">
+    <link rel="stylesheet" href="../src/css/dictionary-sentences.css">
 </head>
 
 <body>
@@ -51,7 +51,7 @@
         <div id="result"></div>
     </div>
 
-    <script src="../js/dictionary.js"></script>
+    <script src="../src/js/dictionary.js"></script>
 
     <?php include '../includes/footer.php'; ?>
 

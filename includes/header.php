@@ -1,14 +1,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link rel="stylesheet" href="../css/sweetalert2.css">
-<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../src/css/sweetalert2.css">
+<link rel="stylesheet" href="../src/css/header.css">
 
-<script src="../js/sweetalert2.js"></script>
-<script src="../js/jquery.min.js"></script>
+<script src="../src/js/sweetalert2.js"></script>
+<script src="../src/js/jquery.min.js"></script>
 
 <header>
 
     <a href="../">
-        <img src="../images/logo.png" alt="logo" class="header-logo">
+        <img src="../src/images/logo.png" alt="logo" class="header-logo">
     </a>
 
     <a class="header-menu-toggle" aria-label="Toggle navigation">

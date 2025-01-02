@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../src/css/footer.css">
 <footer>
     <div class="footer">
         <p>&copy; 2024 Dictionary Portal. All Rights Reserved.</p>
