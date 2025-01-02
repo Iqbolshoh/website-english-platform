@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentences</title>
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <link rel="stylesheet" href="../css/dictionary-sentences.css">
+    <link rel="stylesheet" href="../src/css/dictionary-sentences.css">
 </head>
 
 <body>
@@ -55,7 +55,7 @@
 
     <?php include '../includes/footer.php'; ?>
 
-    <script src="../js/sentences-index.js"></script>
+    <script src="../src/js/sentences-index.js"></script>
 
 </body>
 

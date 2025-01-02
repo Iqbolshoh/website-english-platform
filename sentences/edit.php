@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <link rel="stylesheet" href="../css/add.css">
+    <link rel="stylesheet" href="../src/css/add.css">
     <title>Edit Sentence</title>
 </head>
 

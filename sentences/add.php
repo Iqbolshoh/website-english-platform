@@ -36,7 +36,7 @@ if ($wordId) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Sentence</title>
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <link rel="stylesheet" href="../css/add.css">
+    <link rel="stylesheet" href="../src/css/add.css">
 </head>
 
 <body>
@@ -90,7 +90,7 @@ if ($wordId) {
 
     <?php include '../includes/footer.php'; ?>
 
-    <script src="../js/sentences-add.js"></script>
+    <script src="../src/js/sentences-add.js"></script>
 </body>
 
 </html>
