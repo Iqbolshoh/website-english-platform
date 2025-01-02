@@ -2,7 +2,7 @@
 define("DB_SERVER", "localhost");
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "");
-define("DB_NAME", "account");
+define("DB_NAME", "english");
 
 class Database
 {
@@ -105,6 +105,6 @@ class Database
 
     public function hashPassword($password)
     {
-        return hash_hmac('sha256', $password, 'iqbolshoh-ilhomjonov');
+        return hash_hmac('sha256', $password, 'iqbolshoh');
     }
 }
