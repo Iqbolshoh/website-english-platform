@@ -2,13 +2,14 @@ CREATE DATABASE english;
 
 USE english;
 
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    fullname VARCHAR(255) NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    username VARCHAR(150) NOT NULL UNIQUE,
+CREATE TABLE IF NOT EXISTS users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    username VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    profile_image VARCHAR(255) DEFAULT 'default.png',
+    profile_picture VARCHAR(255) DEFAULT 'default.png',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
