@@ -117,7 +117,7 @@ if ($results) {
 
 <?php } ?>
 
-<link rel="stylesheet" href="../css/fetch_all.css">
+<link rel="stylesheet" href="../src/css/fetch_all.css">
 
 <div id="infoModal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -139,4 +139,4 @@ if ($results) {
     </div>
 </div>
 
-<script src="../js/fetch_all-dictionary.js"></script>
+<script src="../src/js/fetch_all-dictionary.js"></script>
