@@ -93,8 +93,8 @@ if ($results) {
     </div>
 <?php } ?>
 
-<link rel="stylesheet" href="../css/fetch_all.css">
-<script src="../js/fetch_all-texts.js"></script>
+<link rel="stylesheet" href="../src/css/fetch_all.css">
+<script src="../src/js/fetch_all-texts.js"></script>
 
 <div id="infoModal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">

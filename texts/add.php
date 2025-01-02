@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Text</title>
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <link rel="stylesheet" href="../css/add.css">
+    <link rel="stylesheet" href="../src/css/add.css">
 </head>
 
 <body>
@@ -43,7 +43,7 @@
 
     <?php include '../includes/footer.php'; ?>
 
-    <script src="../js/texts-add.js"></script>
+    <script src="../src/js/texts-add.js"></script>
 
 </body>
 
