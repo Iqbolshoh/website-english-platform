@@ -49,7 +49,7 @@ function getRandomWords($sentence, $numWords = 8)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentence Test</title>
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <link rel="stylesheet" href="../css/exercise-sentences.css">
+    <link rel="stylesheet" href="../src/css/exercise-sentences.css">
 </head>
 
 <body>
@@ -121,7 +121,7 @@ function getRandomWords($sentence, $numWords = 8)
 
     <?php include '../includes/footer.php'; ?>
 
-    <script src="../js/exercise-sentences.js"></script>
+    <script src="../src/js/exercise-sentences.js"></script>
 
 </body>
 

@@ -81,7 +81,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
     <title>Vocabulary Test</title>
-    <link rel="stylesheet" href="../css/exercise-vocabulary.css">
+    <link rel="stylesheet" href="../src/css/exercise-vocabulary.css">
 </head>
 
 <body>
@@ -151,7 +151,7 @@ function getRandomOptions($correctWord, $allWords, $numOptions = 4)
 
     <?php include '../includes/footer.php'; ?>
 
-    <script src="../js/exercise-vocabulary.js"></script>
+    <script src="../src/js/exercise-vocabulary.js"></script>
 
 </body>
 

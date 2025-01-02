@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercise</title>
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <link rel="stylesheet" href="../css/link-menu.css">
+    <link rel="stylesheet" href="../src/css/link-menu.css">
 </head>
 
 <body>
