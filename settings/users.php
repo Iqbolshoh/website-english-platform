@@ -1,10 +1,10 @@
 <?php include '../check.php'; ?>
 <?php include '../last_page.php';
 
-// if ($_SESSION['username'] !== 'iqbolshoh') {
-//     header("Location: ../");
-//     exit;
-// }
+if ($_SESSION['username'] !== 'iqbolshoh') {
+    header("Location: ../");
+    exit;
+}
 
 $user = $query->select('users');
 ?>

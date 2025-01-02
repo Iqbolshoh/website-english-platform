@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <label for="email" class="form-label">Email:</label>
                 <input type="email" id="email" name="email" class="form-input"
-                    value="<?php echo htmlspecialchars($user['email']); ?>" required maxlength="100">
+                    value="<?php echo htmlspecialchars($user['email']); ?>" required readonly maxlength="100">
 
                 <label for="profile_picture" class="form-label">Profile Picture:</label>
                 <div class="custom-file-input">
