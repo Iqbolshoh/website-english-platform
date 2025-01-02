@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
@@ -8,20 +7,22 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 }
 
 include '../config.php';
-$query = new Query();
+$query = new Database();
 
 $response = ['exists' => false];
 
 if (isset($_POST['email'])) {
     $email = $_POST['email'];
-    if ($query->emailExists($email)) {
+    $email_check = $query->select('users', 'email', 'email = ?', [$email], 's');
+    if ($email_check) {
         $response['exists'] = true;
     }
 }
 
 if (isset($_POST['username'])) {
     $username = $_POST['username'];
-    if ($query->usernameExists($username)) {
+    $username_check = $query->select('users', 'username', 'username = ?', [$username], 's');
+    if ($username_check) {
         $response['exists'] = true;
     }
 }

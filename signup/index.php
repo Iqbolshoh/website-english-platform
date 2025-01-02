@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
@@ -8,60 +7,62 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 }
 
 include '../config.php';
-$query = new Query();
-
-$error_message = '';
+$query = new Database();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fullname = $query->validate($_POST['fullname']);
-    $email = $query->validate($_POST['email']);
-    $username = $query->validate($_POST['username']);
-    $hashed_password = $query->hashPassword($_POST['password']);
 
-    if ($query->emailExists($email)) {
-        $error_message = "Email already exists.";
-    } elseif ($query->usernameExists($username)) {
-        $error_message = "Username already exists.";
-    } else {
-        $result = $query->registerUser($fullname, $email, $username, $hashed_password);
+    $first_name = $query->validate($_POST['first_name']);
+    $last_name = $query->validate($_POST['last_name']);
+    $email = $query->validate(strtolower($_POST['email']));
+    $username = $query->validate(strtolower($_POST['username']));
+    $password = $query->hashPassword($_POST['password']);
 
-        if ($result) {
-            $user_id = $query->getUserIdByUsername($username);
-            $_SESSION['loggedin'] = true;
-            $_SESSION['user_id'] = $user_id;
-            $_SESSION['username'] = $username;
+    $data = [
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+        'email' => $email,
+        'username' => $username,
+        'password' => $password
+    ];
 
-            setcookie('username', $username, time() + (86400 * 30), "/", "", true, true);
-            setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
-            setcookie('user_id', $user_id, time() + (86400 * 30), "/", "", true, true);
+    $result = $query->insert('users', $data);
+
+    if (!empty($result)) {
+        $user_id = $query->select('users', 'id', 'username = ?', [$username], 's')[0]['id'];
+
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $user_id;
+
+        setcookie('username', $username, time() + (86400 * 30), "/", "", true, true);
+        setcookie('session_token', session_id(), time() + (86400 * 30), "/", "", true, true);
 ?>
-
-            <script>
-                window.onload = function() {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Registration successful',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        window.location.href = '../';
-                    });
-                };
-            </script>
+        <script>
+            window.onload = function() {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Registration successful',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.href = '../';
+                });
+            };
+        </script>
 
 <?php
-        } else {
-            echo "<script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: '$error_message',
-        });
-    </script>";
-        }
+    } else {
+        echo "<script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Registration failed. Please try again later.',
+                    });
+                </script>";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -70,11 +71,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <title>Sign Up</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="../favicon.ico">
-    <script src="../js/sweetalert2.js"></script>
-    <link rel="stylesheet" href="../css/login_signup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../src/css/login_signup.css">
 </head>
 
 <body>
@@ -82,17 +82,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1>Sign Up</h1>
         <form id="signupForm" method="post" action="">
             <div class="form-group">
-                <label for="fullname">Full Name</label>
-                <input type="text" id="fullname" name="fullname" required maxlength="255">
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" required maxlength="30">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" required maxlength="30">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required maxlength="255">
+                <input type="email" id="email" name="email" required maxlength="100">
                 <p id="email-message"></p>
             </div>
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required maxlength="255">
+                <input type="text" id="username" name="username" required maxlength="30">
                 <p id="username-message"></p>
             </div>
             <div class="form-group">
@@ -112,7 +116,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
+    <script src="../src/js/sweetalert2.js"></script>
+
     <script>
+        let isEmailAvailable = false;
+        let isUsernameAvailable = false;
+
+        function validateUsernameFormat(username) {
+            const usernamePattern = /^[a-zA-Z0-9_]+$/;
+            return usernamePattern.test(username);
+        }
+
         document.getElementById('email').addEventListener('input', function() {
             let email = this.value;
             if (email.length > 0) {
@@ -127,9 +141,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     .then(data => {
                         const messageElement = document.getElementById('email-message');
                         if (data.exists) {
-                            messageElement.textContent = 'Email is already in use.';
+                            messageElement.textContent = 'This email exists!';
+                            isEmailAvailable = false;
                         } else {
                             messageElement.textContent = '';
+                            isEmailAvailable = true;
                         }
                     });
             }
@@ -137,6 +153,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         document.getElementById('username').addEventListener('input', function() {
             let username = this.value;
+            const messageElement = document.getElementById('username-message');
+
+            if (!validateUsernameFormat(username)) {
+                messageElement.textContent = 'Username can only contain letters, numbers, and underscores!';
+                isUsernameAvailable = false;
+                return;
+            }
+
             if (username.length > 0) {
                 fetch('check_availability.php', {
                         method: 'POST',
@@ -147,13 +171,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     })
                     .then(response => response.json())
                     .then(data => {
-                        const messageElement = document.getElementById('username-message');
                         if (data.exists) {
-                            messageElement.textContent = 'Username is already in use.';
+                            messageElement.textContent = 'This username exists!';
+                            isUsernameAvailable = false;
                         } else {
                             messageElement.textContent = '';
+                            isUsernameAvailable = true;
                         }
                     });
+            } else {
+                messageElement.textContent = '';
+            }
+        });
+
+        function validateEmailFormat(email) {
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return emailPattern.test(email);
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            let email = document.getElementById('email').value;
+            const emailMessageElement = document.getElementById('email-message');
+            let username = document.getElementById('username').value;
+            const usernameMessageElement = document.getElementById('username-message');
+
+            if (!validateEmailFormat(email)) {
+                emailMessageElement.textContent = 'Email format is incorrect!';
+                event.preventDefault();
+                return;
+            }
+
+            if (!validateUsernameFormat(username)) {
+                usernameMessageElement.textContent = 'Username can only contain letters, numbers, and underscores!';
+                event.preventDefault();
+                return;
+            }
+
+            if (isEmailAvailable === false) {
+                emailMessageElement.textContent = 'This email exists!';
+                event.preventDefault();
+            }
+
+            if (isUsernameAvailable === false) {
+                usernameMessageElement.textContent = 'This username exists!';
+                event.preventDefault();
             }
         });
 
@@ -172,6 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
     </script>
+
 </body>
 
 </html>
