@@ -18,27 +18,27 @@ This is an English learning platform designed to help users improve their vocabu
 ## Pages
 
 ### Home Page
-![Home Page](images/home.png)
+![Home Page](./src/images/home.png)
 - The home page welcomes users to the platform and provides navigation links to other sections.
 
 ### Dictionary Page
-![Dictionary Page](images/dictionary.png)
+![Dictionary Page](./src/images/dictionary.png)
 - Users can add and view vocabulary words along with their translations and definitions.
 
 ### Sentences Page
-![Sentences Page](images/sentences.png)
+![Sentences Page](./src/images/sentences.png)
 - Users can create and view sentences using the vocabulary words, including translations.
 
 ### Texts Page
-![Texts Page](images/texts.png)
+![Texts Page](./src/images/texts.png)
 - Users can upload and read texts, and add translations for practice.
 
 ### Exercises Page
-![Exercises Page](images/exercise.png)
+![Exercises Page](./src/images/exercise.png)
 - Contains tests for vocabulary and sentences to help users practice and improve their English.
 
 ### Settings Page
-![Settings Page](images/settings.png)
+![Settings Page](./src/images/settings.png)
 - Users can manage their account settings and preferences.
 
 ## Installation
