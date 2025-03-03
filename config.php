@@ -96,10 +96,9 @@ class Database
         $this->executeQuery($sql, $params, $types);
     }
 
-    function hashPassword($password)
+    public function hashPassword($password)
     {
-        $key = "iqbolshoh-ilhomjonov";
-        return hash_hmac('sha256', $password, 'iqbolshoh-ilhomjonov');
+        return hash_hmac('sha256', $password, 'iqbolshoh');
     }
 
     public function emailExists($email)
