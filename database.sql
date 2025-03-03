@@ -65,14 +65,17 @@ CREATE TABLE liked_texts (
     FOREIGN KEY (text_id) REFERENCES texts(id) ON DELETE CASCADE
 );
 
--- login: admin
--- password: admin
+-- ==============================  
+-- 📥 DATA INSERTION (COMPLETE)  
+-- ==============================  
+-- DEFAULT PASSWORD: "IQBOLSHOH" (HASHED FOR SECURITY)  
+-- ==============================  
 
 INSERT INTO
     users (first_name, last_name, email, username, password)
 VALUES
-    ('Iqbolshoh', 'Ilhomjonov', 'iilhomjonov777@gmail.com', 'iqbolshoh', '29cbffe112a766305c4a49a61e27d7e117c2efc0b2bd31451b3a200c24fd565b'),
-    ('Admin', '', 'admin@iqbolshoh.uz', 'admin', '0c138cbe7d1f479abb449366f3cb3dddd52bc104596ff91813c6674cd016896a');
+    ('Iqbolshoh', 'Ilhomjonov', 'iilhomjonov777@gmail.com', 'iqbolshoh', '52be5ff91284c65bac56f280df55f797a5c505f7ef66317ff358e34791507027'),
+    ('Admin', '', 'admin@iqbolshoh.uz', 'admin', '52be5ff91284c65bac56f280df55f797a5c505f7ef66317ff358e34791507027');
 
 INSERT INTO `words` (`user_id`, `word`, `translation`, `definition`) VALUES
 (2, 'apple', 'olma', 'A fruit that is usually round, red, green, or yellow and has a sweet taste.'),
