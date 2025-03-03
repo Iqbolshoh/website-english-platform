@@ -19,6 +19,8 @@ This is an English learning platform designed to help users improve their vocabu
 
 ### Home Page
 ![Home Page](./src/images/home.png)
+- **🖥 User Login:** `iqbolshoh`  
+- **👤 User Login:** `user`  
 - The home page welcomes users to the platform and provides navigation links to other sections.
 
 ### Dictionary Page
