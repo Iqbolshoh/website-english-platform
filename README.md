@@ -1,72 +1,98 @@
-# English Learning Platform
+# 🔠 **English Learning Platform**  
 
-This is an English learning platform designed to help users improve their vocabulary, sentence structure, and reading skills. The platform allows users to register, add their own vocabulary, sentences, and texts, and also provides exercises to enhance learning.
+This is an **English learning platform** designed to help users improve their **vocabulary, sentence structure, and reading skills**. Users can **register, add vocabulary, create sentences, translate texts**, and complete exercises to enhance learning.  
 
-## Features
+---
 
-- **User Registration & Login**: Users can sign up, log in, and manage their profiles.
-- **Vocabulary**: Users can add new words along with their translations and definitions.
-- **Sentences**: Users can create sentences using the words they added and add translations.
-- **Texts**: Users can upload and translate texts for reading practice.
-- **Exercises**: 
-  - **Vocabulary Test**: Tests where words are scrambled, and users must choose the correct answer from four options.
-  - **Sentence Test**: Users reorder scrambled sentences to form a grammatically correct sentence.
-- **Download PDFs**: Users can download their vocabulary, sentences, and texts in PDF format.
-- **Search**: A search function to find words, sentences, and texts easily.
-- **Favorite Words, Sentences, and Texts**: Users can save their favorite words, sentences, and texts.
+## ✨ **Features**  
 
-## Pages
+✅ **📝 User Registration & Login** – Sign up, log in, and manage your profile.  
+✅ **📖 Vocabulary** – Add words with **translations & definitions**.  
+✅ **🗣 Sentences** – Create sentences using **your added words** with translations.  
+✅ **📜 Texts** – Upload and translate texts for **reading practice**.  
+✅ **🧩 Exercises**  
+   - 🎯 **Vocabulary Test** – Choose the correct meaning from **4 options**.  
+   - 🔠 **Sentence Test** – Arrange **scrambled sentences** into a correct form.  
+✅ **📥 Download PDFs** – Save **vocabulary, sentences, and texts** as PDFs.  
+✅ **🔍 Search** – Find words, sentences, and texts easily.  
+✅ **⭐ Favorites** – Save your **favorite words, sentences, and texts**.  
 
-### Home Page
-![Home Page](./src/images/home.png)
-- **🖥 User Login:** `iqbolshoh`  
-- **👤 User Login:** `user`  
-- The home page welcomes users to the platform and provides navigation links to other sections.
+---
 
-### Dictionary Page
-![Dictionary Page](./src/images/dictionary.png)
-- Users can add and view vocabulary words along with their translations and definitions.
+## 🏠 **Pages Overview**  
 
-### Sentences Page
-![Sentences Page](./src/images/sentences.png)
-- Users can create and view sentences using the vocabulary words, including translations.
+### 🌍 **Home Page**  
+![🏠 Home Page](./src/images/home.png)  
+👤 **User Login:** `iqbolshoh`  
+👤 **Guest Login:** `user`  
 
-### Texts Page
-![Texts Page](./src/images/texts.png)
-- Users can upload and read texts, and add translations for practice.
+📌 The **home page** welcomes users and provides navigation to all sections.  
 
-### Exercises Page
-![Exercises Page](./src/images/exercise.png)
-- Contains tests for vocabulary and sentences to help users practice and improve their English.
+---
 
-### Settings Page
-![Settings Page](./src/images/settings.png)
-- Users can manage their account settings and preferences.
+### 📚 **Dictionary Page**  
+![📖 Dictionary](./src/images/dictionary.png)  
 
-## Installation
+📌 **Add & View Vocabulary**  
+📌 Store **words, translations, and definitions**  
 
-1. Clone the repository:
+---
+
+### 📝 **Sentences Page**  
+![🗣 Sentences](./src/images/sentences.png)  
+
+📌 **Create & View Sentences**  
+📌 Use words from the **dictionary** and add translations  
+
+---
+
+### 📜 **Texts Page**  
+![📄 Texts](./src/images/texts.png)  
+
+📌 **Upload & Read Texts**  
+📌 Add **translations for practice**  
+
+---
+
+### 🎯 **Exercises Page**  
+![🧩 Exercises](./src/images/exercise.png)  
+
+📌 **Interactive tests** for vocabulary and sentences  
+📌 Improve **English skills with quizzes**  
+
+---
+
+### ⚙ **Settings Page**  
+![🔧 Settings](./src/images/settings.png)  
+
+📌 **Manage account settings** and preferences  
+
+---
+
+## 🚀 **Installation**  
+
+1️⃣ **Clone the repository:**  
 
 ```bash
 git clone https://github.com/Iqbolshoh/website-english-platform.git
 ```
 
-2. Navigate to the project directory:
+2️⃣ **Navigate to the project directory:**  
 
 ```bash
 cd website-english-platform
 ```
 
-3. Install the necessary dependencies (if applicable):
+3️⃣ **Install dependencies (if applicable):**  
 
 ```bash
 npm install
 ```
 
-4. Set up the database:
+4️⃣ **Set up the database:**  
 
-- Create a database called `english`.
-- Import the provided `database.sql` file:
+- Create a database **named `english`**  
+- Import the provided **`database.sql`** file:  
 
 ```sql
 CREATE DATABASE english;
@@ -82,19 +108,17 @@ CREATE TABLE users (
     profile_image VARCHAR(255) DEFAULT 'default.png',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- (Add the rest of your database creation queries here)
 ```
 
-5. Configure `config.php` with your database credentials:
+5️⃣ **Configure `config.php` with database credentials:**  
 
 ```php
 public function __construct()
     {
         $servername = "localhost";
-        $username = "milliyto_shop";
-        $password = "X?t&e#iF3Fc*";
-        $dbname = "milliyto_english";
+        $username = "root";
+        $password = "";
+        $dbname = "english";
 
         $this->conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -104,17 +128,21 @@ public function __construct()
     }
 ```
 
-6. Start the server:
+6️⃣ **Start the server:**  
 
-- If you're using XAMPP or MAMP, place the project folder in the `htdocs` folder.
-- Access the platform in your browser by navigating to `http://localhost/website-english-platform`.
+- If using **XAMPP/MAMP**, place the project folder in `htdocs`.  
+- Open **`http://localhost/website-english-platform`** in your browser.  
 
-## Usage
+---
 
-1. **Register and Login** to start using the platform.
-2. Add words, sentences, and texts.
-3. Participate in exercises to improve your English.
-4. Download your learning materials as PDFs.
+## 🏆 **Usage Guide**  
+
+1️⃣ **Register/Login** to access features  
+2️⃣ **Add words, sentences, and texts** for practice  
+3️⃣ **Take exercises** to improve your skills  
+4️⃣ **Download PDFs** of your learning materials  
+
+🚀 **Start learning English the smart way!** 🎓📚
 
 ---
 
