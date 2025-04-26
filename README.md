@@ -74,13 +74,13 @@ This is an **English learning platform** designed to help users improve their **
 1️⃣ **Clone the repository:**  
 
 ```bash
-git clone https://github.com/Iqbolshoh/website-english-platform.git
+git clone https://github.com/Iqbolshoh/php-english-platform.git
 ```
 
 2️⃣ **Navigate to the project directory:**  
 
 ```bash
-cd website-english-platform
+cd php-english-platform
 ```
 
 3️⃣ **Install dependencies (if applicable):**  
