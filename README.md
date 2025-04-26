@@ -1,4 +1,4 @@
-# 🔠 **English Learning Platform**  
+# 🔠 PHP English Platform - English Learning Platform
 
 This is an **English learning platform** designed to help users improve their **vocabulary, sentence structure, and reading skills**. Users can **register, add vocabulary, create sentences, translate texts**, and complete exercises to enhance learning.  
 
