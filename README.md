@@ -131,7 +131,7 @@ public function __construct()
 6️⃣ **Start the server:**  
 
 - If using **XAMPP/MAMP**, place the project folder in `htdocs`.  
-- Open **`http://localhost/website-english-platform`** in your browser.  
+- Open **`http://localhost/php-english-platform`** in your browser.  
 
 ---
 
